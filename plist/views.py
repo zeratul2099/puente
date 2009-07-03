@@ -6,7 +6,7 @@ from datetime import datetime
 from decimal import Decimal
 
 
-prices = [ 60, 80, 100, 130, 150 ]
+prices = [ 40, 60, 80, 100 ]
 
 def registerCustomer(request):
     if request.method == 'POST':
