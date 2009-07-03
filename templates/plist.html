@@ -35,26 +35,13 @@
         <td>
         <table>
             <tr>
+        {% for p in prices %}
         <td><form method='post' action='.'>
             <input type='hidden' name='customer' value='{{ c.name }}' />
-            <input type='submit' name='60ct' value='60 ct' {% ifequal c.dept_status 2 %} disabled=true {% endifequal %}/>
+            <input type='hidden' name='buy' value='{{ p }}' />
+            <input type='submit' name='{{ p }}' value='{{ p }} ct' {% ifequal c.dept_status 2 %} disabled=true {% endifequal %}/>
         </form></td>
-        <td><form method='post' action='.'>
-            <input type='hidden' name='customer' value='{{ c.name }}' />
-            <input type='submit' name='80ct' value='80 ct' {% ifequal c.dept_status 2 %}disabled=true{% endifequal %}/>
-        </form></td>
-        <td><form method='post' action='.'>
-            <input type='hidden' name='customer' value='{{ c.name }}' />
-            <input type='submit' name='100ct' value='1 Eur' {% ifequal c.dept_status 2 %}disabled=true{% endifequal %}/>
-        </form></td>
-        <td><form method='post' action='.'>
-            <input type='hidden' name='customer' value='{{ c.name }}' />
-            <input type='submit' name='130ct' value='1.3 Eur' {% ifequal c.dept_status 2 %}disabled=true{% endifequal %}/>
-        </form></td>
-        <td><form method='post' action='.'>
-            <input type='hidden' name='customer' value='{{ c.name }}' />
-            <input type='submit' name='150ct' value='1.5 Eur' {% ifequal c.dept_status 2 %}disabled=true{% endifequal %}/>
-        </form></td>
+        {% endfor %}
               </tr>
         </table>
         <td><form method='post' action='.'>

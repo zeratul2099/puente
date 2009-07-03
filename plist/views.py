@@ -5,6 +5,9 @@ from django.template import Context, loader
 from datetime import datetime
 from decimal import Decimal
 
+
+prices = [ 60, 80, 100, 130, 150 ]
+
 def registerCustomer(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -34,21 +37,9 @@ def customerList(request):
     if request.method == 'POST':
         customer = get_object_or_404(Customer, name=request.POST['customer'])
         unname = customer.name
-        if "60ct" in request.POST:
-            customer.depts += Decimal('0.60')
-            unmoney = "0.6"
-        elif "80ct" in request.POST:
-            customer.depts += Decimal('0.80')
-            unmoney = "0.8"
-        elif "100ct" in request.POST:
-            customer.depts += Decimal('1.00')
-            unmoney = "1.0"
-        elif "130ct" in request.POST:
-            customer.depts += Decimal('1.30')
-            unmoney = "1.3"
-        elif "150ct" in request.POST:
-            customer.depts += Decimal('1.50')
-            unmoney = "1.5"
+        if "buy" in request.POST:
+            customer.depts += Decimal(request.POST['buy'])/100
+            unmoney = Decimal(request.POST['buy'])/100
         elif "pay" in request.POST:
             try:
                 if Decimal(request.POST['money']) - customer.depts < Decimal(1000):
@@ -76,6 +67,7 @@ def customerList(request):
     return render_to_response("plist.html", {"customer" : Customer.objects.all(),
                                              "unname" : unname,
                                              "unmoney" : unmoney,
-                                             "error" : error })
+                                             "error" : error,
+                                             "prices" : prices, })
     
         
