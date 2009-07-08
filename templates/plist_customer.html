@@ -1,0 +1,30 @@
+{% extends "basis.html" %}
+
+{% block titel %}Schuldenliste:{% endblock %}
+
+{% block inhalt %}
+<table>
+<tr><td>Name:</td><td>
+{{ customer.name }}
+</td></tr>
+<tr><td>Email:</td><td>
+<a href='mailto:{{customer.email }}'>{{customer.email }}</a>
+</td></tr>
+<tr><td>Zimmer:</td><td>
+{{ customer.room }}
+</td></tr>
+<tr><td>Schulden:</td><td>
+{{ customer.depts }}
+</td></tr>
+</table>
+<form method='post' action='..'>
+<input type='hidden' name='customer' value='{{ customer.name }}' />
+<input type='submit' name='inform' value="Erinnerungsmail verschicken" />
+</form>
+
+
+<a href='..'>zur&uuml;ck</a>
+
+{% endblock %}
+
+

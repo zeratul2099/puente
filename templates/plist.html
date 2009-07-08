@@ -24,7 +24,7 @@
 
 {% for c in customer %}
      <tr>
-        <td> <a href='mailto:{{ c.email }}'>{{ c.name }}</a></td>
+        <td> <a href='{{ c.id }}'>{{ c.name }}</a></td>
         <td>
         {% ifequal c.dept_status 0 %} 
         <b>{{ c.depts }}</b>

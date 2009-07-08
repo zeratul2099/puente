@@ -55,6 +55,8 @@ def customerList(request):
         elif "undo" in request.POST:
             unname = ""
             customer.depts -= Decimal(request.POST['unmoney'])
+        elif "inform" in request.POST:
+            error = "Customer %s informieren" %(customer.name)
         if customer.depts < 50:
             customer.dept_status = 0
         elif customer.depts < 100:
@@ -69,5 +71,9 @@ def customerList(request):
                                              "unmoney" : unmoney,
                                              "error" : error,
                                              "prices" : prices, })
-    
+def customerDetails(request, customer_id):
+    if request.method == 'POST':
+        return HttpResponseRedirect("..")
+    customer = get_object_or_404(Customer, id=customer_id)
+    return render_to_response("plist_customer.html", {"customer" : customer })
         

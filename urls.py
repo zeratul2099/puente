@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # Example:
     # (r'^sym_gui/', include('sym_gui.foo.urls')),
     (r'^plist/$', 'plist.views.customerList'),
+    (r'^plist/(?P<customer_id>\d+)/$', 'plist.views.customerDetails'),
     (r'^plist/register/$', 'plist.views.registerCustomer'),
     (r'^admin/(.*)', admin.site.root),
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
