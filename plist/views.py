@@ -46,7 +46,7 @@ def customerList(request):
                     customer.depts -= Decimal(request.POST['money'])
                     if Decimal(request.POST['money']) > 0:
                         customer.lastPaid = datetime.now()
-                    unmoney = "-%s" %(request.POST['money'])
+                        unmoney = "-%s" %(request.POST['money'])
                 else:
                     error = "Soviel hat doch niemand wirklich bezahlt!"
  
