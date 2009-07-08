@@ -55,9 +55,9 @@ def customerList(request):
         elif "undo" in request.POST:
             unname = ""
             customer.depts -= Decimal(request.POST['unmoney'])
-        if customer.depts < 10:
+        if customer.depts < 50:
             customer.dept_status = 0
-        elif customer.depts < 15:
+        elif customer.depts < 100:
             customer.dept_status = 1
         else:
             customer.dept_status = 2
