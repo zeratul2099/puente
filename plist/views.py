@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import Context, loader
 from datetime import datetime
 from decimal import Decimal
+from email.message import Message
+import smtplib
 
 
 prices = [ 40, 60, 80, 100 ]
@@ -56,7 +58,34 @@ def customerList(request):
             unname = ""
             customer.depts -= Decimal(request.POST['unmoney'])
         elif "inform" in request.POST:
-            error = "Customer %s informieren" %(customer.name)
+            #fr = "zeratul2099@googlemail.com"
+            fr = "flensbox@ossnet.uni-oldenburg.de"
+            to = customer.email
+            text = "From:%s\nTo:%s\nSubject:[Puente]Zahlungserinnerung\n" %(fr, to)
+            text += "\nHallo %s,\n" %(customer.name)
+            text += "du hast in der Puente %.2f Euro Schulden.\n" %(customer.depts)
+            text += "Bitte bezahle diese bei deinem naechsten Besuch\n"
+            text += "Viele Gruesse, dein Puententeam"
+            #msg = Message()
+            #msg.set_payload(text)
+            #msg["Subject"] = "Zahlungserinnerung"
+            #msg["From"] = "Puente <flensbox@ossnet.uni-oldenburg.de>"
+            #msg["To"] = "%s" %(customer.email)
+            #print msg.as_string()
+            try:
+                
+                #s = smtplib.SMTP('smtp.gmail.com', 587)
+                s = smtplib.SMTP('134.106.143.1')
+                s.ehlo()
+                s.starttls()
+                s.login(fr, "3ierfl1p")
+                s.sendmail(fr, customer.email, text)
+                error = "Erinnerungsmail an %s verschickt" %(customer.name)
+                s.quit()
+            except:
+                s.quit()
+                error = "Fehler beim versenden"
+
         if customer.depts < 50:
             customer.dept_status = 0
         elif customer.depts < 100:
