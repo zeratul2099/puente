@@ -9,7 +9,7 @@
 </td></tr>
 {% if customer.isPuente %}
 <tr><td>
-P&uuml;ntenteam
+<b>P&uuml;ntenteam</b>
 </td></tr>
 {% endif %}
 <tr><td>Email:</td><td>
@@ -20,6 +20,9 @@ P&uuml;ntenteam
 </td></tr>
 <tr><td>Schulden:</td><td>
 {{ customer.depts }}
+</td></tr>
+<tr><td>Umsatz seit {{ customer.salesSince }}:</td><td>
+{{ customer.weeklySales }}
 </td></tr>
 </table>
 <form method='post' action='..'>

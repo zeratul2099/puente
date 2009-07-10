@@ -11,8 +11,9 @@ class Customer(models.Model):
     isPuente = models.BooleanField()
     # 0 for normal, 1 for alert, 2 for no sale
     dept_status = models.IntegerField()
-
-    lastPaid = models.DateTimeField()
+    weeklySales = models.DecimalField(max_digits=5, decimal_places=2)
+    salesSince = models.DateField()
+    lastPaid = models.DateTimeField(auto_now_add=True)
     def __unicode__(self):
         return self.name
 

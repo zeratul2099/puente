@@ -2,7 +2,8 @@ from puente.plist.models import Customer, RegisterForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import Context, loader
-from datetime import datetime
+from datetime import datetime, date
+import datetime
 from decimal import Decimal
 from email.message import Message
 import smtplib
@@ -19,11 +20,14 @@ def registerCustomer(request):
                     isP = True
                 else:
                     isP = False
+                weekday = date.today().weekday()
+                last_sunday = date.today() - datetime.timedelta(weekday+1)
                 new_customer = Customer(name=request.POST['nameBox'],
                                         room=request.POST['roomBox'],
                                         email=request.POST['emailBox'],
                                         depts=0,
-                                        lastPaid=datetime.now(),
+                                        weeklySales=0,
+                                        salesSince=last_sunday,
                                         dept_status=0,
                                         isPuente=isP)
                 new_customer.save()
@@ -45,8 +49,10 @@ def customerList(request):
         customer = get_object_or_404(Customer, name=request.POST['customer'])
         unname = customer.name
         if "buy" in request.POST:
-            customer.depts += Decimal(request.POST['buy'])/100
-            unmoney = Decimal(request.POST['buy'])/100
+            money = Decimal(request.POST['buy'])/100
+            customer.depts += money
+            customer.weeklySales += money
+            unmoney = money
         elif "pay" in request.POST:
             try:
                 if Decimal(request.POST['money']) - customer.depts < Decimal(1000):
@@ -54,6 +60,8 @@ def customerList(request):
                     if Decimal(request.POST['money']) > 0:
                         customer.lastPaid = datetime.now()
                         unmoney = "-%s" %(request.POST['money'])
+                    else:
+                        customer.weeklySales -= Decimal(request.POST['money'])
                 else:
                     error = "Soviel hat doch niemand wirklich bezahlt!"
  
@@ -61,7 +69,9 @@ def customerList(request):
                 pass
         elif "undo" in request.POST:
             unname = ""
-            customer.depts -= Decimal(request.POST['unmoney'])
+            money = Decimal(request.POST['unmoney'])
+            customer.depts -= money
+            customer.weeklySales -= money
         elif "inform" in request.POST:
             #fr = "zeratul2099@googlemail.com"
             fr = "flensbox@ossnet.uni-oldenburg.de"
@@ -97,6 +107,10 @@ def customerList(request):
             customer.dept_status = 1
         else:
             customer.dept_status = 2
+        if date.today() - customer.salesSince > datetime.timedelta(7):
+            customer.salesSince = customer.salesSince + datetime.timedelta(7)
+            customer.weeklySales = 0
+        
         customer.save()
         if "delete" in request.POST and customer.depts == 0:
             customer.delete()
