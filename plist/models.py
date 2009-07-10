@@ -8,6 +8,7 @@ class Customer(models.Model):
     room = models.CharField(max_length=5, unique=True)
     email = models.EmailField(max_length=50, unique=True)
     depts = models.DecimalField(max_digits=5, decimal_places=2)
+    isPuente = models.BooleanField()
     # 0 for normal, 1 for alert, 2 for no sale
     dept_status = models.IntegerField()
 
@@ -20,3 +21,4 @@ class RegisterForm(forms.Form):
     nameBox = forms.CharField(max_length=30, label='Name')
     roomBox = forms.CharField(max_length=5, label='Zimmernummer')
     emailBox = forms.EmailField(max_length=50, label='Email')
+    isPuenteBox = forms.BooleanField(label='Puententeam', required=False)

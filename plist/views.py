@@ -8,19 +8,24 @@ from email.message import Message
 import smtplib
 
 
-prices = [ 40, 60, 80, 100 ]
+prices = [ 40, 60, 80, 100, 130, 150 ]
 
 def registerCustomer(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             try:
+                if 'isPuenteBox' in request.POST:
+                    isP = True
+                else:
+                    isP = False
                 new_customer = Customer(name=request.POST['nameBox'],
                                         room=request.POST['roomBox'],
                                         email=request.POST['emailBox'],
                                         depts=0,
                                         lastPaid=datetime.now(),
-                                        dept_status=0,)
+                                        dept_status=0,
+                                        isPuente=isP)
                 new_customer.save()
                 return HttpResponseRedirect("..")
             except:
@@ -84,11 +89,11 @@ def customerList(request):
                 s.quit()
             except:
                 s.quit()
-                error = "Fehler beim versenden"
+                error = "Fehler beim Versenden"
 
-        if customer.depts < 50:
+        if (customer.isPuente & (customer.depts < 50)) | (customer.depts < 10):
             customer.dept_status = 0
-        elif customer.depts < 100:
+        elif (customer.isPuente & (customer.depts < 100)) | (customer.depts < 15):
             customer.dept_status = 1
         else:
             customer.dept_status = 2
