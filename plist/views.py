@@ -2,8 +2,9 @@ from puente.plist.models import Customer, RegisterForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import Context, loader
-from datetime import datetime, date
+from datetime import date
 import datetime
+from datetime import datetime as dt
 from decimal import Decimal
 from email.message import Message
 import smtplib
@@ -21,7 +22,7 @@ def registerCustomer(request):
                 else:
                     isP = False
                 weekday = date.today().weekday()
-                last_sunday = date.today() - datetime.timedelta(weekday+1)
+                last_sunday = datetime.date.today() - datetime.timedelta(weekday+1)
                 new_customer = Customer(name=request.POST['nameBox'],
                                         room=request.POST['roomBox'],
                                         email=request.POST['emailBox'],
@@ -73,20 +74,20 @@ def customerList(request):
             customer.depts -= money
             customer.weeklySales -= money
         elif "inform" in request.POST:
-            #fr = "zeratul2099@googlemail.com"
             fr = "flensbox@ossnet.uni-oldenburg.de"
             to = customer.email
-            text = "From:%s\nTo:%s\nSubject:[Puente]Zahlungserinnerung\n" %(fr, to)
-            text += "\nHallo %s,\n" %(customer.name)
+            #text = "From:%s\nTo:%s\nSubject:[Puente]Zahlungserinnerung\n" %(fr, to)
+            text = "\nHallo %s,\n" %(customer.name)
             text += "du hast in der Puente %.2f Euro Schulden.\n" %(customer.depts)
             text += "Bitte bezahle diese bei deinem naechsten Besuch\n"
             text += "Viele Gruesse, dein Puententeam"
-            #msg = Message()
-            #msg.set_payload(text)
-            #msg["Subject"] = "Zahlungserinnerung"
-            #msg["From"] = "Puente <flensbox@ossnet.uni-oldenburg.de>"
-            #msg["To"] = "%s" %(customer.email)
-            #print msg.as_string()
+            msg = Message()
+            msg.set_payload(text)
+            msg["Subject"] = "[Puente]Zahlungserinnerung"
+            msg["From"] = "Puente <%s>" %(fr)
+            msg["To"] = "%s <%s>" %(customer.name, customer.email)
+            date = dt.now()
+            msg["Date"] = date.strftime("%a, %d %b %Y %H:%M:%S")
             try:
                 
                 #s = smtplib.SMTP('smtp.gmail.com', 587)
@@ -94,7 +95,7 @@ def customerList(request):
                 s.ehlo()
                 s.starttls()
                 s.login(fr, "3ierfl1p")
-                s.sendmail(fr, customer.email, text)
+                s.sendmail(fr, customer.email, msg.as_string())
                 error = "Erinnerungsmail an %s verschickt" %(customer.name)
                 s.quit()
             except:
@@ -107,7 +108,7 @@ def customerList(request):
             customer.dept_status = 1
         else:
             customer.dept_status = 2
-        if date.today() - customer.salesSince > datetime.timedelta(7):
+        if datetime.date.today() - customer.salesSince > datetime.timedelta(7):
             customer.salesSince = customer.salesSince + datetime.timedelta(7)
             customer.weeklySales = 0
         
