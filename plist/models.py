@@ -5,7 +5,7 @@ from django import forms
 
 class Customer(models.Model):
     name = models.CharField(max_length=30, unique=True)
-    room = models.CharField(max_length=5, unique=True)
+    room = models.CharField(max_length=30, unique=True)
     email = models.EmailField(max_length=50, unique=True)
     depts = models.DecimalField(max_digits=5, decimal_places=2)
     isPuente = models.BooleanField()
@@ -21,6 +21,7 @@ class Customer(models.Model):
     
 class RegisterForm(forms.Form):
     nameBox = forms.CharField(max_length=30, label='Name')
-    roomBox = forms.CharField(max_length=5, label='Zimmernummer')
+    roomBox = forms.CharField(max_length=30, label='Zimmernummer')
     emailBox = forms.EmailField(max_length=50, label='Email')
     isPuenteBox = forms.BooleanField(label='Puententeam', required=False)
+

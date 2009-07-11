@@ -24,6 +24,14 @@
 <tr><td>Umsatz seit {{ customer.salesSince }}:</td><td>
 {{ customer.weeklySales }}
 </td></tr>
+<tr><td>Kommentar:</td></tr>
+<tr><td colspan='2'>
+<form method='post' action='..'>
+<textarea name='comment' rows='4' cols='30' />{{ customer.comment }}</textarea>
+<input type='hidden' name='customer' value='{{ customer.name }}' />
+<input type='submit' name='addComment' value='Kommentar &auml;ndern' />
+</form>
+</td></tr>
 </table>
 <form method='post' action='..'>
 <input type='hidden' name='customer' value='{{ customer.name }}' />
