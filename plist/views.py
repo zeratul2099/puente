@@ -31,7 +31,7 @@ def registerCustomer(request):
                                         depts=0,
                                         weeklySales=0,
                                         salesSince=last_sunday,
-                                        lastPaid=datetime.now(),
+                                        lastPaid=dt.now(),
                                         dept_status=0,
                                         isPuente=isP)
                 new_customer.save()
@@ -74,7 +74,7 @@ def customerList(request):
                     customer.depts -= Decimal(request.POST['money'])
                     # customer paid ...
                     if Decimal(request.POST['money']) > 0:
-                        customer.lastPaid = datetime.now()
+                        customer.lastPaid = dt.now()
                         unmoney = "-%s" %(request.POST['money'])
                     # ... or bought
                     else:
