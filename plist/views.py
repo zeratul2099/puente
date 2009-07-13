@@ -139,7 +139,7 @@ def customerList(request):
         if "delete" in request.POST and customer.depts == 0:
             customer.delete()
     # get all customer to update and calculate weekly sales
-    allCustomers = Customer.objects.all()
+    allCustomers = Customer.objects.all().order_by("name")
     sum = [ 0, 0 ]
     for c in allCustomers:
         if datetime.date.today() - c.salesSince > datetime.timedelta(7):

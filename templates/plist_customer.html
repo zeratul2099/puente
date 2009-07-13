@@ -3,10 +3,19 @@
 {% block titel %}Schuldenliste:{% endblock %}
 
 {% block inhalt %}
-<table>
-<tr><td>Name:</td><td>
+<table width='100%' border='0'>
+<tr><td width='25%'>Name:</td><td>
 {{ customer.name }}
-</td></tr>
+</td>
+<td width='50%'>
+<div align='right'>
+<form method='post' action='..'>
+<input type='hidden' name='customer' value='{{ customer.name }}' />
+<input type='submit' name='inform' value="Erinnerungsmail verschicken" />
+</form>
+</div>
+</td>
+</tr>
 {% if customer.isPuente %}
 <tr><td>
 <b>P&uuml;ntenteam</b>
@@ -33,10 +42,7 @@
 </form>
 </td></tr>
 </table>
-<form method='post' action='..'>
-<input type='hidden' name='customer' value='{{ customer.name }}' />
-<input type='submit' name='inform' value="Erinnerungsmail verschicken" />
-</form>
+
 
 
 <a href='..'>zur&uuml;ck</a>
