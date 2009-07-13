@@ -13,7 +13,7 @@ class Customer(models.Model):
     dept_status = models.IntegerField()
     weeklySales = models.DecimalField(max_digits=5, decimal_places=2)
     salesSince = models.DateField()
-    lastPaid = models.DateTimeField(auto_now_add=True)
+    lastPaid = models.DateTimeField()
     comment = models.TextField()
     def __unicode__(self):
         return self.name

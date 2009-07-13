@@ -31,6 +31,7 @@ def registerCustomer(request):
                                         depts=0,
                                         weeklySales=0,
                                         salesSince=last_sunday,
+                                        lastPaid=datetime.now(),
                                         dept_status=0,
                                         isPuente=isP)
                 new_customer.save()
