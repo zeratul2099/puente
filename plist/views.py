@@ -139,20 +139,21 @@ def customerList(request):
             customer.delete()
     # get all customer to update and calculate weekly sales
     allCustomers = Customer.objects.all()
-    allWeekly = 0
+    sum = [ 0, 0 ]
     for c in allCustomers:
         if datetime.date.today() - c.salesSince > datetime.timedelta(7):
             c.salesSince = c.salesSince + datetime.timedelta(7)
             c.weeklySales = 0
             c.save()
-        allWeekly += Decimal(c.weeklySales)
+        sum[0] += Decimal(c.weeklySales)
+        sum[1] += Decimal(c.depts)
     # return customers to the html-template
     return render_to_response("plist.html", {"customer" : allCustomers,
                                              "unname" : unname,
                                              "unmoney" : unmoney,
                                              "error" : error,
                                              "prices" : prices,
-                                             "weekly" : allWeekly, })
+                                             "sum" : sum, })
 
 # get customer data and put into customer detail template
 def customerDetails(request, customer_id):
