@@ -70,15 +70,16 @@ def customerList(request):
         elif "pay" in request.POST:
             try:
                 # prevent overflow
-                if Decimal(request.POST['money']) - customer.depts < Decimal(1000):
-                    customer.depts -= Decimal(request.POST['money'])
+                money = Decimal(request.POST['money'].replace(',', '.'))
+                if money - customer.depts < Decimal(1000):
+                    customer.depts -= money
                     # customer paid ...
-                    if Decimal(request.POST['money']) > 0:
+                    if money > 0:
                         customer.lastPaid = dt.now()
-                        unmoney = "-%s" %(request.POST['money'])
+                        unmoney = "-%s" %money
                     # ... or bought
                     else:
-                        customer.weeklySales -= Decimal(request.POST['money'])
+                        customer.weeklySales -= money
                 else:
                     error = "Soviel hat doch niemand wirklich bezahlt!"
  
@@ -140,14 +141,18 @@ def customerList(request):
             customer.delete()
     # get all customer to update and calculate weekly sales
     allCustomers = Customer.objects.all().order_by("name")
-    sum = [ 0, 0 ]
+    sum = [ 0, 0, 0, 0 ]
     for c in allCustomers:
         if datetime.date.today() - c.salesSince > datetime.timedelta(7):
             c.salesSince = c.salesSince + datetime.timedelta(7)
             c.weeklySales = 0
             c.save()
-        sum[0] += Decimal(c.weeklySales)
-        sum[1] += Decimal(c.depts)
+        if c.isPuente == False:
+            sum[0] += Decimal(c.weeklySales)
+            sum[1] += Decimal(c.depts)
+        else:
+            sum[2] += Decimal(c.weeklySales)
+            sum[3] += Decimal(c.depts)
     # return customers to the html-template
     return render_to_response("plist.html", {"customer" : allCustomers,
                                              "unname" : unname,
