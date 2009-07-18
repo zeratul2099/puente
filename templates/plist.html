@@ -22,6 +22,66 @@
     <td>zuletzt bezahlt</td>
 </tr>
 
+{% for pt in pmen %}
+     <tr>
+        <td> <a href='{{ pt.id }}'>{{ pt.name }}</a></td>
+        <td>
+        {% ifequal pt.dept_status 0 %} 
+        <b>{{ pt.depts }}</b>
+        {% else %}
+        <b><font color='red'>{{ pt.depts }}</font></b>
+        {% endifequal %}
+        </td>
+        <td>
+        <table>
+            <tr>
+        {% for p in pprices %}
+        <td><form method='post' action='.'>
+            <input type='hidden' name='customer' value='{{ pt.name }}' />
+            <input type='hidden' name='buy' value='{{ p }}' />
+            <input type='submit' name='{{ p }}' value='{{ p }} ct' {% ifequal pt.dept_status 2 %} disabled=true {% endifequal %}/>
+        </form></td>
+        {% endfor %}
+              </tr>
+        </table>
+        <td><form method='post' action='.'>
+            <input type='text' name='money' />
+            <input type='hidden' name='customer' value='{{ pt.name }}' />
+            <input type='submit' name='pay' value='bezahlen' />
+        </form></td>
+
+        </td>
+        <td> {{ pt.lastPaid.date }}</td>
+        <td><form method='post' action='.'>
+            <input type='hidden' name='customer' value='{{ c.name }}' />
+            <input type='submit' name='delete' value='delete' {% ifnotequal pt.depts 0 %}disabled=true{% endifnotequal %}/>
+        </form></td>
+    </tr>   
+    
+{% endfor %}
+<tr><td>
+Summe
+</td><td>
+<b>{{sum.3 }}</b>
+</td>
+</tr>
+<tr><td>
+Wochenumsatz
+</td><td>
+<b>{{sum.2 }}</b>
+</td>
+</tr>
+
+</table>
+<hr>
+<table width='100%'>
+<tr>
+    <td>Name</td>
+    <td>Schulden</td>
+    <td>kaufen</td>
+    <td>bezahlen</td>
+    <td>zuletzt bezahlt</td>
+</tr>
 {% for c in customer %}
      <tr>
         <td> <a href='{{ c.id }}'>{{ c.name }}</a></td>
@@ -62,13 +122,13 @@
 <tr><td>
 Summe
 </td><td>
-<b>{{ sum.1 }} ({{sum.3 }} P&uuml;nte)</b>
+<b>{{ sum.1 }}</b>
 </td>
 </tr>
 <tr><td>
 Wochenumsatz
 </td><td>
-<b>{{ sum.0 }} ({{sum.2 }} P&uuml;nte)</b>
+<b>{{ sum.0 }}</b>
 </td>
 </tr>
 </table>

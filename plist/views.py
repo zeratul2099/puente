@@ -1,16 +1,21 @@
+# -*- coding: UTF-8 -*-
 from puente.plist.models import Customer, RegisterForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import Context, loader
 from datetime import date
-import datetime
+import datetime, sys
 from datetime import datetime as dt
 from decimal import Decimal
 from email.message import Message
 import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
 
 
-prices = [ 40, 60, 80, 100, 130, 150 ]
+
+prices = [ 60, 80, 100, 130, 150 ]
+pPrices = [ 40, 60, 80, 100 ]
 
 # if a new customer is added
 def registerCustomer(request):
@@ -93,18 +98,28 @@ def customerList(request):
             customer.weeklySales -= money
         # customer receives a remembermail of his depts
         elif "inform" in request.POST:
+
             # construct mail ...
             fr = "flensbox@ossnet.uni-oldenburg.de"
+            
             to = customer.email
-            text = "\nHallo %s,\n" %(customer.name)
+
+            text = "\nHallo "
+            text+= "%s" %(customer.name)
+            text += ",\n"
             text += "du hast in der Puente %.2f Euro Schulden.\n" %(customer.depts)
             text += "Bitte bezahle diese bei deinem naechsten Besuch\n"
             text += "Viele Gruesse, dein Puententeam"
-            msg = Message()
-            msg.set_payload(text)
-            msg["Subject"] = "[Puente]Zahlungserinnerung"
-            msg["From"] = "Puente <%s>" %(fr)
-            msg["To"] = "%s <%s>" %(customer.name, customer.email)
+            #msg = Message()
+            msg = MIMEText(text, 'plain', _charset='ISO-8859-1')
+            #msg.set_payload(text)
+            msg["Subject"] = Header("[Pünte]Zahlungserinnerung", 'utf8')
+            fromhdr = Header("Pünte", 'utf8')
+            fromhdr.append("<%s>"%fr, 'ascii')
+            msg["From"] = fromhdr
+            tohdr = Header("%s"%customer.name, 'utf8')
+            tohdr.append("<%s>" %( customer.email), 'ascii')
+            msg["To"] = tohdr
             date = dt.now()
             msg["Date"] = date.strftime("%a, %d %b %Y %H:%M:%S")
             # ... and try to send it
@@ -140,25 +155,34 @@ def customerList(request):
         if "delete" in request.POST and customer.depts == 0:
             customer.delete()
     # get all customer to update and calculate weekly sales
-    allCustomers = Customer.objects.all().order_by("name")
+    allCustomers = Customer.objects.filter(isPuente=False).order_by("name")
     sum = [ 0, 0, 0, 0 ]
     for c in allCustomers:
         if datetime.date.today() - c.salesSince > datetime.timedelta(7):
             c.salesSince = c.salesSince + datetime.timedelta(7)
             c.weeklySales = 0
             c.save()
-        if c.isPuente == False:
-            sum[0] += Decimal(c.weeklySales)
-            sum[1] += Decimal(c.depts)
-        else:
-            sum[2] += Decimal(c.weeklySales)
-            sum[3] += Decimal(c.depts)
+        sum[0] += Decimal(c.weeklySales)
+        sum[1] += Decimal(c.depts)
+
+    pMen = Customer.objects.filter(isPuente=True).order_by("name")
+    for c in pMen:
+        if datetime.date.today() - c.salesSince > datetime.timedelta(7):
+            c.salesSince = c.salesSince + datetime.timedelta(7)
+            c.weeklySales = 0
+            c.save() 
+        sum[2] += Decimal(c.weeklySales)
+        sum[3] += Decimal(c.depts)
     # return customers to the html-template
+    print len(allCustomers)
+    print len(pMen)
     return render_to_response("plist.html", {"customer" : allCustomers,
+                                             "pmen" : pMen,
                                              "unname" : unname,
                                              "unmoney" : unmoney,
                                              "error" : error,
                                              "prices" : prices,
+                                             "pprices" : pPrices,
                                              "sum" : sum, })
 
 # get customer data and put into customer detail template
