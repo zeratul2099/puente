@@ -4,19 +4,47 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <title>PList Schuldenliste</title>
-  <link rel="stylesheet" type="text/css" href="styles.css" />
-  <style type="text/css">
-
-  </style>
+  <link rel="stylesheet" type="text/css" href="/content/styles.css" />
+	<style type="text/css"> 
+		body
+		{
+			margin:0;
+			padding:0;
+		}
+		#header
+		{
+			margin: 0 0 0.7em;
+			background:#efefef;
+			text-align:center;
+			padding:10px;
+		}
+		#content_container
+		{
+			padding-bottom:4em;
+		}
+		#footer
+		{
+			position:fixed;
+			bottom:0px;
+			background:#efefef;
+			text-align:center;
+			padding:5px;
+			width:100%;
+		}
+	</style>
 </head>
 <body>
-  <div id="inhalt">
-    <h2>{% block titel %}Django Beispielseite{% endblock %}</h2>
+    <h2 id='header' >{% block titel %}Django Beispielseite{% endblock %}</h2>
 
     {% block inhalt %}
     test
     {% endblock %}
-  </div>
+
+  	<div id="footer"> 
+		Version {{ version }}<br>
+        This application is free software and is distributed under the terms of the <a href='http://www.gnu.org/licenses/gpl.txt'>GPL v3</a>
+
+	</div> 
 </body>
 </html>
 

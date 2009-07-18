@@ -1,4 +1,21 @@
 # -*- coding: UTF-8 -*-
+#       This program is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 3 of the License, or
+#       (at your option) any later version.
+#       
+#       This program is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#       
+#       You should have received a copy of the GNU General Public License
+#       along with this program; if not, write to the Free Software
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       MA 02110-1301, USA.
+
+
+
 from puente.plist.models import Customer, RegisterForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
@@ -16,7 +33,7 @@ from email.header import Header
 
 prices = [ 60, 80, 100, 130, 150 ]
 pPrices = [ 40, 60, 80, 100 ]
-
+version = 1.1
 # if a new customer is added
 def registerCustomer(request):
     # process form data...
@@ -45,12 +62,14 @@ def registerCustomer(request):
             except:
                 # .. or something went wrong
                 return render_to_response("plist_register.html", {"error" : "Customer still in database",
-                                                                  "registerForm" : form, })
+                                                                  "registerForm" : form,
+                                                                  "version" : version,  })
     else:
         # display empty form
         form = RegisterForm()
     
-    return render_to_response("plist_register.html", {"registerForm" : form })
+    return render_to_response("plist_register.html", {"registerForm" : form,
+                                                      "version" : version,  })
             
 # display list. this method processes most incoming data from forms
 def customerList(request):
@@ -164,7 +183,7 @@ def customerList(request):
             c.save()
         sum[0] += Decimal(c.weeklySales)
         sum[1] += Decimal(c.depts)
-
+    # get the puententeam to update and calculate weekly sales
     pMen = Customer.objects.filter(isPuente=True).order_by("name")
     for c in pMen:
         if datetime.date.today() - c.salesSince > datetime.timedelta(7):
@@ -183,12 +202,14 @@ def customerList(request):
                                              "error" : error,
                                              "prices" : prices,
                                              "pprices" : pPrices,
-                                             "sum" : sum, })
+                                             "sum" : sum,
+                                             "version" : version, })
 
 # get customer data and put into customer detail template
 def customerDetails(request, customer_id):
     if request.method == 'POST':
         return HttpResponseRedirect("..")
     customer = get_object_or_404(Customer, id=customer_id)
-    return render_to_response("plist_customer.html", {"customer" : customer })
+    return render_to_response("plist_customer.html", {"customer" : customer,
+                                                      "version" : version,  })
         
