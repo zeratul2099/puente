@@ -1,6 +1,7 @@
 body {
-	background:#fff;
+	background:#f5f5f5;
 }
+
 
 #menu {
 	border:3px dotted #dedede;
@@ -54,3 +55,5 @@ body {
 * html div#content {
 	height:1em;  /* Workaround gegen den 3-Pixel-Bug des Internet Explorers */
 	padding-top:1em;
+
+
