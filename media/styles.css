@@ -1,7 +1,45 @@
-body {
-	background:#f5f5f5;
-}
-
+body
+		{
+			margin:0;
+			padding:0;
+            font-family:monospace;
+            background:#f5f5f5;
+		}
+        
+#header
+		{
+            #position:fixed;
+            #width:100%;
+            #top:0px;
+			margin: 0 0 0.7em;
+			background:#1f1f1f;
+            color:#f0f0f0;
+            font-family:monospace;
+			text-align:center;
+			padding:10px;
+		}
+#content_container
+		{
+			padding-bottom:3em;
+            
+		}
+#footer
+		{
+			#position:fixed;
+			bottom:0px;
+			background:#1f1f1f;
+			text-align:center;
+            font-family:monospace;
+            color:#ffffff;
+			#padding:5px;
+			width:100%;
+            font-size:1em;
+		}
+        a:link { text-decoration:none; color:#666666;}
+        a:visited { text-decoration:none;color:#666666; }
+        a:hover { color:green;}
+        a:active { text-decoration:none; }
+        a:focus { text-decoration:none; }
 
 #menu {
 	border:3px dotted #dedede;
@@ -85,4 +123,20 @@ a.button:active {
 a.button:active span {
     background-position: bottom left;
     padding: 6px 0 4px 18px; /* push text down 1px */
+}
+
+input.btn { 
+	  color:#ffffff; 
+	  font: bold small monospace;
+      background-color: #1f1f1f; 
+	}
+
+input.btnhov { 
+	  border-color: #ee2222 #930 #930 #ee2222;
+      color:#ee2222;
+    }
+input[disabled] {
+    font: bold small monospace;
+    background-color: #1f1f1f;
+	color: GrayText;
 }

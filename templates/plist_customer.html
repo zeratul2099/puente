@@ -12,7 +12,8 @@
 <div align='right'>
 <form method='post' action='..'>
 <input type='hidden' name='customer' value='{{ customer.name }}' />
-<input type='submit' name='inform' value="Erinnerungsmail verschicken" />
+<input type='submit' name='inform' value="Erinnerungsmail verschicken"  
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
 </form>
 </div>
 </td>
@@ -39,13 +40,14 @@
 <form method='post' action='..'>
 <textarea name='comment' rows='4' cols='30' />{{ customer.comment }}</textarea>
 <input type='hidden' name='customer' value='{{ customer.name }}' />
-<input type='submit' name='addComment' value='Kommentar &auml;ndern' />
+<input type='submit' name='addComment' value='Kommentar &auml;ndern'  
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
 </form>
 </td></tr>
 </table>
 </div>
 
-
+<br>
 <a class='button' href='..'><span>zur&uuml;ck</span></a>
 <br><br>
 {% endblock %}

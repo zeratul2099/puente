@@ -11,7 +11,8 @@
 <form method='post' action='.'>
     <input type='hidden' name='customer' value='{{ unname }}' />
     <input type='hidden' name='unmoney' value='{{ unmoney }}' />
-    <input type='submit' name='undo' value='Rueckgaengig: {{ unname }} - {{ unmoney }}' />
+    <input type='submit' name='undo' value='R&uuml;ckg&auml;ngig: {{ unname }} - {{ unmoney }}' 
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
 </form>
 {% endif %}
 {% endif %}
@@ -43,7 +44,8 @@
         <td><form method='post' action='.'>
             <input type='hidden' name='customer' value='{{ pt.name }}' />
             <input type='hidden' name='buy' value='{{ p }}' />
-            <input type='submit' name='{{ p }}' value='{{ p }} ct' {% ifequal pt.dept_status 2 %} disabled=true {% endifequal %}/>
+            <input type='submit' name='{{ p }}' value='{{ p }} ct' {% ifequal pt.dept_status 2 %} disabled=true {% endifequal %}
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
         {% endfor %}
               </tr>
@@ -51,14 +53,16 @@
         <td><form method='post' action='.'>
             <input type='text' name='money' />
             <input type='hidden' name='customer' value='{{ pt.name }}' />
-            <input type='submit' name='pay' value='bezahlen' />
+            <input type='submit' name='pay' value='bezahlen' 
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
 
         </td>
         <td> {{ pt.lastPaid.date|date:"D, d.M. Y" }}</td>
         <td><form method='post' action='.'>
             <input type='hidden' name='customer' value='{{ c.name }}' />
-            <input type='submit' name='delete' value='delete' {% ifnotequal pt.depts 0 %}disabled=true{% endifnotequal %}/>
+            <input type='submit' name='delete' value='delete' {% ifnotequal pt.depts 0 %}disabled=true{% endifnotequal %}
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
     </tr>   
     
@@ -105,7 +109,8 @@ Wochenumsatz
         <td><form method='post' action='.'>
             <input type='hidden' name='customer' value='{{ c.name }}' />
             <input type='hidden' name='buy' value='{{ p }}' />
-            <input type='submit' name='{{ p }}' value='{{ p }} ct' {% ifequal c.dept_status 2 %} disabled=true {% endifequal %}/>
+            <input type='submit' name='{{ p }}' value='{{ p }} ct' {% ifequal c.dept_status 2 %} disabled=true {% endifequal %}
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
         {% endfor %}
               </tr>
@@ -113,14 +118,16 @@ Wochenumsatz
         <td><form method='post' action='.'>
             <input type='text' name='money' />
             <input type='hidden' name='customer' value='{{ c.name }}' />
-            <input type='submit' name='pay' value='bezahlen' />
+            <input type='submit' name='pay' value='bezahlen'
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
 
         </td>
         <td> {{ c.lastPaid.date|date:"D, d.M. Y" }}</td>
         <td><form method='post' action='.'>
             <input type='hidden' name='customer' value='{{ c.name }}' />
-            <input type='submit' name='delete' value='delete' {% ifnotequal c.depts 0 %}disabled=true{% endifnotequal %}/>
+            <input type='submit' name='delete' value='delete' {% ifnotequal c.depts 0 %}disabled=true{% endifnotequal %}
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
     </tr>   
     
