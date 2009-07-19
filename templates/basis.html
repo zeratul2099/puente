@@ -14,6 +14,9 @@
 		}
 		#header
 		{
+            #position:fixed;
+            #width:100%;
+            #top:0px;
 			margin: 0 0 0.7em;
 			background:#1f1f1f;
             color:#f0f0f0;
@@ -38,15 +41,15 @@
 			width:100%;
             font-size:1em;
 		}
-        a:link { text-decoration:none; color:blue;}
-        a:visited { text-decoration:none;color:blue; }
-        a:hover { color:red;}
+        a:link { text-decoration:none; color:#666666;}
+        a:visited { text-decoration:none;color:#666666; }
+        a:hover { color:green;}
         a:active { text-decoration:none; }
         a:focus { text-decoration:none; }
 	</style>
 </head>
 <body>
-    <h2 id='header' >{% block titel %}Django Beispielseite{% endblock %}</h2>
+    <h1 id='header' >{% block titel %}Django Beispielseite{% endblock %}</h1>
 
     {% block inhalt %}
     test
