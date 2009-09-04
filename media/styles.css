@@ -21,6 +21,7 @@ body
 #content_container
 		{
 			padding-bottom:3em;
+            font-size:140%;
             
 		}
 #footer
@@ -128,15 +129,18 @@ a.button:active span {
 input.btn { 
 	  color:#ffffff; 
 	  font: bold small monospace;
+      font-size:75%;
       background-color: #1f1f1f; 
 	}
 
 input.btnhov { 
 	  border-color: #ee2222 #930 #930 #ee2222;
+      font-size:75%;
       color:#ee2222;
     }
 input[disabled] {
     font: bold small monospace;
     background-color: #1f1f1f;
+    font-size:75%;
 	color: GrayText;
 }
