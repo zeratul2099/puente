@@ -28,7 +28,7 @@
 </tr>
 
 {% for pt in pmen %}
-     <tr>
+     <tr id='{{ pt.id }}'>
         <td> <a href='{{ pt.id }}'>{{ pt.name }}</a></td>
         <td>
         {% ifequal pt.dept_status 0 %} 
@@ -41,7 +41,7 @@
         <table>
             <tr>
         {% for p in pprices %}
-        <td><form method='post' action='.'>
+        <td><form method='post' action='.#{{ pt.id }}'>
             <input type='hidden' name='customer' value='{{ pt.name }}' />
             <input type='hidden' name='buy' value='{{ p }}' />
             <input type='submit' name='{{ p }}' value='{{ p }} ct' {% ifequal pt.dept_status 2 %} disabled=true {% endifequal %}
@@ -93,7 +93,7 @@ Wochenumsatz
     <td>zuletzt bezahlt</td>
 </tr>
 {% for c in customer %}
-     <tr>
+     <tr id='{{ c.id }}'>
         <td> <a href='{{ c.id }}'>{{ c.name }}</a></td>
         <td>
         {% ifequal c.dept_status 0 %} 
@@ -106,7 +106,7 @@ Wochenumsatz
         <table>
             <tr>
         {% for p in prices %}
-        <td><form method='post' action='.'>
+        <td><form method='post' action='.#{{ c.id }}'>
             <input type='hidden' name='customer' value='{{ c.name }}' />
             <input type='hidden' name='buy' value='{{ p }}' />
             <input type='submit' name='{{ p }}' value='{{ p }} ct' {% ifequal c.dept_status 2 %} disabled=true {% endifequal %}
