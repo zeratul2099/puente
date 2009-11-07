@@ -30,11 +30,11 @@
 {% for pt in pmen %}
      <tr id='{{ pt.id }}'>
         <td> <a href='{{ pt.id }}'>{{ pt.name }}</a></td>
-        <td>
+        <td >
         {% ifequal pt.dept_status 0 %} 
-        <b>{{ pt.depts }}</b>
+        <b id='depts{{ pt.id }}' >{{ pt.depts }}</b>
         {% else %}
-        <b><font color='red'>{{ pt.depts }}</font></b>
+        <b id='depts{{ pt.id }}' ><font color='red'>{{ pt.depts }}</font></b>
         {% endifequal %}
         </td>
         <td>
@@ -42,11 +42,46 @@
             <tr>
         {% for p in pprices %}
         <td><form method='post' action='.#{{ pt.id }}'>
-            <input type='hidden' name='customer' value='{{ pt.name }}' />
-            <input type='hidden' name='buy' value='{{ p }}' />
-            <input type='submit' name='{{ p }}' value='{{ p }} ct' {% ifequal pt.dept_status 2 %} disabled=true {% endifequal %}
+            <input type='hidden' name='customer' value='{{ pt.name }}' id='customer' />
+            <input type='hidden' name='buy' value='{{ p }}' id='buy' />
+            <input type='submit' name='{{ p }}' id='{{ pt.id}}_{{ p }}' value='{{ p }} ct' {% ifequal pt.dept_status 2 %} disabled=true {% endifequal %}
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
+                <script>
+        var buy{{ pt.id}}_{{ p }} = function() {
+            var customer = "{{ pt.name }}"
+            var buy = "{{ p }}"
+            var ajax = "yes";
+            if (customer != "" && buy != "") {
+                var data = { customer:customer, buy:buy, ajax:ajax };
+                var args = { type:"POST", url:".", data:data, complete:done };
+                //var newtd = $('<td id="depts" >------</td>');
+                //$("#depts").replace(newtd);
+                $.ajax(args);
+            }
+            else {
+                // bla
+            }
+            return false;
+            };
+            
+            var done = function(res, status) {
+              //if (status == "success") {
+
+                var txt = res.responseText;
+                var newDeptsStr = txt.match(/id="depts{{ pt.id }}" value="\w+"/ig)[0];
+                var newDepts = titleStr.match(/"\w+"/ig)[1].replace(/"/g,'New');
+                var newtd = $("Bla");
+                $("#depts{{ pt.id }}").replace(newtd);
+                
+                
+              //}
+              //else {
+                // bla
+              //}
+            };
+        $("#{{ pt.id}}_{{ p }}").click(buy{{ pt.id }}_{{ p }});
+        </script>
         {% endfor %}
               </tr>
         </table>
@@ -97,9 +132,9 @@ Wochenumsatz
         <td> <a href='{{ c.id }}'>{{ c.name }}</a></td>
         <td>
         {% ifequal c.dept_status 0 %} 
-        <b>{{ c.depts }}</b>
+        <b id='depts' >{{ c.depts }}</b>
         {% else %}
-        <b><font color='red'>{{ c.depts }}</font></b>
+        <b id='depts' ><font color='red'>{{ c.depts }}</font></b>
         {% endifequal %}
         </td>
         <td>
@@ -109,9 +144,13 @@ Wochenumsatz
         <td><form method='post' action='.#{{ c.id }}'>
             <input type='hidden' name='customer' value='{{ c.name }}' />
             <input type='hidden' name='buy' value='{{ p }}' />
-            <input type='submit' name='{{ p }}' value='{{ p }} ct' {% ifequal c.dept_status 2 %} disabled=true {% endifequal %}
+            <input type='submit' name='{{ p }}' value='{{ p }} ct' id='{{ c.id }}-{{ p }}' {% ifequal c.dept_status 2 %} disabled=true {% endifequal %}
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
+
+        
+        
+        
         {% endfor %}
               </tr>
         </table>
@@ -154,6 +193,8 @@ Wochenumsatz
 </table>
 
 </div>
+
+
 {% endblock %}
 
 

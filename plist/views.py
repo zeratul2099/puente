@@ -195,6 +195,8 @@ def customerList(request):
     # return customers to the html-template
     print len(allCustomers)
     print len(pMen)
+    if "ajax" in request.POST:
+        error = "AJAX"
     return render_to_response("plist.html", {"customer" : allCustomers,
                                              "pmen" : pMen,
                                              "unname" : unname,
