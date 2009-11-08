@@ -25,7 +25,7 @@ import datetime, sys
 from datetime import datetime as dt
 from decimal import Decimal
 from email.message import Message
-import smtplib
+import smtplib, simplejson
 from email.mime.text import MIMEText
 from email.header import Header
 
@@ -33,7 +33,7 @@ from email.header import Header
 
 prices = [ 60, 80, 100, 130, 150 ]
 pPrices = [ 40, 60, 80, 100 ]
-version = 1.1
+version = 1.5
 # if a new customer is added
 def registerCustomer(request):
     # process form data...
@@ -76,8 +76,9 @@ def customerList(request):
     unname = ""
     unmoney = ""
     error = ""
+    response_dict = {}
     # if some data come in (a submit button were pressed)
-    if request.method == 'POST':
+    if request.method == 'POST' and "customer" in request.POST and request.POST['customer'] != "":
         # get the corresponding customer
         customer = get_object_or_404(Customer, name=request.POST['customer'])
         unname = customer.name
@@ -170,6 +171,12 @@ def customerList(request):
             customer.dept_status = 2
         # save all changes to customer in database
         customer.save()
+        # ajax stuff
+        response_dict = { "id" : customer.id }
+        response_dict.update({"depts" : str(customer.depts)})
+        response_dict.update({"status" : customer.dept_status})
+        response_dict.update({"unname" : unname})
+        response_dict.update({"unmoney" : str(unmoney)})
         # delete customer if dept-free
         if "delete" in request.POST and customer.depts == 0:
             customer.delete()
@@ -192,12 +199,16 @@ def customerList(request):
             c.save() 
         sum[2] += Decimal(c.weeklySales)
         sum[3] += Decimal(c.depts)
+    response_dict.update({"ptSum" : str(sum[3])})
+    response_dict.update({"ptSales" : str(sum[2])})
+    response_dict.update({"cSum" : str(sum[1])})
+    response_dict.update({"cSales" : str(sum[0])})
     # return customers to the html-template
-    print len(allCustomers)
-    print len(pMen)
     if "ajax" in request.POST:
-        error = "AJAX"
-    return render_to_response("plist.html", {"customer" : allCustomers,
+        print response_dict
+        return HttpResponse(simplejson.dumps(response_dict), mimetype="application/json")
+    else:
+        return render_to_response("plist.html", {"customer" : allCustomers,
                                              "pmen" : pMen,
                                              "unname" : unname,
                                              "unmoney" : unmoney,

@@ -5,17 +5,15 @@
 {% block inhalt %}
 <div id="content_container">
 
-<font color='red'>{{ error }}</font>
-{% if unname %}
-{% if unmoney %}
+<font color='red' id='error' >{{ error }}</font>
+
 <form method='post' action='.'>
-    <input type='hidden' name='customer' value='{{ unname }}' />
-    <input type='hidden' name='unmoney' value='{{ unmoney }}' />
-    <input type='submit' name='undo' value='R&uuml;ckg&auml;ngig: {{ unname }} - {{ unmoney }}' 
+    <input type='hidden' name='customer' value='{{ unname }}' id='unname' />
+    <input type='hidden' name='unmoney' value='{{ unmoney }}' id='unmoney' />
+    <input type='submit' name='undo' value='R&uuml;ckg&auml;ngig: {{ unname }} - {{ unmoney }}' id='undo'
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
 </form>
-{% endif %}
-{% endif %}
+
 <h2>P&uuml;ntenteam</h2>
 <div id="content">
 <table width='100%'>
@@ -28,59 +26,68 @@
 </tr>
 
 {% for pt in pmen %}
-     <tr id='{{ pt.id }}'>
+     <tr id='row{{ pt.id }}' >
         <td> <a href='{{ pt.id }}'>{{ pt.name }}</a></td>
-        <td >
-        {% ifequal pt.dept_status 0 %} 
-        <b id='depts{{ pt.id }}' >{{ pt.depts }}</b>
+        <td id="depts{{ pt.id }}">
+         {% ifequal pt.dept_status 0 %} 
+        <b>{{ pt.depts }}</b>
         {% else %}
-        <b id='depts{{ pt.id }}' ><font color='red'>{{ pt.depts }}</font></b>
+        <b><font color='red'>{{ pt.depts }}</font></b>
         {% endifequal %}
         </td>
         <td>
         <table>
-            <tr>
+            <tr id='buyrow{{ pt.id }}' >
         {% for p in pprices %}
-        <td><form method='post' action='.#{{ pt.id }}'>
-            <input type='hidden' name='customer' value='{{ pt.name }}' id='customer' />
-            <input type='hidden' name='buy' value='{{ p }}' id='buy' />
-            <input type='submit' name='{{ p }}' id='{{ pt.id}}_{{ p }}' value='{{ p }} ct' {% ifequal pt.dept_status 2 %} disabled=true {% endifequal %}
+        <td><form method='post' action='.'>
+            <input type='hidden' name='customer' value='{{ pt.name }}' id='customer{{ pt.id }}_{{ p }}' />
+            <input type='hidden' name='buy' value='{{ p }}' id='buy{{ pt.id }}_{{ p }}' />
+            <input type='submit' name='{{ p }}' id='buybtn{{ pt.id }}_{{ p }}' value='{{ p }} ct' {% ifequal pt.dept_status 2 %} disabled=true {% endifequal %}
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
-                <script>
+        <script>
         var buy{{ pt.id}}_{{ p }} = function() {
             var customer = "{{ pt.name }}"
             var buy = "{{ p }}"
             var ajax = "yes";
             if (customer != "" && buy != "") {
                 var data = { customer:customer, buy:buy, ajax:ajax };
-                var args = { type:"POST", url:".", data:data, complete:done };
-                //var newtd = $('<td id="depts" >------</td>');
-                //$("#depts").replace(newtd);
+                var args = { type:"POST", url:".", data:data, complete:done{{ pt.id}}_{{ p }} };
                 $.ajax(args);
             }
             else {
-                // bla
+
+
             }
             return false;
             };
             
-            var done = function(res, status) {
-              //if (status == "success") {
+            var done{{ pt.id}}_{{ p }} = function(res, status) {
+              if (status == "success") {
 
-                var txt = res.responseText;
-                var newDeptsStr = txt.match(/id="depts{{ pt.id }}" value="\w+"/ig)[0];
-                var newDepts = titleStr.match(/"\w+"/ig)[1].replace(/"/g,'New');
-                var newtd = $("Bla");
-                $("#depts{{ pt.id }}").replace(newtd);
-                
-                
-              //}
-              //else {
-                // bla
-              //}
+                var data = JSON.parse(res.responseText);
+                if (data['status'] == '0' ) {
+                    var newDepts = $("<td id='depts{{ pt.id }}'><b>"+data['depts']+'</b></td>');
+                } else {
+                    var newDepts = $("<td id='depts{{ pt.id }}'><b><font color='red'>"+data['depts']+'</font></b></td>');
+                }
+                if (data['status'] == '2' ) {
+                    $("#buyrow{{ pt.id }} > * > * > input[type='submit']").attr("disabled", true);
+                }
+                $("#unname").attr("value", data['unname']);
+                $("#unmoney").attr("value", data['unmoney']);
+                $("#undo").attr("value", "Rückgängig: "+data['unname']+" - "+data['unmoney']);
+                $("#depts{{ pt.id }}").replaceWith(newDepts);
+                $("#ptSum").replaceWith("<b id='ptSum' >"+data['ptSum']+"</b>");
+                $("#ptSales").replaceWith("<b id='ptSales' >"+data['ptSales']+"</b>");
+              }
+              else {
+                var elem = $('#row{{ pt.id }}');
+                var msg_div = $('<tr><td colspan="6" ><font color="red"><p>No connection to server</p></font></td></tr>');
+                msg_div.insertAfter(elem).fadeIn('slow').animate({opacity: 1.0}, 5000).fadeOut('slow',function() { msg_div.remove(); });
+              }
             };
-        $("#{{ pt.id}}_{{ p }}").click(buy{{ pt.id }}_{{ p }});
+        $("#buybtn{{ pt.id }}_{{ p }}").click(buy{{ pt.id }}_{{ p }});
         </script>
         {% endfor %}
               </tr>
@@ -105,13 +112,13 @@
 <tr><td>
 Summe
 </td><td>
-<b>{{sum.3 }}</b>
+<b id='ptSum' >{{sum.3 }}</b>
 </td>
 </tr>
 <tr><td>
 Wochenumsatz
 </td><td>
-<b>{{sum.2 }}</b>
+<b id='ptSales' >{{sum.2 }}</b>
 </td>
 </tr>
 
@@ -128,9 +135,9 @@ Wochenumsatz
     <td>zuletzt bezahlt</td>
 </tr>
 {% for c in customer %}
-     <tr id='{{ c.id }}'>
-        <td> <a href='{{ c.id }}'>{{ c.name }}</a></td>
-        <td>
+     <tr id='row{{ c.id }}'>
+        <td><a href='{{ c.id }}'>{{ c.name }}</a></td>
+        <td id="depts{{ c.id }}" >
         {% ifequal c.dept_status 0 %} 
         <b id='depts' >{{ c.depts }}</b>
         {% else %}
@@ -139,16 +146,59 @@ Wochenumsatz
         </td>
         <td>
         <table>
-            <tr>
+            <tr id='buyrow{{ c.id }}' >
         {% for p in prices %}
-        <td><form method='post' action='.#{{ c.id }}'>
-            <input type='hidden' name='customer' value='{{ c.name }}' />
-            <input type='hidden' name='buy' value='{{ p }}' />
-            <input type='submit' name='{{ p }}' value='{{ p }} ct' id='{{ c.id }}-{{ p }}' {% ifequal c.dept_status 2 %} disabled=true {% endifequal %}
+        <td><form method='post' action='.'>
+            <input type='hidden' name='customer' value='{{ c.name }}' id='customer{{ c.id }}_{{ p }}' />
+            <input type='hidden' name='buy' value='{{ p }}' id='buy{{ c.id }}_{{ p }}' />
+            <input type='submit' name='{{ p }}' value='{{ p }} ct' id='buybtn{{ c.id }}_{{ p }}' {% ifequal c.dept_status 2 %} disabled=true {% endifequal %}
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
 
-        
+        <script>
+        var buy{{ c.id}}_{{ p }} = function() {
+            var customer = "{{ c.name }}"
+            var buy = "{{ p }}"
+            var ajax = "yes";
+            if (customer != "" && buy != "") {
+                var data = { customer:customer, buy:buy, ajax:ajax };
+                var args = { type:"POST", url:".", data:data, complete:done{{ c.id}}_{{ p }} };
+                $.ajax(args);
+            }
+            else {
+                // bla
+            }
+            return false;
+            };
+            
+            var done{{ c.id}}_{{ p }} = function(res, status) {
+              if (status == "success") {
+
+                var data = JSON.parse(res.responseText);
+                if (data['status'] == '0' ) {
+                    var newDepts = $("<td id='depts{{ c.id }}'><b>"+data['depts']+'</b></td>');
+                } else {
+                    var newDepts = $("<td id='depts{{ c.id }}'><b><font color='red'>"+data['depts']+'</font></b></td>');
+                }
+                if (data['status'] == '2' ) {
+                    $("#buyrow{{ c.id }} > * > * > input[type='submit']").attr("disabled", true);
+                }
+                $("#unname").attr("value", data['unname']);
+                $("#unmoney").attr("value", data['unmoney']);
+                $("#undo").attr("value", "Rückgängig: "+data['unname']+" - "+data['unmoney']);
+                $("#depts{{ c.id }}").replaceWith(newDepts);
+                $("#cSum").replaceWith("<b id='cSum' >"+data['cSum']+"</b>");
+                $("#cSales").replaceWith("<b id='cSales' >"+data['cSales']+"</b>");
+              }
+              else {
+                var elem = $('#row{{ c.id }}');
+                var msg_div = $('<tr><td colspan="6" ><font color="red"><p>No connection to server</p></font></td></tr>');
+                msg_div.insertAfter(elem).fadeIn('slow').animate({opacity: 1.0}, 5000).fadeOut('slow',function() { msg_div.remove(); });
+
+              }
+            };
+        $("#buybtn{{ c.id }}_{{ p }}").click(buy{{ c.id }}_{{ p }});
+        </script>
         
         
         {% endfor %}
@@ -174,13 +224,13 @@ Wochenumsatz
 <tr><td>
 Summe
 </td><td>
-<b>{{ sum.1 }}</b>
+<b id='cSum' >{{ sum.1 }}</b>
 </td>
 </tr>
 <tr><td>
 Wochenumsatz
 </td><td>
-<b>{{ sum.0 }}</b>
+<b id='cSales' >{{ sum.0 }}</b>
 </td>
 </tr>
 </table>
