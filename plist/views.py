@@ -111,7 +111,7 @@ def customerList(request):
             except:
                 pass
         # undo the last transaction
-        elif "undo" in request.POST:
+        elif "undo" in request.POST and "unmoney" in request.POST and request.POST['unmoney'] != "":
             unname = ""
             money = Decimal(request.POST['unmoney'])
             customer.depts -= money
@@ -172,11 +172,7 @@ def customerList(request):
         # save all changes to customer in database
         customer.save()
         # ajax stuff
-        response_dict = { "id" : customer.id }
-        response_dict.update({"depts" : str(customer.depts)})
-        response_dict.update({"status" : customer.dept_status})
-        response_dict.update({"unname" : unname})
-        response_dict.update({"unmoney" : str(unmoney)})
+
         # delete customer if dept-free
         if "delete" in request.POST and customer.depts == 0:
             customer.delete()
@@ -199,13 +195,18 @@ def customerList(request):
             c.save() 
         sum[2] += Decimal(c.weeklySales)
         sum[3] += Decimal(c.depts)
-    response_dict.update({"ptSum" : str(sum[3])})
-    response_dict.update({"ptSales" : str(sum[2])})
-    response_dict.update({"cSum" : str(sum[1])})
-    response_dict.update({"cSales" : str(sum[0])})
+
     # return customers to the html-template
     if "ajax" in request.POST:
-        print response_dict
+        response_dict = { "id" : customer.id }
+        response_dict.update({"depts" : str(customer.depts)})
+        response_dict.update({"status" : customer.dept_status})
+        response_dict.update({"unname" : unname})
+        response_dict.update({"unmoney" : str(unmoney)})
+        response_dict.update({"ptSum" : str(sum[3])})
+        response_dict.update({"ptSales" : str(sum[2])})
+        response_dict.update({"cSum" : str(sum[1])})
+        response_dict.update({"cSales" : str(sum[0])})
         return HttpResponse(simplejson.dumps(response_dict), mimetype="application/json")
     else:
         return render_to_response("plist.html", {"customer" : allCustomers,
