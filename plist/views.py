@@ -33,7 +33,7 @@ from email.header import Header
 
 prices = [ 60, 80, 100, 130, 150 ]
 pPrices = [ 40, 60, 80, 100 ]
-version = 1.5
+version = 1.6
 # if a new customer is added
 def registerCustomer(request):
     # process form data...
@@ -207,6 +207,16 @@ def customerList(request):
         response_dict.update({"ptSales" : str(sum[2])})
         response_dict.update({"cSum" : str(sum[1])})
         response_dict.update({"cSales" : str(sum[0])})
+        # germanisation of weekdays
+        lastPaidStr = customer.lastPaid.strftime("%a, %d.%b. %Y")
+        lastPaidStr = lastPaidStr.replace("Mon", "Mo")
+        lastPaidStr = lastPaidStr.replace("Tue", "Di")
+        lastPaidStr = lastPaidStr.replace("Wed", "Mi")
+        lastPaidStr = lastPaidStr.replace("Thu", "Do")
+        lastPaidStr = lastPaidStr.replace("Fri", "Fr")
+        lastPaidStr = lastPaidStr.replace("Sat", "Sa")
+        lastPaidStr = lastPaidStr.replace("Sun", "So")
+        response_dict.update({"lastPaid" : lastPaidStr})
         return HttpResponse(simplejson.dumps(response_dict), mimetype="application/json")
     else:
         return render_to_response("plist.html", {"customer" : allCustomers,
