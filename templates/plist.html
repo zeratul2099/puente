@@ -125,13 +125,13 @@
             <input type='submit' name='pay' value='bezahlen' id='paybtn{{ pt.id }}'
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
-        <script>
-         $("#paybtn{{ pt.id }}").click(function() {
+  <!--       <script>
+        $("#paybtn{{ pt.id }}").click(function() {
              buy("{{ pt.name }}", $("#paymoney{{ pt.id }}").val(), false);
              $("#paymoney{{ pt.id }}").attr("value", "");
              return false;
              });  
-        </script>
+        </script>-->
         </td>
         <td id='lastPaid{{ pt.id }}' > {{ pt.lastPaid.date|date:"D, d.M. Y" }}</td>
         <td><form method='post' action='.'>
