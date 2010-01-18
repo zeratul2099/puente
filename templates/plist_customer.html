@@ -73,7 +73,7 @@
     </tr>
     {% for t in transactions %}
     <tr>
-        <td>{{ t.price }}</td>
+        <td>{{ t.price }} &euro;</td>
         <td>{{ t.time|date:"H:i:s, d. M." }}</td>
     </tr>
     {% endfor %}

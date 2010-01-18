@@ -240,12 +240,12 @@ def customerDetails(request, customer_id):
     if request.method == 'POST':
         return HttpResponseRedirect("..")
     customer = get_object_or_404(Customer, id=customer_id)
-    transactions = Transaction.objects.filter(customer=customer).order_by("time").reverse()
+    transactions = Transaction.objects.filter(customer=customer).order_by("time").reverse()[:100]
     return render_to_response("plist_customer.html", {"customer" : customer,
                                                       "transactions" : transactions,
                                                       "version" : version,  })
         
 def transactionList(request):
-    transactions = Transaction.objects.order_by("time").reverse()
+    transactions = Transaction.objects.order_by("time").reverse()[:100]
     return render_to_response("plist_transactions.html", {"transactions" : transactions,
                                                       "version" : version,  })

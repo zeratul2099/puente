@@ -95,9 +95,9 @@
         <td> <a href='{{ pt.id }}'>{{ pt.name }}</a></td>
         <td id="depts{{ pt.id }}">
          {% ifequal pt.dept_status 0 %} 
-        <b>{{ pt.depts }}</b>
+        <b>{{ pt.depts }} &euro;</b>
         {% else %}
-        <b><font color='red'>{{ pt.depts }}</font></b>
+        <b><font color='red'>{{ pt.depts }} &euro;</font></b>
         {% endifequal %}
         </td>
         <td>
@@ -174,9 +174,9 @@ Wochenumsatz
         <td><a href='{{ c.id }}'>{{ c.name }}</a></td>
         <td id="depts{{ c.id }}" >
         {% ifequal c.dept_status 0 %} 
-        <b id='depts' >{{ c.depts }}</b>
+        <b id='depts' >{{ c.depts }} &euro;</b>
         {% else %}
-        <b id='depts' ><font color='red'>{{ c.depts }}</font></b>
+        <b id='depts' ><font color='red'>{{ c.depts }} &euro;</font></b>
         {% endifequal %}
         </td>
         <td>

@@ -1,15 +1,29 @@
 {% extends "basis.html" %}
 
-{% block titel %}P&uuml;nte Schuldenliste{% endblock %}
+{% block titel %}Transaktionen{% endblock %}
 
 {% block inhalt %}
 <div id="content_container">
+<table align='center'>
+    <tr>
+        <td> <a class='button' background='#4f4f4f' href='../'><span>Zur&uuml;ck</span></a></td>
+    </tr>
+</table>
+
 <div id="content">
 <table width='100%' >
+    <tr>
+    <td>Gast</td>
+    <td>Preis</td>
+    <td>Uhrzeit/Datum</td>
+    </tr>
+    <tr>
+    <td colspan='3'><hr></td>
+    </tr>
     {% for t in transactions %}
     <tr>
         <td>{{ t.customer }}</td>
-        <td>{{ t.price }}</td>
+        <td>{{ t.price }} &euro;</td>
         <td>{{ t.time|date:"H:i:s, d. M." }}</td>
     </tr>
     {% endfor %}
