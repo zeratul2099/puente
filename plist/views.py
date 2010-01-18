@@ -16,7 +16,7 @@
 
 
 
-from puente.plist.models import Customer, RegisterForm
+from puente.plist.models import Customer, RegisterForm, Transaction
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import Context, loader
@@ -33,7 +33,7 @@ from email.header import Header
 
 prices = [ 60, 80, 100, 130, 150 ]
 pPrices = [ 40, 60, 80, 100 ]
-version = 1.6
+version = 2.0
 # if a new customer is added
 def registerCustomer(request):
     # process form data...
@@ -91,6 +91,8 @@ def customerList(request):
             customer.weeklySales += money
             # save for undo function
             unmoney = money
+            new_transaction = Transaction(customer=customer, time=dt.now(), price=money)
+            new_transaction.save()
         # someone paid
         elif "pay" in request.POST:
             try:
@@ -105,6 +107,8 @@ def customerList(request):
                     # ... or bought
                     else:
                         customer.weeklySales -= money
+                    new_transaction = Transaction(customer=customer, time=dt.now(), price=-money)
+                    new_transaction.save()
                 else:
                     error = "Soviel hat doch niemand wirklich bezahlt!"
  
@@ -116,6 +120,8 @@ def customerList(request):
             money = Decimal(request.POST['unmoney'])
             customer.depts -= money
             customer.weeklySales -= money
+            new_transaction = Transaction(customer=customer, time=dt.now(), price=-money)
+            new_transaction.save()
         # customer receives a remembermail of his depts
         elif "inform" in request.POST:
 
@@ -234,6 +240,12 @@ def customerDetails(request, customer_id):
     if request.method == 'POST':
         return HttpResponseRedirect("..")
     customer = get_object_or_404(Customer, id=customer_id)
+    transactions = Transaction.objects.filter(customer=customer).order_by("time").reverse()
     return render_to_response("plist_customer.html", {"customer" : customer,
+                                                      "transactions" : transactions,
                                                       "version" : version,  })
         
+def transactionList(request):
+    transactions = Transaction.objects.order_by("time").reverse()
+    return render_to_response("plist_transactions.html", {"transactions" : transactions,
+                                                      "version" : version,  })

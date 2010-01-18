@@ -15,8 +15,9 @@
 
 from django.db import models
 from django import forms
+from datetime import datetime
 
-# Create your models here.
+
 
 class Customer(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -33,10 +34,16 @@ class Customer(models.Model):
     def __unicode__(self):
         return self.name
 
-    
+class Transaction(models.Model):
+    customer = models.ForeignKey(Customer)
+    time = models.DateTimeField()
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    def __unicode__(self):
+        return self.customer.name
+
+
 class RegisterForm(forms.Form):
     nameBox = forms.CharField(max_length=30, label='Name')
     roomBox = forms.CharField(max_length=30, label='Zimmernummer')
     emailBox = forms.EmailField(max_length=50, label='Email')
     isPuenteBox = forms.BooleanField(label='Puententeam', required=False)
-

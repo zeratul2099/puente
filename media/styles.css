@@ -142,3 +142,10 @@ input[disabled] {
     font-size:75%;
 	color: GrayText;
 }
+
+.leftspace {
+    padding-left: 10px;
+    padding-right: 10px;
+    border-spacing: 3px;
+
+}
