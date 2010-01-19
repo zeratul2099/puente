@@ -35,10 +35,10 @@
                 var data = JSON.parse(res.responseText);
                 if (data['status'] == '0' ) {
                     $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", false);
-                    var newDepts = $("<td id='depts"+data['id']+"'><b>"+data['depts']+'</b></td>');
+                    var newDepts = $("<td id='depts"+data['id']+"'><b>"+data['depts']+' &euro;</b></td>');
                 } else {
                     $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", false);
-                    var newDepts = $("<td id='depts"+data['id']+"'><b><font color='red'>"+data['depts']+'</font></b></td>');
+                    var newDepts = $("<td id='depts"+data['id']+"'><b><font color='red'>"+data['depts']+' &euro;</font></b></td>');
                 }
                 if (data['status'] == '2' ) {
                     $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", true);
@@ -71,15 +71,15 @@
 
 
 <font color='red' id='error' >{{ error }}</font>
-
+<div class='leftspace'>
 <form method='post' action='.'>
     <input type='hidden' name='customer' value='{{ unname }}' id='unname' />
     <input type='hidden' name='unmoney' value='{{ unmoney }}' id='unmoney' />
     <input type='submit' name='undo' value='R&uuml;ckg&auml;ngig: {{ unname }} - {{ unmoney }}' id='undo'
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
 </form>
-
-<h2>P&uuml;ntenteam ({{ pmen|length }})</h2>
+<h3>P&uuml;ntenteam ({{ pmen|length }})</h3>
+</div>
 <div id="content">
 <table width='100%'>
 <tr>
@@ -89,9 +89,16 @@
     <td>bezahlen</td>
     <td>zuletzt bezahlt</td>
 </tr>
-
+<tr>
+<td colspan='6'><hr></td>
+</tr>
 {% for pt in pmen %}
-     <tr id='row{{ pt.id }}' >
+    {% if forloop.counter|divisibleby:"2" %}
+    <tr id='row{{ pt.id }}'>
+    {% else %}
+    <tr class='darkbackground' id='row{{ pt.id }}' >
+    {% endif %}
+
         <td> <a href='{{ pt.id }}'>{{ pt.name }}</a></td>
         <td id="depts{{ pt.id }}">
          {% ifequal pt.dept_status 0 %} 
@@ -142,6 +149,9 @@
     </tr>   
     
 {% endfor %}
+<tr>
+<td colspan='6'><hr></td>
+</tr>
 <tr><td>
 Summe
 </td><td>
@@ -159,7 +169,7 @@ Wochenumsatz
 </div>
 
 
-<h2>G&auml;ste ({{ customer|length }})</h2>
+<div class='leftspace'><h3>G&auml;ste ({{ customer|length }})</h3></div>
 <div id="content">
 <table width='100%'>
 <tr>
@@ -169,8 +179,15 @@ Wochenumsatz
     <td>bezahlen</td>
     <td>zuletzt bezahlt</td>
 </tr>
+<tr>
+<td colspan='6'><hr></td>
+</tr>
 {% for c in customer %}
-     <tr id='row{{ c.id }}'>
+    {% if forloop.counter|divisibleby:"2" %}
+    <tr id='row{{ c.id }}'>
+    {% else %}
+    <tr class='darkbackground' id='row{{ c.id }}' >
+    {% endif %}
         <td><a href='{{ c.id }}'>{{ c.name }}</a></td>
         <td id="depts{{ c.id }}" >
         {% ifequal c.dept_status 0 %} 
@@ -206,13 +223,13 @@ Wochenumsatz
             <input type='submit' name='pay' value='bezahlen' id='paybtn{{ c.id }}'
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
-        <script>
+       <!-- <script>
          $("#paybtn{{ c.id }}").click(function() {
              buy("{{ c.name }}", $("#paymoney{{ c.id }}").val(), false);
              $("#paymoney{{ c.id }}").attr("value", "");
              return false;
              });  
-        </script>
+        </script>-->
         </td>
         <td id='lastPaid{{ c.id }}'> {{ c.lastPaid.date|date:"D, d.M. Y" }}</td>
         <td><form method='post' action='.'>
@@ -223,6 +240,9 @@ Wochenumsatz
     </tr>   
     
 {% endfor %}
+<tr>
+<td colspan='6'><hr></td>
+</tr>
 <tr><td>
 Summe
 </td><td>

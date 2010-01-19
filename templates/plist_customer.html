@@ -65,16 +65,22 @@
 <div id='content'>
 <table width='100%' >
     <tr>
+    <td width='5%'></td>
     <td>Preis</td>
     <td>Uhrzeit/Datum</td>
     </tr>
     <tr>
-    <td colspan='2'><hr></td>
+    <td colspan='3'><hr></td>
     </tr>
     {% for t in transactions %}
+    {% if forloop.counter|divisibleby:"2" %}
     <tr>
+    {% else %}
+    <tr class='darkbackground'>
+    {% endif %}
+        <td>{{ forloop.counter }}.</td>
         <td>{{ t.price }} &euro;</td>
-        <td>{{ t.time|date:"H:i:s, d. M." }}</td>
+        <td>{{ t.time|date:"H:i:s, d.M.Y" }}</td>
     </tr>
     {% endfor %}
 </table>
