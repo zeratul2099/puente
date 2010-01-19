@@ -126,7 +126,8 @@ def customerList(request):
         elif "inform" in request.POST:
 
             # construct mail ...
-            fr = "puente.oss@googlemail.com"
+            #fr = "puente.oss@googlemail.com"
+            fr = "puente.oss@gmx.de"
             
             to = customer.email
 
@@ -151,10 +152,10 @@ def customerList(request):
             # ... and try to send it
             try:
                 
-                s = smtplib.SMTP('smtp.gmail.com', 587)
-                #s = smtplib.SMTP('134.106.143.1')
-                s.ehlo()
-                s.starttls()
+                #s = smtplib.SMTP('smtp.gmail.com', 587)
+                s = smtplib.SMTP_SSL('mail.gmx.net', 465)
+                #s.ehlo()
+                #s.starttls()
                 s.login(fr, "lastpub897km")
                 s.sendmail(fr, customer.email, msg.as_string())
                 error = "Erinnerungsmail an %s verschickt" %(customer.name)
