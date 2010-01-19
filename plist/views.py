@@ -28,6 +28,7 @@ from email.message import Message
 import smtplib, ftplib, simplejson
 from email.mime.text import MIMEText
 from email.header import Header
+from django.conf import settings
 
 
 
@@ -253,8 +254,8 @@ def transactionList(request):
 
 
 def encryptDatabase(request):
-    os.system("gpg -e --yes -r 'Pünte OSS' db")
-    file = open("db.gpg")
+    os.system("gpg -e --yes -r 'Pünte OSS' %s"%(settings.DATABASE_NAME))
+    file = open("%s.gpg"%(settings.DATABASE_NAME))
     oberon = ftplib.FTP("134.106.143.8")
     oberon.login()
     oberon.storbinary("STOR /upload/software/db.gpg", file)
