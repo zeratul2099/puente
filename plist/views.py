@@ -21,11 +21,11 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import Context, loader
 from datetime import date
-import datetime, sys
+import datetime, sys, os
 from datetime import datetime as dt
 from decimal import Decimal
 from email.message import Message
-import smtplib, simplejson
+import smtplib, ftplib, simplejson
 from email.mime.text import MIMEText
 from email.header import Header
 
@@ -33,7 +33,7 @@ from email.header import Header
 
 prices = [ 60, 80, 100, 130, 150 ]
 pPrices = [ 40, 60, 80, 100 ]
-version = 2.0
+version = 2.1
 # if a new customer is added
 def registerCustomer(request):
     # process form data...
@@ -250,3 +250,14 @@ def transactionList(request):
     transactions = Transaction.objects.order_by("time").reverse()[:100]
     return render_to_response("plist_transactions.html", {"transactions" : transactions,
                                                       "version" : version,  })
+
+
+def encryptDatabase(request):
+    os.system("gpg -e --yes -r 'Pünte OSS' db")
+    file = open("db.gpg")
+    oberon = ftplib.FTP("134.106.143.8")
+    oberon.login()
+    oberon.storbinary("STOR /upload/software/db.gpg", file)
+    oberon.close()
+    file.close()
+    return HttpResponseRedirect("..")
