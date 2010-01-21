@@ -139,7 +139,7 @@ def customerList(request):
             text += u"Bitte bezahle diese bei deinem nächsten Besuch.\n"
             text += u"Viele Grüße, dein Püntenteam"
             # comment these two lines out to remove signature from mail
-            command = u"echo '%s' | gpg --clearsign -u 'Pünte OSS' --yes --passphrase %s"%(text, settings.PASSPHRASE)
+            command = u"echo '%s' | gpg --clearsign -u 'Pünte OSS' --yes --passphrase-file pp"%(text)
             text = os.popen(command.encode('utf-8')).read()
             #msg = Message()
             msg = MIMEText(text, 'plain', _charset='UTF-8')
@@ -257,11 +257,11 @@ def transactionList(request):
 
 
 def encryptDatabase(request):
-    os.system("gpg -es -u 'Pünte OSS' --passphrase %s --yes -r 'Pünte OSS' %s"%(settings.PASSPHRASE, settings.DATABASE_NAME))
-    '''file = open("%s.gpg"%(settings.DATABASE_NAME))
+    os.system("echo %s | gpg -es -u 'Pünte OSS' --passphrase-fd 0 --yes -r 'Pünte OSS' %s"%(settings.PASSPHRASE, settings.DATABASE_NAME))
+    file = open("%s.gpg"%(settings.DATABASE_NAME))
     oberon = ftplib.FTP("134.106.143.8")
     oberon.login()
     oberon.storbinary("STOR /upload/software/db.gpg", file)
     oberon.close()
-    file.close()'''
+    file.close()
     return HttpResponseRedirect("..")
