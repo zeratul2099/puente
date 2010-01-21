@@ -258,10 +258,10 @@ def transactionList(request):
 
 def encryptDatabase(request):
     os.system("gpg -es -u 'Pünte OSS' --passphrase %s --yes -r 'Pünte OSS' %s"%(settings.PASSPHRASE, settings.DATABASE_NAME))
-    file = open("%s.gpg"%(settings.DATABASE_NAME))
+    '''file = open("%s.gpg"%(settings.DATABASE_NAME))
     oberon = ftplib.FTP("134.106.143.8")
     oberon.login()
     oberon.storbinary("STOR /upload/software/db.gpg", file)
     oberon.close()
-    file.close()
+    file.close()'''
     return HttpResponseRedirect("..")
