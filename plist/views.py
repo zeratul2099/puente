@@ -132,18 +132,21 @@ def customerList(request):
             
             to = customer.email
 
-            text = "\nHallo "
+            text = "Hallo "
             text+= "%s" %(customer.name)
-            text += ",\n"
-            text += "du hast in der Puente %.2f Euro Schulden.\n" %(customer.depts)
-            text += "Bitte bezahle diese bei deinem naechsten Besuch\n"
-            text += "Viele Gruesse, dein Puententeam"
+            text += ",\n\n"
+            text += u"du hast in der Pünte %.2f Euro Schulden.\n" %(customer.depts)
+            text += u"Bitte bezahle diese bei deinem nächsten Besuch.\n"
+            text += u"Viele Grüße, dein Püntenteam"
+            # comment these two lines out to remove signature from mail
+            command = u"echo '%s' | gpg --clearsign -u 'Pünte OSS' --yes --passphrase %s"%(text, settings.PASSPHRASE)
+            text = os.popen(command.encode('utf-8')).read()
             #msg = Message()
-            msg = MIMEText(text, 'plain', _charset='ISO-8859-1')
+            msg = MIMEText(text, 'plain', _charset='UTF-8')
             #msg.set_payload(text)
             msg["Subject"] = Header("[Pünte]Zahlungserinnerung", 'utf8')
-            fromhdr = Header("Pünte", 'utf8')
-            fromhdr.append("<%s>"%fr, 'ascii')
+            fromhdr = Header(u"Pünte", 'utf8')
+            fromhdr.append(u"<%s>"%fr, 'ascii')
             msg["From"] = fromhdr
             tohdr = Header("%s"%customer.name, 'utf8')
             tohdr.append("<%s>" %( customer.email), 'ascii')
@@ -157,7 +160,7 @@ def customerList(request):
                 s = smtplib.SMTP_SSL('mail.gmx.net', 465)
                 #s.ehlo()
                 #s.starttls()
-                s.login(fr, "lastpub897km")
+                s.login(fr, settings.PASSPHRASE)
                 s.sendmail(fr, customer.email, msg.as_string())
                 error = "Erinnerungsmail an %s verschickt" %(customer.name)
                 s.quit()
