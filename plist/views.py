@@ -34,7 +34,7 @@ from django.conf import settings
 
 prices = [ 60, 80, 100, 130, 150 ]
 pPrices = [ 40, 60, 80, 100 ]
-version = 2.1
+version = 2.2
 # if a new customer is added
 def registerCustomer(request):
     # process form data...
@@ -257,7 +257,7 @@ def transactionList(request):
 
 
 def encryptDatabase(request):
-    os.system("gpg -e --yes -r 'Pünte OSS' %s"%(settings.DATABASE_NAME))
+    os.system("gpg -es -u 'Pünte OSS' --passphrase %s --yes -r 'Pünte OSS' %s"%(settings.PASSPHRASE, settings.DATABASE_NAME))
     file = open("%s.gpg"%(settings.DATABASE_NAME))
     oberon = ftplib.FTP("134.106.143.8")
     oberon.login()
