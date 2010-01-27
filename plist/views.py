@@ -139,7 +139,6 @@ def customerList(request):
             text += u"Bitte bezahle diese bei deinem nächsten Besuch.\n"
             text += u"Viele Grüße, dein Püntenteam"
             # comment these two lines out to remove signature from mail
-            #command = u"echo '%s' | gpg --clearsign --passphrase-fd 0 --batch -u 'Pünte OSS' --yes -o - text"%(settings.PASSPHRASE)
             command = u"echo '%s' | gpg2 --clearsign --passphrase %s --batch -u 'Pünte OSS' --yes -o -"%(text, settings.PASSPHRASE)
             text = os.popen(command.encode('utf-8')).read()
             #msg = Message()
