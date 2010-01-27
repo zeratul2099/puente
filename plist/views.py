@@ -133,13 +133,14 @@ def customerList(request):
             to = customer.email
 
             text = "Hallo "
-            text+= "%s" %(customer.name)
+            text += "%s" %(customer.name)
             text += ",\n\n"
             text += u"du hast in der Pünte %.2f Euro Schulden.\n" %(customer.depts)
             text += u"Bitte bezahle diese bei deinem nächsten Besuch.\n"
             text += u"Viele Grüße, dein Püntenteam"
             # comment these two lines out to remove signature from mail
-            command = u"echo '%s' | gpg --clearsign -u 'Pünte OSS' --yes --passphrase-file pp"%(text)
+            #command = u"echo '%s' | gpg --clearsign --passphrase-fd 0 --batch -u 'Pünte OSS' --yes -o - text"%(settings.PASSPHRASE)
+            command = u"echo '%s' | gpg2 --clearsign --passphrase %s --batch -u 'Pünte OSS' --yes -o -"%(text, settings.PASSPHRASE)
             text = os.popen(command.encode('utf-8')).read()
             #msg = Message()
             msg = MIMEText(text, 'plain', _charset='UTF-8')
