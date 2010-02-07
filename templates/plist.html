@@ -99,7 +99,7 @@
     <tr class='darkbackground' id='row{{ pt.id }}' >
     {% endif %}
 
-        <td> <a href='{{ pt.id }}'>{{ pt.name }}</a></td>
+        <td> <a href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
         <td id="depts{{ pt.id }}">
          {% ifequal pt.dept_status 0 %} 
         <b>{{ pt.depts }} &euro;</b>
@@ -188,7 +188,7 @@ Wochenumsatz
     {% else %}
     <tr class='darkbackground' id='row{{ c.id }}' >
     {% endif %}
-        <td><a href='{{ c.id }}'>{{ c.name }}</a></td>
+        <td><a href='{% url plist.views.customerDetails c.id %}'>{{ c.name }}</a></td>
         <td id="depts{{ c.id }}" >
         {% ifequal c.dept_status 0 %} 
         <b id='depts' >{{ c.depts }} &euro;</b>
@@ -260,9 +260,9 @@ Wochenumsatz
 <br>
 <table align='center' width='80%' style="font-size:65%;">
     <tr>
-        <td> <a class='button' background='#4f4f4f' href='./register/'><span>Register new customer</span></a></td>
-        <td> <a class='button' background='#4f4f4f' href='./transactions/'><span>Statistik</span></a></td>
-        <td> <a class='button' background='#4f4f4f' href='./backup/'><span>Backup database</span></a></td>
+        <td> <a class='button' background='#4f4f4f' href='{% url plist.views.registerCustomer %}'><span>Register new customer</span></a></td>
+        <td> <a class='button' background='#4f4f4f' href='{% url plist.views.transactionList 1 %}'><span>Statistik</span></a></td>
+        <td> <a class='button' background='#4f4f4f' href='{% url plist.views.encryptDatabase %}'><span>Backup database</span></a></td>
     </tr>
 </table>
 

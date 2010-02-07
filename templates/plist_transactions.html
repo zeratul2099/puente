@@ -6,7 +6,19 @@
 <div id="content_container">
 <table align='center'>
     <tr>
-        <td> <a class='button' background='#4f4f4f' href='../'><span>Zur&uuml;ck</span></a></td>
+        <td> <a class='button' background='#4f4f4f' href='{%url plist.views.customerList %}'><span>Zur&uuml;ck</span></a></td>
+    </tr>
+    <tr>
+        <td>
+        Seite:
+        {% for i in numPages %}
+            {% ifequal i actualPage %}
+                {{ i }}
+            {% else %}
+                <a href='{% url plist.views.transactionList i %}'>{{ i }}</a>
+            {% endifequal %}
+        {% endfor %}
+        </td>
     </tr>
 </table>
 
@@ -27,7 +39,7 @@
     {% else %}
     <tr class='darkbackground'>
     {% endif %}
-        <td>{{ forloop.counter }}.</td>
+        <td>{{ forloop.counter|add:startItem }}.</td>
         <td>{{ t.customer }}</td>
         <td>{{ t.price }} &euro;</td>
         <td>{{ t.time|date:"H:i:s, d.M.Y" }}</td>
@@ -39,7 +51,19 @@
 
 <table align='center'>
     <tr>
-        <td> <a class='button' background='#4f4f4f' href='../'><span>Zur&uuml;ck</span></a></td>
+        <td>
+        Seite:
+        {% for i in numPages %}
+            {% ifequal i actualPage %}
+                {{ i }}
+            {% else %}
+                <a href='{% url plist.views.transactionList i %}'>{{ i }}</a>
+            {% endifequal %}
+        {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <td> <a class='button' background='#4f4f4f' href='{%url plist.views.customerList %}'><span>Zur&uuml;ck</span></a></td>
     </tr>
 </table>
 </div>

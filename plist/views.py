@@ -250,9 +250,17 @@ def customerDetails(request, customer_id):
                                                       "transactions" : transactions,
                                                       "version" : version,  })
         
-def transactionList(request):
-    transactions = Transaction.objects.order_by("time").reverse()[:100]
-    return render_to_response("plist_transactions.html", {"transactions" : transactions,
+def transactionList(request, page):
+    itemsPerPage = 100
+    actualPage = int(page)
+    startItem = (actualPage-1)*itemsPerPage
+    endItem = startItem+itemsPerPage
+    transactions = Transaction.objects.order_by("time").reverse()
+    numPages = len(transactions)/itemsPerPage + 1
+    return render_to_response("plist_transactions.html", {"transactions" : transactions[startItem:endItem],
+                                                          "startItem" : startItem,
+                                                          "numPages" : range(1,numPages+1),
+                                                          "actualPage" : actualPage,
                                                       "version" : version,  })
 
 
