@@ -363,7 +363,7 @@ def renderPlot(transactions, name="plot"):
                     ha='center', va='bottom')
     autolabel(rects1)
     
-    f = open("media/stats/%s.svg"%(name), "w")
+    f = open("%sstats/%s.svg"%(settings.MEDIA_PATH,name), "w")
     fig.savefig(f, format="svg")
     f.close()
 
