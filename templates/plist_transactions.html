@@ -42,7 +42,7 @@
         <td>{{ forloop.counter|add:startItem }}.</td>
         <td>{{ t.customer }}</td>
         <td>{{ t.price }} &euro;</td>
-        <td>{{ t.time|date:"H:i:s, d.M.Y" }}</td>
+        <td>{{ t.time|date:"H:i:s, d.M.Y" }} (Woche {% for i in t.time.isocalendar %}{% ifequal forloop.counter 2 %}{{ i }}{% endifequal %}{% endfor %})</td>
     </tr>
     {% endfor %}
 </table>
