@@ -29,12 +29,13 @@ import smtplib, ftplib, simplejson
 from email.mime.text import MIMEText
 from email.header import Header
 from django.conf import settings
-
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 prices = [ 60, 80, 100, 130, 150 ]
 pPrices = [ 40, 60, 80, 100 ]
-version = 2.3
+version = 2.4
 # if a new customer is added
 def registerCustomer(request):
     # process form data...
@@ -135,8 +136,8 @@ def customerList(request):
             text += u"Bitte bezahle diese bei deinem nächsten Besuch.\n"
             text += u"Viele Grüße, dein Püntenteam"
             # comment these two lines out to remove signature from mail
-            command = u"echo '%s' | gpg2 --clearsign --passphrase %s --batch -u 'Pünte OSS' --yes -o -"%(text, settings.PASSPHRASE)
-            text = os.popen(command.encode('utf-8')).read()
+            #command = u"echo '%s' | gpg2 --clearsign --passphrase %s --batch -u 'Pünte OSS' --yes -o -"%(text, settings.PASSPHRASE)
+            #text = os.popen(command.encode('utf-8')).read()
             #msg = Message()
             msg = MIMEText(text, 'plain', _charset='UTF-8')
             #msg.set_payload(text)
@@ -241,9 +242,10 @@ def customerDetails(request, customer_id):
     if request.method == 'POST':
         return HttpResponseRedirect("..")
     customer = get_object_or_404(Customer, id=customer_id)
-    transactions = Transaction.objects.filter(customer=customer).order_by("time").reverse()[:100]
+    transactions = Transaction.objects.filter(customer=customer).order_by("time").reverse()
+    renderPlot(customer, transactions)
     return render_to_response("plist_customer.html", {"customer" : customer,
-                                                      "transactions" : transactions,
+                                                      "transactions" : transactions[:100],
                                                       "version" : version,  })
 
 def customerEdit(request, customer_id):
@@ -284,9 +286,67 @@ def transactionList(request, page):
 def encryptDatabase(request):
     os.system("echo %s | gpg -es -u 'Pünte OSS' --passphrase-fd 0 --yes -r 'Pünte OSS' %s"%(settings.PASSPHRASE, settings.DATABASE_NAME))
     file = open("%s.gpg"%(settings.DATABASE_NAME))
-    oberon = ftplib.FTP("134.106.143.8")
-    oberon.login()
-    oberon.storbinary("STOR /upload/software/db.gpg", file)
-    oberon.close()
+    #oberon = ftplib.FTP("134.106.143.8")
+    #oberon.login()
+    #oberon.storbinary("STOR /upload/software/db.gpg", file)
+    #oberon.close()
     file.close()
     return HttpResponseRedirect("..")
+
+
+def renderPlot(customer, transactions):
+    
+    sums = []
+    sum = 0.0
+    lastWeek = 0
+    transactions = transactions.reverse()
+    for t in transactions:
+        actualWeek = t.time.isocalendar()[1]
+        if actualWeek == lastWeek:
+            if t.price > 0:
+                sum += float(t.price)
+        else:
+            diffWeeks = abs(lastWeek - actualWeek)
+            sums.append(round(sum, 2))
+            if  diffWeeks > 1 and diffWeeks < 52:
+                for i in range(diffWeeks-1):
+                    sums.append(round(0.0, 2))
+            if t.price > 0:
+                sum = float(t.price)
+            else:
+                sum = 0.0
+            lastWeek = actualWeek
+    sums.append(round(sum, 2))
+    sums.remove(0.0)
+
+    N = len(sums)
+    
+    ind = np.arange(N)  # the x locations for the groups
+    width = 0.35       # the width of the bars
+    
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    rects1 = ax.bar(ind, sums, width, color='r')
+    
+    
+    
+    # add some
+    ax.set_ylabel('Euro')
+    ax.set_xlabel('Woche')
+    ax.set_xticks(ind+width/2)
+    ax.set_xticklabels( range(1,N+1) )
+    
+    def autolabel(rects):
+        # attach some text labels
+        for rect in rects:
+            height = rect.get_height()
+            #if height != 0.0:
+            ax.text(rect.get_x()+rect.get_width()/2, 1.05*height, '%3.2f'%(height),
+                    ha='center', va='bottom')
+    autolabel(rects1)
+    
+    f = open("media/%s.svg"%(customer.name), "w")
+    fig.savefig(f, format="svg")
+    f.close()
+
+

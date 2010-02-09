@@ -61,6 +61,14 @@
         <td><a class='button' href='{% url plist.views.customerList %}'><span>zur&uuml;ck</span></a></td>
     </tr>
 </table>
+<p></p>
+<div id='imagebox' align='center' >
+            <object type="image/svg+xml" 
+                    data='/content/{{ customer.name }}.svg' 
+                    width="720" height="540">
+            </object>
+</div>
+<p></p>
 <div class='leftspace'>Transaktionen</div>
 <div id='content'>
 <table width='100%' >
