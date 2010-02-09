@@ -1,0 +1,50 @@
+{% extends "basis.html" %}
+
+{% block titel %}Gast bearbeiten{% endblock %}
+
+{% block inhalt %}
+<div id='content'>
+<table width='100%' border='0'>
+<tr>
+<td width='15%'>Name:</td>
+<td width='25%'>{{ customer.name }}</td>
+</tr>
+<form method='post' action='{% url plist.views.customerEdit customer.id %}'>
+{% for f in form %}
+<tr>
+<td>{{ f.label }}:</td>
+<td>{{ f }}</td>
+<td>{{ f.errors }}</td>
+</tr>
+{% endfor %}
+
+<tr><td>Schulden:</td><td>
+{{ customer.depts }}
+</td></tr>
+<tr><td>Umsatz seit {{ customer.salesSince }}:</td><td>
+{{ customer.weeklySales }}
+</td></tr>
+<tr><td>Kommentar:</td></tr>
+<tr><td colspan='2'>
+
+<textarea name='comment' rows='4' cols='30' />{{ customer.comment }}</textarea>
+<input type='hidden' name='customer' value='{{ customer.name }}' />
+<input type='submit' name='saveDetails' value='&Auml;nderung speichern'  
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
+
+</td>
+
+</tr>
+</form>
+</table>
+</div>
+
+<table align='center'>
+    <tr>
+        <td><a class='button' href='{% url plist.views.customerDetails customer.id %}'><span>zur&uuml;ck</span></a></td>
+    </tr>
+</table>
+
+{% endblock %}
+
+
