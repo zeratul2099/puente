@@ -15,7 +15,7 @@
             {% ifequal i actualPage %}
                 {{ i }}
             {% else %}
-                <a href='{% url plist.views.transactionList i %}'>{{ i }}</a>
+                <a href='{% url plist.views.transactionList type i %}'>{{ i }}</a>
             {% endifequal %}
         {% endfor %}
         </td>
@@ -57,7 +57,7 @@
             {% ifequal i actualPage %}
                 {{ i }}
             {% else %}
-                <a href='{% url plist.views.transactionList i %}'>{{ i }}</a>
+                <a href='{% url plist.views.transactionList type i %}'>{{ i }}</a>
             {% endifequal %}
         {% endfor %}
         </td>
@@ -67,7 +67,13 @@
     </tr>
 </table>
 </div>
-
+<div id='imagebox' align='center' >
+            <object type="image/svg+xml" 
+                    data='/content/{{ type }}.svg' 
+                    width="720" height="540">
+            </object>
+</div>
+<p></p>
 {% endblock %}
 
 

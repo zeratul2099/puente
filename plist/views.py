@@ -243,7 +243,7 @@ def customerDetails(request, customer_id):
         return HttpResponseRedirect("..")
     customer = get_object_or_404(Customer, id=customer_id)
     transactions = Transaction.objects.filter(customer=customer).order_by("time").reverse()
-    renderPlot(customer, transactions)
+    renderPlot(transactions, customer.name)
     return render_to_response("plist_customer.html", {"customer" : customer,
                                                       "transactions" : transactions[:100],
                                                       "version" : version,  })
@@ -269,17 +269,26 @@ def customerEdit(request, customer_id):
                                                       "version" : version,  })
 
         
-def transactionList(request, page):
+def transactionList(request, type, page):
+    if type == "p":
+        team = True
+    else:
+        team = False
     itemsPerPage = 100
     actualPage = int(page)
     startItem = (actualPage-1)*itemsPerPage
     endItem = startItem+itemsPerPage
-    transactions = Transaction.objects.order_by("time").reverse()
+    if type == "a":
+        transactions = Transaction.objects.order_by("time").reverse()
+    else:
+        transactions = Transaction.objects.filter(customer__isPuente=team).order_by("time").reverse()
     numPages = len(transactions)/itemsPerPage + 1
+    renderPlot(transactions, type)
     return render_to_response("plist_transactions.html", {"transactions" : transactions[startItem:endItem],
                                                           "startItem" : startItem,
                                                           "numPages" : range(1,numPages+1),
                                                           "actualPage" : actualPage,
+                                                          "type" : type,
                                                       "version" : version,  })
 
 
@@ -294,7 +303,7 @@ def encryptDatabase(request):
     return HttpResponseRedirect("..")
 
 
-def renderPlot(customer, transactions):
+def renderPlot(transactions, name="plot"):
     
     sums = []
     sum = 0.0
@@ -345,7 +354,7 @@ def renderPlot(customer, transactions):
                     ha='center', va='bottom')
     autolabel(rects1)
     
-    f = open("media/%s.svg"%(customer.name), "w")
+    f = open("media/%s.svg"%(name), "w")
     fig.savefig(f, format="svg")
     f.close()
 

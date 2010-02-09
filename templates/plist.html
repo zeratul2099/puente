@@ -261,7 +261,9 @@ Wochenumsatz
 <table align='center' width='80%' style="font-size:65%;">
     <tr>
         <td> <a class='button' background='#4f4f4f' href='{% url plist.views.registerCustomer %}'><span>Register new customer</span></a></td>
-        <td> <a class='button' background='#4f4f4f' href='{% url plist.views.transactionList 1 %}'><span>Statistik</span></a></td>
+        <td> <a class='button' background='#4f4f4f' href='{% url plist.views.transactionList "c" 1 %}'><span>Statistik G&auml;ste</span></a></td>
+        <td> <a class='button' background='#4f4f4f' href='{% url plist.views.transactionList "p" 1 %}'><span>Statistik Team</span></a></td>
+        <td> <a class='button' background='#4f4f4f' href='{% url plist.views.transactionList "a" 1 %}'><span>Statistik Gesamt</span></a></td>
         <td> <a class='button' background='#4f4f4f' href='{% url plist.views.encryptDatabase %}'><span>Backup database</span></a></td>
     </tr>
 </table>
