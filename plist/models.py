@@ -47,3 +47,8 @@ class RegisterForm(forms.Form):
     roomBox = forms.CharField(max_length=30, label='Zimmernummer')
     emailBox = forms.EmailField(max_length=50, label='Email')
     isPuenteBox = forms.BooleanField(label='Puententeam', required=False)
+    
+class EditForm(forms.Form):
+    emailBox = forms.EmailField(max_length=50, label='Email')
+    roomBox = forms.CharField(max_length=30, label='Zimmernummer')
+    isPuenteBox = forms.BooleanField(label='Puententeam', required=False)

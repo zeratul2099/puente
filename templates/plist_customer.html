@@ -5,9 +5,9 @@
 {% block inhalt %}
 <div id='content'>
 <table width='100%' border='0'>
-<tr><td width='25%'>Name:</td><td>
-{{ customer.name }}
-</td>
+<tr><td width='15%'>Name:</td>
+<td width='25%'>{{ customer.name }}</td>
+<td><a href='{% url plist.views.customerEdit customer.id %}'>editieren</a></td>
 <td width='50%'>
 <div align='right'>
 <form method='post' action='..'>

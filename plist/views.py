@@ -16,7 +16,7 @@
 
 
 
-from puente.plist.models import Customer, RegisterForm, Transaction
+from puente.plist.models import Customer, RegisterForm, EditForm, Transaction
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import Context, loader
@@ -34,7 +34,7 @@ from django.conf import settings
 
 prices = [ 60, 80, 100, 130, 150 ]
 pPrices = [ 40, 60, 80, 100 ]
-version = 2.2
+version = 2.3
 # if a new customer is added
 def registerCustomer(request):
     # process form data...
@@ -42,21 +42,17 @@ def registerCustomer(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             try:
-                if 'isPuenteBox' in request.POST:
-                    isP = True
-                else:
-                    isP = False
                 weekday = date.today().weekday()
                 last_sunday = datetime.date.today() - datetime.timedelta(weekday+1)
-                new_customer = Customer(name=request.POST['nameBox'],
-                                        room=request.POST['roomBox'],
-                                        email=request.POST['emailBox'],
+                new_customer = Customer(name=form.cleaned_data['nameBox'],
+                                        room=form.cleaned_data['roomBox'],
+                                        email=form.cleaned_data['emailBox'],
                                         depts=0,
                                         weeklySales=0,
                                         salesSince=last_sunday,
                                         lastPaid=dt.now(),
                                         dept_status=0,
-                                        isPuente=isP)
+                                        isPuente=form.cleaned_data['isPuenteBox'])
                 new_customer.save()
                 # ... an return to list ...
                 return HttpResponseRedirect("..")
@@ -249,6 +245,27 @@ def customerDetails(request, customer_id):
     return render_to_response("plist_customer.html", {"customer" : customer,
                                                       "transactions" : transactions,
                                                       "version" : version,  })
+
+def customerEdit(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    if request.method == 'POST':
+        form = EditForm(request.POST)
+        if form.is_valid():
+            customer.email = form.cleaned_data['emailBox']
+            customer.room = form.cleaned_data['roomBox']
+            customer.isPuente = form.cleaned_data['isPuenteBox']
+            customer.comment = request.POST["comment"]
+            customer.save()
+            return HttpResponseRedirect("../..")
+    else:
+        formDict = { "roomBox" : customer.room,
+                 "emailBox" : customer.email,
+                 "isPuenteBox" : customer.isPuente, }
+        form = EditForm(formDict)
+    return render_to_response("plist_customer_edit.html", {"customer" : customer,
+                                                        "form" : form,
+                                                      "version" : version,  })
+
         
 def transactionList(request, page):
     itemsPerPage = 100
