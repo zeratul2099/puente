@@ -66,6 +66,13 @@
                 msg_div.insertAfter(elem).fadeIn('slow').animate({opacity: 1.0}, 5000).fadeOut('slow',function() { msg_div.remove(); });
               }
             };
+            
+            $(document).ready(function() {
+                {% for lp in lastPaidList %}
+                $("#lastPaid{{ lp }}").attr("class", "red");
+                {% endfor %}
+                
+            });
 </script>
 
 
@@ -104,7 +111,7 @@
          {% ifequal pt.dept_status 0 %} 
         <b>{{ pt.depts }} &euro;</b>
         {% else %}
-        <b><font color='red'>{{ pt.depts }} &euro;</font></b>
+        <b class='red' >{{ pt.depts }} &euro;</b>
         {% endifequal %}
         </td>
         <td>
@@ -193,7 +200,7 @@ Wochenumsatz
         {% ifequal c.dept_status 0 %} 
         <b id='depts' >{{ c.depts }} &euro;</b>
         {% else %}
-        <b id='depts' ><font color='red'>{{ c.depts }} &euro;</font></b>
+        <b id='depts' class='red' >{{ c.depts }} &euro;</b>
         {% endifequal %}
         </td>
         <td>

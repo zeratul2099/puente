@@ -36,6 +36,9 @@ import matplotlib.pyplot as plt
 prices = [ 60, 80, 100, 130, 150 ]
 pPrices = [ 40, 60, 80, 100 ]
 version = 2.4
+# mark lastPaid red after x days
+markLastPaid = 28
+
 # if a new customer is added
 def registerCustomer(request):
     # process form data...
@@ -187,11 +190,16 @@ def customerList(request):
     # get all customer to update and calculate weekly sales
     allCustomers = Customer.objects.filter(isPuente=False).order_by("name")
     sum = [ 0, 0, 0, 0 ]
+    lastPaidList = []
+    
     for c in allCustomers:
         if datetime.date.today() - c.salesSince > datetime.timedelta(7):
             c.salesSince = c.salesSince + datetime.timedelta(7)
             c.weeklySales = 0
             c.save()
+        # create a list of customer ids witch didn't pay for 28 days
+        if datetime.datetime.now() - c.lastPaid > datetime.timedelta(markLastPaid):
+            lastPaidList.append(c.id)
         sum[0] += Decimal(c.weeklySales)
         sum[1] += Decimal(c.depts)
     # get the puententeam to update and calculate weekly sales
@@ -235,6 +243,7 @@ def customerList(request):
                                              "prices" : prices,
                                              "pprices" : pPrices,
                                              "sum" : sum,
+                                             "lastPaidList" : lastPaidList,
                                              "version" : version, })
 
 # get customer data and put into customer detail template
@@ -354,7 +363,7 @@ def renderPlot(transactions, name="plot"):
                     ha='center', va='bottom')
     autolabel(rects1)
     
-    f = open("media/%s.svg"%(name), "w")
+    f = open("media/stats/%s.svg"%(name), "w")
     fig.savefig(f, format="svg")
     f.close()
 

@@ -109,6 +109,10 @@ tr.darkbackground {
 	padding-top:1em;
 }
 
+.red {
+    color: #ff0000;
+}
+
 a.button {
     background: transparent url('/content/bg_button_a.gif') no-repeat scroll top right;
     color: #444;
