@@ -15,7 +15,7 @@
             {% ifequal i actualPage %}
                 {{ i }}
             {% else %}
-                <a href='{% url plist.views.transactionList type i %}'>{{ i }}</a>
+                <a href='{%url plist.views.transactionList type i %}'>{{ i }}</a>
             {% endifequal %}
         {% endfor %}
         </td>
@@ -57,7 +57,7 @@
             {% ifequal i actualPage %}
                 {{ i }}
             {% else %}
-                <a href='{% url plist.views.transactionList type i %}'>{{ i }}</a>
+                <a href='{%url plist.views.transactionList type i %}'>{{ i }}</a>
             {% endifequal %}
         {% endfor %}
         </td>
