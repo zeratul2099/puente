@@ -39,6 +39,11 @@ version = 2.4
 # mark lastPaid red after x days
 markLastPaid = 28
 
+custRedLimit = 5
+custLimit = 10
+teamRedLimit = 50
+teamLimit = 100
+
 # if a new customer is added
 def registerCustomer(request):
     # process form data...
@@ -174,9 +179,9 @@ def customerList(request):
         # 0 for normal
         # 1 for warning (red number)
         # 2 for drinkstop
-        if (customer.isPuente & (customer.depts < 50)) | (customer.depts < 10):
+        if (customer.isPuente & (customer.depts < teamRedLimit)) | (customer.depts < custRedLimit):
             customer.dept_status = 0
-        elif (customer.isPuente & (customer.depts < 100)) | (customer.depts < 15):
+        elif (customer.isPuente & (customer.depts < teamLimit)) | (customer.depts < custLimit):
             customer.dept_status = 1
         else:
             customer.dept_status = 2
