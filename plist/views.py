@@ -44,6 +44,10 @@ custLimit = 10
 teamRedLimit = 50
 teamLimit = 100
 
+# forward to correct url
+def wrongUrl(request):
+    return HttpResponseRedirect("/plist/")
+
 # if a new customer is added
 def registerCustomer(request):
     # process form data...

@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     (r'^plist/transactions/(?P<type>\w*)/(?P<page>\d{1,2})/$', 'plist.views.transactionList'),
     (r'^plist/backup/$', 'plist.views.encryptDatabase'),
     (r'^admin/(.*)', admin.site.root),
+    (r'^$', 'plist.views.wrongUrl'),
     (r'^content/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_DOC_ROOT}),
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
