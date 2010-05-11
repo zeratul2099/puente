@@ -1,4 +1,4 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
 #       the Free Software Foundation; either version 3 of the License, or
@@ -30,6 +30,8 @@ from email.mime.text import MIMEText
 from email.header import Header
 from django.conf import settings
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
@@ -321,8 +323,7 @@ def encryptDatabase(request):
     return HttpResponseRedirect("..")
 
 
-def renderPlot(transactions, name="plot"):
-    
+def renderPlot(transactions, name="plot"):   
     sums = []
     sum = 0.0
     lastWeek = 0
