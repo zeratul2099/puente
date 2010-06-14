@@ -37,7 +37,7 @@ import matplotlib.pyplot as plt
 
 prices = [ 60, 80, 100, 130, 150 ]
 pPrices = [ 40, 60, 80, 100 ]
-version = 2.4
+version = 2.5
 # mark lastPaid red after x days
 markLastPaid = 28
 
@@ -182,10 +182,13 @@ def customerList(request):
         elif "addComment" in request.POST:
             customer.comment = request.POST["comment"]
         # update customers status:
+        # -1 for negative depts
         # 0 for normal
         # 1 for warning (red number)
         # 2 for drinkstop
-        if (customer.isPuente & (customer.depts < teamRedLimit)) | (customer.depts < custRedLimit):
+        if customer.depts < 0:
+            customer.dept_status = -1
+        elif (customer.isPuente & (customer.depts < teamRedLimit)) | (customer.depts < custRedLimit):
             customer.dept_status = 0
         elif (customer.isPuente & (customer.depts < teamLimit)) | (customer.depts < custLimit):
             customer.dept_status = 1
@@ -222,6 +225,15 @@ def customerList(request):
             c.save() 
         sum[2] += Decimal(c.weeklySales)
         sum[3] += Decimal(c.depts)
+    # only sell on Tuesday and Thursday between 18 and 6 o' clock
+    # 0 means Monday, 1 means Tuesday and so on
+    if ((datetime.date.today().weekday() == 1 and datetime.datetime.now().hour >= 18)
+      or (datetime.date.today().weekday() == 2 and datetime.datetime.now().hour <= 6)
+      or (datetime.date.today().weekday() == 3 and datetime.datetime.now().hour >= 18)
+      or (datetime.date.today().weekday() == 4 and datetime.datetime.now().hour <= 6)):
+        lock = False
+    else:
+        lock = True
 
     # return customers to the html-template
     if "ajax" in request.POST:
@@ -234,6 +246,8 @@ def customerList(request):
         response_dict.update({"ptSales" : str(sum[2])})
         response_dict.update({"cSum" : str(sum[1])})
         response_dict.update({"cSales" : str(sum[0])})
+        response_dict.update({"lock" : lock})
+        response_dict.update({"isPuente" : customer.isPuente})
         # germanisation of weekdays
         lastPaidStr = customer.lastPaid.strftime("%a, %d.%b. %Y")
         lastPaidStr = lastPaidStr.replace("Mon", "Mo")
@@ -255,7 +269,8 @@ def customerList(request):
                                              "pprices" : pPrices,
                                              "sum" : sum,
                                              "lastPaidList" : lastPaidList,
-                                             "version" : version, })
+                                             "version" : version,
+                                             "lock" : lock, })
 
 # get customer data and put into customer detail template
 def customerDetails(request, customer_id):

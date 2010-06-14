@@ -36,11 +36,14 @@
                 if (data['status'] == '0' ) {
                     $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", false);
                     var newDepts = $("<td id='depts"+data['id']+"'><b>"+data['depts']+' &euro;</b></td>');
+                } else if (data['status'] == '-1' ) {
+                    $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", false);
+                    var newDepts = $("<td id='depts"+data['id']+"'><b class='green'>"+data['depts']+' &euro;</b></td>');
                 } else {
                     $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", false);
-                    var newDepts = $("<td id='depts"+data['id']+"'><b><font color='red'>"+data['depts']+' &euro;</font></b></td>');
+                    var newDepts = $("<td id='depts"+data['id']+"'><b class='red' >"+data['depts']+' &euro;</b></td>');
                 }
-                if (data['status'] == '2' ) {
+                if (data['status'] == '2' || (data['lock'] == true && data['status'] != -1 && data['isPuente'] == false)) {
                     $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", true);
                 }
                 var newLastPaid = $("<td id='lastPaid"+data['id']+"' >"+data['lastPaid']+"</td>")
@@ -110,9 +113,11 @@
         <td id="depts{{ pt.id }}">
          {% ifequal pt.dept_status 0 %} 
         <b>{{ pt.depts }} &euro;</b>
+         {% else %}{% ifequal pt.dept_status -1 %} 
+        <b class='green' >{{ pt.depts }} &euro;</b>
         {% else %}
         <b class='red' >{{ pt.depts }} &euro;</b>
-        {% endifequal %}
+        {% endifequal %}{% endifequal %}
         </td>
         <td>
         <table>
@@ -199,9 +204,11 @@ Wochenumsatz
         <td id="depts{{ c.id }}" >
         {% ifequal c.dept_status 0 %} 
         <b id='depts' >{{ c.depts }} &euro;</b>
+        {% else %}{% ifequal c.dept_status -1 %} 
+        <b id='depts' class='green' >{{ c.depts }} &euro;</b>
         {% else %}
         <b id='depts' class='red' >{{ c.depts }} &euro;</b>
-        {% endifequal %}
+        {% endifequal %}{% endifequal %}
         </td>
         <td>
         <table>
@@ -210,7 +217,8 @@ Wochenumsatz
         <td><form method='post' action='.'>
             <input type='hidden' name='customer' value='{{ c.name }}' id='customer{{ c.id }}_{{ p }}' />
             <input type='hidden' name='buy' value='{{ p }}' id='buy{{ c.id }}_{{ p }}' />
-            <input type='submit' name='{{ p }}' value='{{ p }} ct' id='buybtn{{ c.id }}_{{ p }}' {% ifequal c.dept_status 2 %} disabled=true {% endifequal %}
+            <input type='submit' name='{{ p }}' value='{{ p }} ct' id='buybtn{{ c.id }}_{{ p }}' {% ifequal c.dept_status 2 %} disabled=true {% else %}
+                {% if lock %}{% ifnotequal c.dept_status -1 %} disabled=true {% endifnotequal %}{% endif %}{% endifequal %}
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
             <script>
