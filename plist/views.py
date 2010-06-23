@@ -234,6 +234,7 @@ def customerList(request):
         lock = False
     else:
         lock = True
+        lock = False
 
     # return customers to the html-template
     if "ajax" in request.POST:
