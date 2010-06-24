@@ -37,7 +37,7 @@ import matplotlib.pyplot as plt
 
 prices = [ 60, 80, 100, 130, 150 ]
 pPrices = [ 40, 60, 80, 100 ]
-version = 2.5
+version = 2.6
 # mark lastPaid red after x days
 markLastPaid = 28
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
 #       the Free Software Foundation; either version 3 of the License, or
@@ -16,8 +17,10 @@
 from django.db import models
 from django import forms
 from datetime import datetime
+from django.forms.widgets import TextInput, DateInput, DateTimeInput, TimeInput
 
-
+class Html5EmailForm(TextInput):
+    input_type = 'email'
 
 class Customer(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -43,12 +46,12 @@ class Transaction(models.Model):
 
 
 class RegisterForm(forms.Form):
-    nameBox = forms.CharField(max_length=30, label='Name')
-    roomBox = forms.CharField(max_length=30, label='Zimmernummer')
-    emailBox = forms.EmailField(max_length=50, label='Email')
+    nameBox = forms.CharField(max_length=30, label='Name', widget=TextInput(attrs={'placeholder':'Name'}))
+    roomBox = forms.CharField(max_length=30, label='Zimmernummer', widget=TextInput(attrs={'placeholder':'Zimmernummer'}))
+    emailBox = forms.EmailField(max_length=50, label='Email', widget=Html5EmailForm(attrs={'placeholder':'E-Mail'}))
     isPuenteBox = forms.BooleanField(label='Puententeam', required=False)
     
 class EditForm(forms.Form):
-    emailBox = forms.EmailField(max_length=50, label='Email')
-    roomBox = forms.CharField(max_length=30, label='Zimmernummer')
+    emailBox = forms.EmailField(max_length=50, label='Email', widget=Html5EmailForm(attrs={'placeholder':'E-Mail'}))
+    roomBox = forms.CharField(max_length=30, label='Zimmernummer', widget=TextInput(attrs={'placeholder':'Zimmernummer'}))
     isPuenteBox = forms.BooleanField(label='Puententeam', required=False)

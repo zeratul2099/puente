@@ -148,22 +148,25 @@ a.button:active span {
 }
 
 input.btn { 
-	  color:#ffffff; 
-	  font: bold small monospace;
-      font-size:75%;
-      background-color: #1f1f1f; 
-	}
-
+   font: bold small monospace;
+   font-size:75%;
+   border-radius: 6px;
+   -moz-border-radius: 6px;
+   color:#ffffff;
+   background: #1f1f1f;
+   background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#bbb));
+   background: -moz-linear-gradient(top, #000, #bbb);
+   border: 1px solid #bbb;
+ }
 input.btnhov { 
-	  border-color: #ee2222 #930 #930 #ee2222;
+      border-color: #ee2222 #930 #930 #ee2222;
       font-size:75%;
       color:#ee2222;
     }
 input[disabled] {
     font: bold small monospace;
-    background-color: #1f1f1f;
     font-size:75%;
-	color: GrayText;
+    color: GrayText;
 }
 
 .leftspace {
@@ -172,3 +175,5 @@ input[disabled] {
     border-spacing: 3px;
 
 }
+
+:invalid { background-color: red; }

@@ -139,7 +139,7 @@
               </tr>
         </table>
         <td><form method='post' action='.'>
-            <input type='text' name='money' id='paymoney{{ pt.id }}' />
+            <input type='number' name='money' id='paymoney{{ pt.id }}' placeholder='bezahlen' min='-100.00' max='100.00' step='0.01' />
             <input type='hidden' name='customer' value='{{ pt.name }}' />
             <input type='submit' name='pay' value='bezahlen' id='paybtn{{ pt.id }}'
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
@@ -233,7 +233,7 @@ Wochenumsatz
               </tr>
         </table>
         <td><form method='post' action='.'>
-            <input type='text' name='money' id='paymoney{{ c.id }}' />
+            <input type='number' name='money' id='paymoney{{ c.id }}' placeholder='bezahlen' min='-100.00' max='100.00' step='0.01' />
             <input type='hidden' name='customer' value='{{ c.name }}' />
             <input type='submit' name='pay' value='bezahlen' id='paybtn{{ c.id }}'
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
