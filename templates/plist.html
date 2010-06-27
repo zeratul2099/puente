@@ -39,10 +39,13 @@
                 } else if (data['status'] == '-1' ) {
                     $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", false);
                     var newDepts = $("<td id='depts"+data['id']+"'><b class='green'>"+data['depts']+' &euro;</b></td>');
-                } else {
+                } else if (data['status'] == '1') {
                     $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", false);
                     var newDepts = $("<td id='depts"+data['id']+"'><b class='red' >"+data['depts']+' &euro;</b></td>');
-                }
+                } else {
+		  $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", true);
+		  var newDepts = $("<td id='depts"+data['id']+"'><b class='redblink' >"+data['depts']+' &euro;</b></td>');
+		}
                 if (data['status'] == '2' || (data['lock'] == true && data['status'] != -1 && data['isPuente'] == false)) {
                     $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", true);
                 }
@@ -206,9 +209,11 @@ Wochenumsatz
         <b id='depts' >{{ c.depts }} &euro;</b>
         {% else %}{% ifequal c.dept_status -1 %} 
         <b id='depts' class='green' >{{ c.depts }} &euro;</b>
-        {% else %}
+        {% else %}{% ifequal c.dept_status 1 %}
         <b id='depts' class='red' >{{ c.depts }} &euro;</b>
-        {% endifequal %}{% endifequal %}
+	{% else %}
+	<b id='depts' class='redblink' >{{ c.depts }} &euro;</b>
+        {% endifequal %}{% endifequal %}{% endifequal %}
         </td>
         <td>
         <table>
