@@ -339,19 +339,31 @@ def encryptDatabase(request):
     return HttpResponseRedirect("..")
 
 
-def renderPlot(transactions, name="plot"):   
+def renderPlot(transactions, name="plot"):  
+    numWeeks = 20
     sums = []
     sum = 0.0
     lastWeek = 0
+    try:
+      highestDate = transactions[0].time.isocalendar()
+    except IndexError:
+      return 0
     transactions = transactions.reverse()
     for t in transactions:
         actualWeek = t.time.isocalendar()[1]
+        if (highestDate[1]-numWeeks-1 > actualWeek) or (highestDate[0] != t.time.isocalendar()[0]):
+	  pass
+	  continue
+        # add transactions to sum
         if actualWeek == lastWeek:
             if t.price > 0:
                 sum += float(t.price)
+        # new week
         else:
             diffWeeks = abs(lastWeek - actualWeek)
+            # append to sums list
             sums.append(round(sum, 2))
+            # if there are empty weeks
             if  diffWeeks > 1 and diffWeeks < 52:
                 for i in range(diffWeeks-1):
                     sums.append(round(0.0, 2))
@@ -360,25 +372,29 @@ def renderPlot(transactions, name="plot"):
             else:
                 sum = 0.0
             lastWeek = actualWeek
+    # append last sum
     sums.append(round(sum, 2))
     sums.remove(0.0)
-
-    N = len(sums)
     
+    xTickOffset = 1
+    if len(sums) > numWeeks:
+      xTickOffset = len(sums)-numWeeks+2
+      sums = sums[highestDate[1]-numWeeks+1:]
+    N = len(sums)
+
     ind = np.arange(N)  # the x locations for the groups
     width = 0.35       # the width of the bars
     
-    fig = plt.figure()
+    fig = plt.figure(figsize=(12, 6))
     ax = fig.add_subplot(111)
     rects1 = ax.bar(ind, sums, width, color='r')
-    
     
     
     # add some
     ax.set_ylabel('Euro')
     ax.set_xlabel('Woche')
     ax.set_xticks(ind+width/2)
-    ax.set_xticklabels( range(1,N+1) )
+    ax.set_xticklabels( range(xTickOffset,N+xTickOffset) )
     
     def autolabel(rects):
         # attach some text labels
