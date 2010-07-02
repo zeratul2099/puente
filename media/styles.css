@@ -17,6 +17,7 @@ body
 	text-align:center;
 	padding:10px;
         border-bottom:2px outset #FF0000;
+	text-shadow: 0px 0px 15px red;
 
 		}
 #content_container
@@ -39,9 +40,15 @@ body
         
 a:link { text-decoration:none; color:#666666;}
 a:visited { text-decoration:none;color:#666666; }
-a:hover { color:red;}
+a:hover { color:red}
 a:active { text-decoration:none; }
 a:focus { text-decoration:none; }
+
+h3 {
+  text-shadow: 1px 3px 3px grey;
+
+}
+
 
 #menu {
 	border:3px dotted #dedede;
@@ -52,12 +59,6 @@ a:focus { text-decoration:none; }
 	width:9em;
 }
 
-/* Der IE soll das Element breiter darstellen, da margin und
-   padding hier von der Breite abgezogen werden! */
-
-* html #menu {
-	width:10.5em;
-}
 
 #menu li {
 	list-style: none;
@@ -87,7 +88,7 @@ a:focus { text-decoration:none; }
 
 #content {
 	background: #f0f0f0;
-	border:2px outset #aeaeae;
+	
 	padding:10px;
 	margin-left:0.5em;
 	margin-right:0.5em;
@@ -95,11 +96,13 @@ a:focus { text-decoration:none; }
 	-moz-border-radius: 20px;
       	background: -webkit-gradient(linear, left top, right bottom, from(#f0f0f0), to(#dadada));
 	background: -moz-linear-gradient(top left, #f0f0f0, #e0e0e0 );
+	-moz-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
+	box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
 }
 
 #imagebox {
     background-color: #ffffff;
-	border:2px outset #aeaeae;
+	
 	border-radius: 20px;
 	-moz-border-radius: 20px;
 	padding:5px;
@@ -107,13 +110,20 @@ a:focus { text-decoration:none; }
 	margin-right:auto;
     width:90%;
     text-align:center;
+    box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
+    -moz-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
+    -webkit-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
 }
 
-tr.darkbackground {
+tr.tablehdr {
+    text-shadow: 2px 3px 3px grey;
+}
+
+tr.evenodd:nth-child(2n+1) {
     background: #d0d0d0;
     background: -moz-linear-gradient(top left, #d0d0d0, #f5f5f5 );
-
 }
+
 
 * html div#content {
 	height:1em;  /* Workaround gegen den 3-Pixel-Bug des Internet Explorers */
@@ -133,7 +143,12 @@ tr.darkbackground {
 }
 
 a.button {
-    background: transparent url('/content/bg_button_a.gif') no-repeat scroll top right;
+
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    background: lightgrey;
+    box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
+    -moz-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
     color: #444;
     display: block;
     float: left;
@@ -145,7 +160,7 @@ a.button {
 }
 
 a.button span {
-    background: transparent url('/content/bg_button_span.gif') no-repeat;
+
     display: block;
     line-height: 14px;
     padding: 5px 0 5px 18px;
@@ -153,6 +168,8 @@ a.button span {
 
 a.button:active {
     background-position: bottom right;
+    box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey;
+    -moz-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey;
     color: #000;
     outline: none; /* hide dotted outline in Firefox */
 }
@@ -160,6 +177,7 @@ a.button:active {
 a.button:active span {
     background-position: bottom left;
     padding: 6px 0 4px 18px; /* push text down 1px */
+    text-shadow: 2px 2px 2px red;
 }
 
 input.btn { 

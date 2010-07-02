@@ -49,6 +49,7 @@
 </table>
 </div>
 {% if transactions %}
+<p></p>
 <table align='center'>
     <tr>
         <td><a class='button' href='{% url plist.views.customerList %}'><span>zur&uuml;ck</span></a></td>
@@ -62,10 +63,10 @@
             </object>
 </div>
 <p></p>
-<div class='leftspace'>Transaktionen</div>
+<div class='leftspace'><h3>Transaktionen</h3></div>
 <div id='content'>
 <table width='100%' >
-    <tr>
+    <tr class='tablehdr' >
     <td width='5%'></td>
     <td>Preis</td>
     <td>Uhrzeit/Datum</td>
@@ -74,11 +75,7 @@
     <td colspan='3'><hr></td>
     </tr>
     {% for t in transactions %}
-    {% if forloop.counter|divisibleby:"2" %}
-    <tr>
-    {% else %}
-    <tr class='darkbackground'>
-    {% endif %}
+    <tr class='evenodd' >
         <td>{{ forloop.counter }}.</td>
         <td>{{ t.price }} &euro;</td>
         <td>{{ t.time|date:"H:i:s, d.M.Y" }}</td>
@@ -87,12 +84,13 @@
 </table>
 </div>
 {% endif %}
+<p></p>
 <table align='center'>
     <tr>
         <td><a class='button' href='{% url plist.views.customerList %}'><span>zur&uuml;ck</span></a></td>
     </tr>
 </table>
-
+<p></p>
 {% endblock %}
 
 

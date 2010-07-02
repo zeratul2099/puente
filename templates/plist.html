@@ -95,7 +95,7 @@
 </div>
 <div id="content">
 <table width='100%'>
-<tr>
+<tr class='tablehdr' >
     <td>Name</td>
     <td>Schulden</td>
     <td>kaufen</td>
@@ -106,12 +106,8 @@
 <td colspan='6'><hr></td>
 </tr>
 {% for pt in pmen %}
-    {% if forloop.counter|divisibleby:"2" %}
-    <tr id='row{{ pt.id }}'>
-    {% else %}
-    <tr class='darkbackground' id='row{{ pt.id }}' >
-    {% endif %}
 
+    <tr class='evenodd' id='row{{ pt.id }}'>
         <td> <a href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
         <td id="depts{{ pt.id }}">
          {% ifequal pt.dept_status 0 %} 
@@ -187,7 +183,7 @@ Wochenumsatz
 <div class='leftspace'><h3>G&auml;ste ({{ customer|length }})</h3></div>
 <div id="content">
 <table width='100%'>
-<tr>
+<tr class='tablehdr' >
     <td>Name</td>
     <td>Schulden</td>
     <td>kaufen</td>
@@ -198,11 +194,8 @@ Wochenumsatz
 <td colspan='6'><hr></td>
 </tr>
 {% for c in customer %}
-    {% if forloop.counter|divisibleby:"2" %}
-    <tr id='row{{ c.id }}'>
-    {% else %}
-    <tr class='darkbackground' id='row{{ c.id }}' >
-    {% endif %}
+    <tr class='evenodd' id='row{{ c.id }}'>
+
         <td><a href='{% url plist.views.customerDetails c.id %}'>{{ c.name }}</a></td>
         <td id="depts{{ c.id }}" >
         {% ifequal c.dept_status 0 %} 
