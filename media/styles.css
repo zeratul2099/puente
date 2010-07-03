@@ -88,15 +88,17 @@ h3 {
 
 #content {
 	background: #f0f0f0;
-	
+	border: 2px outset;
 	padding:10px;
 	margin-left:0.5em;
 	margin-right:0.5em;
 	border-radius: 20px;
 	-moz-border-radius: 20px;
-      	background: -webkit-gradient(linear, left top, right bottom, from(#f0f0f0), to(#dadada));
+    background: -webkit-gradient(linear, left top, right bottom, from(#f0f0f0), to(#dadada));
 	background: -moz-linear-gradient(top left, #f0f0f0, #e0e0e0 );
-	-moz-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
+	/*
+	 * comment out due low performance in ff
+	 * -moz-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black; */
 	box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
 }
 
