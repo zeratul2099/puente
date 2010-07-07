@@ -129,7 +129,10 @@ function hideWMTT() {
 <td colspan='6'><hr></td>
 </tr>
 {% for pt in pmen %}
-    <div id='tt{{ pt.id }}' class='tooltip'>{{ pt.depts }}</div>
+    <div id='tt{{ pt.id }}' class='tooltip'><object type="image/svg+xml" 
+                    data='/content/stats/{{ pt.name }}.svg' 
+                    width="640px" height="400px">
+            </object></div>
     <tr class='evenodd' id='row{{ pt.id }}'>
         <td> <a onmouseover="showWMTT('tt{{ pt.id }}')" onmouseout="hideWMTT()" href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
         <td id="depts{{ pt.id }}">
