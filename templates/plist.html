@@ -93,7 +93,11 @@ function updateWMTT(e) {
 }
 function showWMTT(id) {
   wmtt = document.getElementById(id);
+
   wmtt.style.display = "block";
+  //$("#"+id).replaceWith("<div id='"+id+"' class='tooltip'>bla</div>");
+
+
 }
 function hideWMTT() {
   wmtt.style.display = "none";
@@ -125,9 +129,9 @@ function hideWMTT() {
 <td colspan='6'><hr></td>
 </tr>
 {% for pt in pmen %}
-
+    <div id='tt{{ pt.id }}' class='tooltip'>{{ pt.depts }}</div>
     <tr class='evenodd' id='row{{ pt.id }}'>
-        <td> <a onmouseover="showWMTT('1')" onmouseout="hideWMTT()" href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
+        <td> <a onmouseover="showWMTT('tt{{ pt.id }}')" onmouseout="hideWMTT()" href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
         <td id="depts{{ pt.id }}">
          {% ifequal pt.dept_status 0 %} 
         <b>{{ pt.depts }} &euro;</b>
@@ -301,7 +305,7 @@ Wochenumsatz
 
 </div>
 
-<div id="1" class="tooltip">Funny tooltip</div>
+
 
 {% endblock %}
 
