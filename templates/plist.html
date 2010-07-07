@@ -95,8 +95,6 @@ function showWMTT(id) {
   wmtt = document.getElementById(id);
 
   wmtt.style.display = "block";
-  //$("#"+id).replaceWith("<div id='"+id+"' class='tooltip'>bla</div>");
-
 
 }
 function hideWMTT() {
@@ -129,10 +127,11 @@ function hideWMTT() {
 <td colspan='6'><hr></td>
 </tr>
 {% for pt in pmen %}
-    <div id='tt{{ pt.id }}' class='tooltip'><object type="image/svg+xml" 
+    <div id='tt{{ pt.id }}' class='tooltip'>
+    <object type="image/svg+xml" 
                     data='/content/stats/{{ pt.name }}.svg' 
                     width="640px" height="400px">
-            </object></div>
+    </object></div>
     <tr class='evenodd' id='row{{ pt.id }}'>
         <td> <a onmouseover="showWMTT('tt{{ pt.id }}')" onmouseout="hideWMTT()" href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
         <td id="depts{{ pt.id }}">
@@ -220,9 +219,14 @@ Wochenumsatz
 <td colspan='6'><hr></td>
 </tr>
 {% for c in customer %}
+    <div id='tt{{ c.id }}' class='tooltip'>
+    <object type="image/svg+xml" 
+                    data='/content/stats/{{ c.name }}.svg' 
+                    width="640px" height="400px">
+    </object></div>
     <tr class='evenodd' id='row{{ c.id }}'>
 
-        <td><a href='{% url plist.views.customerDetails c.id %}'>{{ c.name }}</a></td>
+        <td><a onmouseover="showWMTT('tt{{ c.id }}')" onmouseout="hideWMTT()" href='{% url plist.views.customerDetails c.id %}'>{{ c.name }}</a></td>
         <td id="depts{{ c.id }}" >
         {% ifequal c.dept_status 0 %} 
         <b id='depts' >{{ c.depts }} &euro;</b>
