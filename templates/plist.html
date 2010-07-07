@@ -79,6 +79,25 @@
                 {% endfor %}
                 
             });
+
+
+wmtt = null;
+document.onmousemove = updateWMTT;
+function updateWMTT(e) {
+  if (wmtt != null && wmtt.style.display == 'block') {
+    x = (e.pageX ? e.pageX : window.event.x) + wmtt.offsetParent.scrollLeft - wmtt.offsetParent.offsetLeft;
+    y = (e.pageY ? e.pageY : window.event.y) + wmtt.offsetParent.scrollTop - wmtt.offsetParent.offsetTop;
+    wmtt.style.left = (x + 20) + "px";
+    wmtt.style.top   = (y + 20) + "px";
+  }
+}
+function showWMTT(id) {
+  wmtt = document.getElementById(id);
+  wmtt.style.display = "block";
+}
+function hideWMTT() {
+  wmtt.style.display = "none";
+}
 </script>
 
 
@@ -108,7 +127,7 @@
 {% for pt in pmen %}
 
     <tr class='evenodd' id='row{{ pt.id }}'>
-        <td> <a href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
+        <td> <a onmouseover="showWMTT('1')" onmouseout="hideWMTT()" href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
         <td id="depts{{ pt.id }}">
          {% ifequal pt.dept_status 0 %} 
         <b>{{ pt.depts }} &euro;</b>
@@ -282,6 +301,7 @@ Wochenumsatz
 
 </div>
 
+<div id="1" class="tooltip">Funny tooltip</div>
 
 {% endblock %}
 

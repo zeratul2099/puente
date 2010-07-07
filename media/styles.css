@@ -248,3 +248,15 @@ input[disabled] {
 }
 
 :invalid { background-color: red; }
+
+.tooltip {
+  border: 1px solid black;
+  border-radius: 20px;
+  position: absolute;
+  display: none;
+  background-color: lightgrey;
+    box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
+    -moz-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
+    color: #444;
+}
+
