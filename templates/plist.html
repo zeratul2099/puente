@@ -55,9 +55,12 @@
                 } else {
                     $("#del"+data['id']).attr("disabled", true);
                 }
-                $("#unname").attr("value", data['unname']);
-                $("#unmoney").attr("value", data['unmoney']);
-                $("#undo").attr("value", "Rückgängig: "+data['unname']+" - "+data['unmoney']);
+                $("#punname").attr("value", data['unname']);
+                $("#punmoney").attr("value", data['unmoney']);
+                $("#pundo").attr("value", "Rückgängig: "+data['unname']+" - "+data['unmoney']);
+                $("#cunname").attr("value", data['unname']);
+                $("#cunmoney").attr("value", data['unmoney']);
+                $("#cundo").attr("value", "Rückgängig: "+data['unname']+" - "+data['unmoney']);
                 $("#depts"+data['id']).replaceWith(newDepts);
                 $("#lastPaid"+data['id']).replaceWith(newLastPaid);
                 
@@ -82,36 +85,73 @@
 
 
 wmtt = null;
-document.onmousemove = updateWMTT;
+delay = null;
+/*document.onmousemove = updateWMTT;
 function updateWMTT(e) {
   if (wmtt != null && wmtt.style.display == 'block') {
     x = (e.pageX ? e.pageX : window.event.x) + wmtt.offsetParent.scrollLeft - wmtt.offsetParent.offsetLeft;
     y = (e.pageY ? e.pageY : window.event.y) + wmtt.offsetParent.scrollTop - wmtt.offsetParent.offsetTop;
-    wmtt.style.left = (x + 20) + "px";
-    wmtt.style.top   = (y - 200) + "px";
+    //wmtt.style.left = (x + 20) + "px";
+    //wmtt.style.top   = (y - 200) + "px";
+    wmtt.style.right = 20;
+    wmtt.style.top = 20;
   }
-}
+}*/
 function showWMTT(id) {
   wmtt = document.getElementById('tt');
-  wmtt.innerHTML = "<object type='image/svg+xml' data='/content/stats/"+id+".svg' width='640px' height='400px'></object>";
+  wmtt.innerHTML = "<div class='tablehdr'>"+id+"</div><object type='image/svg+xml' data='/content/stats/"+id+".svg' width='640px' height='400px'></object>"; 
+  wmtt.style.top= 20+"px";
+  wmtt.style.right= 20+"px";
+  wmtt.style.left="";
+  wmtt.style.position= "fixed";
   wmtt.style.display = "block";
 
 }
+
+function showNavWMTT(e, id) {
+  name = "";
+  if (id == "c") {
+    name = "Statistik G&auml;ste";
+  } else if (id == "p") {
+    name = "Statistik P&uuml;ntenteam";
+  } else {
+    name = "Statistik Gesamt";
+  }
+  
+  wmtt = document.getElementById('tt');
+  wmtt.innerHTML = "<div class='tablehdr'>"+name+"</div><object type='image/svg+xml' data='/content/stats/"+id+".svg' width='640px' height='400px'></object>";
+  wmtt.style.position= "absolute";
+  wmtt.style.top = 130+"px";
+  x = (e.pageX ? e.pageX : window.event.x);
+  if (x+360 > window.innerWidth) {
+    x = window.innerWidth-360;
+    
+  }
+  
+  wmtt.style.left = (x-320)+"px";
+  wmtt.style.right = "";
+  wmtt.style.display = "block";
+
+}
+
+
 function hideWMTT() {
+
   wmtt.style.display = "none";
 }
 </script>
 
-
+<table align='center' width='90%' height='50px' style="font-size:65%;" class='nav' >
+    <tr>
+        <td> <a class='button' href='{% url plist.views.registerCustomer %}'><span>Neuer Gast</span></a></td>
+        <td> <a class='button' onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'c');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "c" 1 %}'><span>Statistik G&auml;ste</span></a></td>
+        <td> <a class='button' onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'p');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "p" 1 %}'><span>Statistik Team</span></a></td>
+        <td> <a class='button' onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'a');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "a" 1 %}'><span>Statistik Gesamt</span></a></td>
+    </tr>
+</table>
 
 <font color='red' id='error' >{{ error }}</font>
 <div class='leftspace'>
-<form method='post' action='.'>
-    <input type='hidden' name='customer' value='{{ unname }}' id='unname' />
-    <input type='hidden' name='unmoney' value='{{ unmoney }}' id='unmoney' />
-    <input type='submit' name='undo' value='R&uuml;ckg&auml;ngig: {{ unname }} - {{ unmoney }}' id='undo'
-                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
-</form>
 <h3>P&uuml;ntenteam ({{ pmen|length }})</h3>
 </div>
 <div id="content">
@@ -129,7 +169,7 @@ function hideWMTT() {
 {% for pt in pmen %}
     
     <tr class='evenodd' id='row{{ pt.id }}'>
-        <td> <a onmouseover="showWMTT('{{ pt.name }}')" onmouseout="hideWMTT()" href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
+        <td> <a onmouseover="this.finch = setTimeout(function() {showWMTT('{{ pt.name }}');}, 750);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
         <td id="depts{{ pt.id }}">
          {% ifequal pt.dept_status 0 %} 
         <b>{{ pt.depts }} &euro;</b>
@@ -171,7 +211,6 @@ function hideWMTT() {
              return false;
              });  
         </script>-->
-        </td>
         <td id='lastPaid{{ pt.id }}' > {{ pt.lastPaid.date|date:"D, d.M. Y" }}</td>
         <td><form method='post' action='.'>
             <input type='hidden' name='customer' value='{{ pt.name }}' />
@@ -195,6 +234,14 @@ Wochenumsatz
 </td><td>
 <b id='ptSales' >{{sum.2 }}</b>
 </td>
+<td colspan='4' align='right'>
+<form method='post' action='.'>
+    <input type='hidden' name='customer' value='{{ unname }}' id='punname' />
+    <input type='hidden' name='unmoney' value='{{ unmoney }}' id='punmoney' />
+    <input type='submit' name='undo' value='R&uuml;ckg&auml;ngig: {{ unname }} - {{ unmoney }}' id='pundo'
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
+</form>
+</td>
 </tr>
 
 </table>
@@ -217,7 +264,7 @@ Wochenumsatz
 {% for c in customer %}
     <tr class='evenodd' id='row{{ c.id }}'>
 
-        <td><a onmouseover="showWMTT('{{ c.name }}')" onmouseout="hideWMTT()" href='{% url plist.views.customerDetails c.id %}'>{{ c.name }}</a></td>
+        <td><a onmouseover="this.finch = setTimeout(function() {showWMTT('{{ c.name }}');}, 750);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.customerDetails c.id %}'>{{ c.name }}</a></td>
         <td id="depts{{ c.id }}" >
         {% ifequal c.dept_status 0 %} 
         <b id='depts' >{{ c.depts }} &euro;</b>
@@ -264,7 +311,6 @@ Wochenumsatz
              return false;
              });  
         </script>-->
-        </td>
         <td id='lastPaid{{ c.id }}'> {{ c.lastPaid.date|date:"D, d.M. Y" }}</td>
         <td><form method='post' action='.'>
             <input type='hidden' name='customer' value='{{ c.name }}' />
@@ -288,19 +334,18 @@ Wochenumsatz
 </td><td>
 <b id='cSales' >{{ sum.0 }}</b>
 </td>
+<td colspan='4' align='right'>
+<form method='post' action='.'>
+    <input type='hidden' name='customer' value='{{ unname }}' id='cunname' />
+    <input type='hidden' name='unmoney' value='{{ unmoney }}' id='cunmoney' />
+    <input type='submit' name='undo' value='R&uuml;ckg&auml;ngig: {{ unname }} - {{ unmoney }}' id='cundo'
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
+</form>
+</td>
 </tr>
 </table>
 </div>
 <br>
-<table align='center' width='90%' height='50px' style="font-size:65%;">
-    <tr>
-        <td> <a class='button' background='#4f4f4f' href='{% url plist.views.registerCustomer %}'><span>Register new customer</span></a></td>
-        <td> <a class='button' onmouseover="showWMTT('c')" onmouseout="hideWMTT()" href='{% url plist.views.transactionList "c" 1 %}'><span>Statistik G&auml;ste</span></a></td>
-        <td> <a class='button' onmouseover="showWMTT('p')" onmouseout="hideWMTT()" href='{% url plist.views.transactionList "p" 1 %}'><span>Statistik Team</span></a></td>
-        <td> <a class='button' onmouseover="showWMTT('a')" onmouseout="hideWMTT()" href='{% url plist.views.transactionList "a" 1 %}'><span>Statistik Gesamt</span></a></td>
-    </tr>
-</table>
-
 </div>
 
 <div id='tt' class='tooltip'>

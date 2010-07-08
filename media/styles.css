@@ -58,11 +58,6 @@ a:hover { color:red;}
 a:active { text-decoration:none; }
 a:focus { text-decoration:none; }
 
-h3 {
-  text-shadow: 1px 3px 3px grey;
-
-}
-
 
 #menu {
 	border:3px dotted #dedede;
@@ -131,7 +126,11 @@ h3 {
     -webkit-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
 }
 
-tr.tablehdr {
+.tablehdr {
+    text-shadow: 2px 3px 3px grey;
+}
+
+h3 {
     text-shadow: 2px 3px 3px grey;
 }
 
@@ -158,21 +157,29 @@ tr.evenodd:nth-child(2n+1) {
     color: #009900;
 }
 
+table.nav {
+  margin-top: -15px;
+}
+
 a.button {
 
-    border-radius: 20px;
-    -moz-border-radius: 20px;
-    background: lightgrey;
+    border-radius: 50px;
+    -moz-border-radius: 50px;
+/*     background: lightgrey; 
     box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
     -moz-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
-    color: #444;
+    color: #444;*/
+    background: #1f1f1f; 
+    box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
+    -moz-box-shadow: inset 1px 6px 32px grey, inset -1px -5px 15px lightgrey, 1px 2px 1px black;
+    color: white;
     display: block;
     float: left;
     text-align: center;
     vertical-align: middle;
     font: normal 12px arial, sans-serif;
     height: 24px;
-    width: 190px;
+    width: 150px;
     margin-right: 6px;
     padding-right: 18px; /* sliding doors padding */
     text-decoration: none;
@@ -201,7 +208,7 @@ a.button:active {
 
 a.button:hover {
     height: 32px;
-    width: 200px;
+    width: 170px;
     color: red;
     padding-top: 6px;
 }
@@ -257,5 +264,8 @@ input[disabled] {
   display: none;
   background-color: white;
   color: #444;
+  text-align:center;
+  font-size:150%;
+  padding-top: 15px;
 }
 
