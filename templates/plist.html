@@ -284,7 +284,7 @@ Wochenumsatz
             <input type='hidden' name='customer' value='{{ c.name }}' id='customer{{ c.id }}_{{ p }}' />
             <input type='hidden' name='buy' value='{{ p }}' id='buy{{ c.id }}_{{ p }}' />
             <input type='submit' name='{{ p }}' value='{{ p }} ct' id='buybtn{{ c.id }}_{{ p }}' {% ifequal c.dept_status 2 %} disabled=true {% else %}
-                {% if lock %}{% ifnotequal c.dept_status -1 %} disabled=true {% endifnotequal %}{% endif %}{% endifequal %}
+                {% if lock %}{% ifnotequal c.dept_status -1 %}{% ifnotequal c.id 1 %} disabled=true {% endifnotequal %}{% endifnotequal %}{% endif %}{% endifequal %}
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
             <script>
