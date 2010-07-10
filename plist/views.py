@@ -16,7 +16,7 @@
 
 
 
-from puente.plist.models import Customer, RegisterForm, EditForm, Transaction
+from puente.plist.models import Customer, RegisterForm, EditForm, Transaction, PlistSettings, PriceList, SettingsForm
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import Context, loader
@@ -35,16 +35,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-prices = [ 60, 80, 100, 130, 150 ]
-pPrices = [ 40, 60, 80, 100 ]
 version = 2.7
-# mark lastPaid red after x days
-markLastPaid = 28
 
-custRedLimit = 5
-custLimit = 10
-teamRedLimit = 50
-teamLimit = 100
 
 # forward to correct url
 def wrongUrl(request):
@@ -89,6 +81,11 @@ def customerList(request):
     unmoney = ""
     error = ""
     response_dict = {}
+    settings, prices, pPrices = readSettings()
+    custLimit = settings.custLimit
+    custRedLimit = custLimit/2
+    teamLimit = settings.teamLimit
+    teamRedLimit = teamLimit/2
     # if some data come in (a submit button were pressed)
     if request.method == 'POST' and "customer" in request.POST and request.POST['customer'] != "":
         # get the corresponding customer
@@ -212,7 +209,7 @@ def customerList(request):
             c.weeklySales = 0
             c.save()
         # create a list of customer ids witch didn't pay for 28 days
-        if datetime.datetime.now() - c.lastPaid > datetime.timedelta(markLastPaid):
+        if datetime.datetime.now() - c.lastPaid > datetime.timedelta(settings.markLastPaid):
             lastPaidList.append(c.id)
         sum[0] += Decimal(c.weeklySales)
         sum[1] += Decimal(c.depts)
@@ -409,6 +406,40 @@ def renderPlot(transactions, name="plot"):
     fig.savefig(f, format="svg")
     f.close()
 
+def readSettings():
+    settings = PlistSettings.objects.all()[0]
+    priceResult = PriceList.objects.filter(isPuente=False).order_by('price')
+    prices = []
+    for pr in priceResult:
+        prices.append(pr.price)
+    priceResult = PriceList.objects.filter(isPuente=True).order_by('price')
+    pPrices = []
+    for pr in priceResult:
+        pPrices.append(pr.price)
+    return (settings, prices, pPrices)
+
 def settingsPage(request):
-    return render_to_response("plist_settings.html")
+    settings, prices, pPrices = readSettings()
+    if request.method == 'POST':
+        if 'list' in request.POST and request.POST['list'] == 'c':
+            print "delete from c"
+        elif 'list' in request.POST and request.POST['list'] == 'p':
+            print "delete from p"
+        else:
+            form = SettingsForm(request.POST)
+            if form.is_valid():
+                settings.custLimit = form.cleaned_data['custLimitBox']
+                settings.teamLimit = form.cleaned_data['teamLimitBox']
+                settings.markLastPaid = form.cleaned_data['markLastPaidBox']
+                settings.save()
+                return HttpResponseRedirect(".")
+            
+    formDict = {"custLimitBox":settings.custLimit,
+                "teamLimitBox":settings.teamLimit,
+                "markLastPaidBox":settings.markLastPaid,}
+    form = SettingsForm(formDict)
+    return render_to_response("plist_settings.html", {"settings":settings,
+                                                        "prices":prices,
+                                                        "pPrices":pPrices,
+                                                        "form":form,})
   

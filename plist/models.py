@@ -22,13 +22,16 @@ from django.forms.widgets import TextInput, DateInput, DateTimeInput, TimeInput
 class Html5EmailForm(TextInput):
     input_type = 'email'
 
+class Html5NumberForm(TextInput):
+    input_type = 'number'
+    
 class Customer(models.Model):
     name = models.CharField(max_length=30, unique=True)
     room = models.CharField(max_length=30)
     email = models.EmailField(max_length=50)
     depts = models.DecimalField(max_digits=5, decimal_places=2)
     isPuente = models.BooleanField()
-    # 0 for normal, 1 for alert, 2 for no sale
+    # 0 for normal, 1 for alert, 2 for no sale, -1 for deposit
     dept_status = models.IntegerField()
     weeklySales = models.DecimalField(max_digits=6, decimal_places=2)
     salesSince = models.DateField()
@@ -44,7 +47,18 @@ class Transaction(models.Model):
     def __unicode__(self):
         return self.customer.name+": "+self.time.strftime("%H:%M, %d. %b.")
 
-
+class PlistSettings(models.Model):
+    markLastPaid = models.IntegerField()
+    custLimit = models.IntegerField()
+    teamLimit = models.IntegerField()
+  
+class PriceList(models.Model):
+    price = models.IntegerField()
+    isPuente = models.BooleanField()
+    settings = models.ForeignKey(PlistSettings)
+    def __unicode__(self):
+        return "%d, %s"%(self.price, self.isPuente)
+        
 class RegisterForm(forms.Form):
     nameBox = forms.CharField(max_length=30, label='Name', widget=TextInput(attrs={'placeholder':'Name'}))
     roomBox = forms.CharField(max_length=30, label='Zimmernummer', widget=TextInput(attrs={'placeholder':'Zimmernummer'}))
@@ -55,3 +69,9 @@ class EditForm(forms.Form):
     emailBox = forms.EmailField(max_length=50, label='Email', widget=Html5EmailForm(attrs={'placeholder':'E-Mail'}))
     roomBox = forms.CharField(max_length=30, label='Zimmernummer', widget=TextInput(attrs={'placeholder':'Zimmernummer'}))
     isPuenteBox = forms.BooleanField(label='Puententeam', required=False)
+    
+    
+class SettingsForm(forms.Form):
+    custLimitBox = forms.CharField(max_length=3, label='Limit', widget=Html5NumberForm(attrs={'placeholder':'Limit', 'min':'0','max':'100','step':'1'}))
+    teamLimitBox = forms.CharField(max_length=3, label='Teamlimit', widget=Html5NumberForm(attrs={'placeholder':'Teamlimit', 'min':'0','max':'100','step':'1'}))
+    markLastPaidBox = forms.CharField(max_length=3, label='markLastPaid', widget=Html5NumberForm(attrs={'placeholder':'LastPaid', 'min':'0','max':'100','step':'1'}))
