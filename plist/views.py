@@ -35,7 +35,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-version = 2.7
+version = 2.8
 
 
 # forward to correct url
