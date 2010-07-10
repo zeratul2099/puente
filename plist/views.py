@@ -421,10 +421,23 @@ def readSettings():
 def settingsPage(request):
     settings, prices, pPrices = readSettings()
     if request.method == 'POST':
-        if 'list' in request.POST and request.POST['list'] == 'c':
-            print "delete from c"
+        if 'add' in request.POST:
+            try:
+                priceVal = int(request.POST['price'])
+            except ValueError:
+                return HttpResponseRedirect(".")
+            if request.POST['list'] == 'c':
+                newPrice = PriceList(isPuente=False, price=priceVal, settings=settings)
+            else:
+                newPrice = PriceList(isPuente=True, price=priceVal, settings=settings)
+            newPrice.save()
+            return HttpResponseRedirect(".")
+        elif 'list' in request.POST and request.POST['list'] == 'c':
+            PriceList.objects.filter(isPuente=False, price=request.POST['price']).delete()
+            return HttpResponseRedirect(".")
         elif 'list' in request.POST and request.POST['list'] == 'p':
-            print "delete from p"
+            PriceList.objects.filter(isPuente=True, price=request.POST['price']).delete()
+            return HttpResponseRedirect(".")
         else:
             form = SettingsForm(request.POST)
             if form.is_valid():

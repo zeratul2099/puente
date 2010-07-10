@@ -36,6 +36,13 @@
 </td>
 </tr>
 {% endfor %}
+<tr>
+<form method='post' action='.' >
+<td><input type='number' name='price' value='' placeholder='ct' min='10' max='1000' step='10' /></td>
+<input type='hidden' name='list' value='c' />
+<td><input type='submit' value='Hinzuf&uuml;gen' name='add' class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" /></td>
+</form>
+</tr>
 </table>
 </td><td>
 <h3>P&uuml;ntenpreise</h3>
@@ -52,6 +59,13 @@
 </td>
 </tr>
 {% endfor %}
+<tr>
+<form method='post' action='.' >
+<td><input type='number' name='price' value='' placeholder='ct'  min='10' max='1000' step='10' /></td>
+<input type='hidden' name='list' value='p' />
+<td><input type='submit' value='Hinzuf&uuml;gen' name='add' class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" /></td>
+</form>
+</tr>
 </table>
 </td>
 </tr></table>

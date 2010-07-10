@@ -74,4 +74,4 @@ class EditForm(forms.Form):
 class SettingsForm(forms.Form):
     custLimitBox = forms.CharField(max_length=3, label='Limit', widget=Html5NumberForm(attrs={'placeholder':'Limit', 'min':'0','max':'100','step':'1'}))
     teamLimitBox = forms.CharField(max_length=3, label='Teamlimit', widget=Html5NumberForm(attrs={'placeholder':'Teamlimit', 'min':'0','max':'100','step':'1'}))
-    markLastPaidBox = forms.CharField(max_length=3, label='markLastPaid', widget=Html5NumberForm(attrs={'placeholder':'LastPaid', 'min':'0','max':'100','step':'1'}))
+    markLastPaidBox = forms.CharField(max_length=3, label='zuletzt bezahlt Rot markieren', widget=Html5NumberForm(attrs={'placeholder':'zuletzt bezahlt', 'min':'0','max':'100','step':'1'}))
