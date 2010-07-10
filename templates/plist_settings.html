@@ -1,0 +1,35 @@
+{% extends "basis.html" %}
+
+{% block titel %}Einstellungen{% endblock %}
+
+{% block inhalt %}
+<div id='content'>
+<table width='100%' border='0'>
+<tr>
+<td width='15%'>Name:</td>
+<td width='25%'>bla</td>
+</tr>
+
+
+<tr><td>Schulden:</td><td>
+blubb
+</td></tr>
+<tr><td>Umsatz seit foo</td><td>
+bar
+</td></tr>
+<tr><td>Kommentar:</td></tr>
+
+
+
+</table>
+</div>
+
+<table align='center'>
+    <tr height='50px'>
+        <td><a class='button' href='{% url plist.views.customerList %}'><span>zur&uuml;ck</span></a></td>
+    </tr>
+</table>
+
+{% endblock %}
+
+
