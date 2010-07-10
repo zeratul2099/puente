@@ -406,6 +406,25 @@ def renderPlot(transactions, name="plot"):
     fig.savefig(f, format="svg")
     f.close()
 
+def updateCustomerStatus():
+    settings, prices, pPrices = readSettings()
+    custLimit = settings.custLimit
+    custRedLimit = custLimit/2
+    teamLimit = settings.teamLimit
+    teamRedLimit = teamLimit/2
+    customers = Customer.objects.all()
+    for customer in customers:
+        if customer.depts < 0:
+            customer.dept_status = -1
+        elif (customer.isPuente & (customer.depts < teamRedLimit)) | (customer.depts < custRedLimit):
+            customer.dept_status = 0
+        elif (customer.isPuente & (customer.depts < teamLimit)) | (customer.depts < custLimit):
+            customer.dept_status = 1
+        else:
+            customer.dept_status = 2
+        # save all changes to customer in database
+        customer.save()
+
 def readSettings():
     settings = PlistSettings.objects.all()[0]
     priceResult = PriceList.objects.filter(isPuente=False).order_by('price')
@@ -445,6 +464,7 @@ def settingsPage(request):
                 settings.teamLimit = form.cleaned_data['teamLimitBox']
                 settings.markLastPaid = form.cleaned_data['markLastPaidBox']
                 settings.save()
+                updateCustomerStatus()
                 return HttpResponseRedirect(".")
             
     formDict = {"custLimitBox":settings.custLimit,

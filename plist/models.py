@@ -24,7 +24,10 @@ class Html5EmailForm(TextInput):
 
 class Html5NumberForm(TextInput):
     input_type = 'number'
-    
+
+class Html5RangeForm(TextInput):
+    input_type = 'range'
+
 class Customer(models.Model):
     name = models.CharField(max_length=30, unique=True)
     room = models.CharField(max_length=30)
