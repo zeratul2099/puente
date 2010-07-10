@@ -147,6 +147,7 @@ function hideWMTT() {
         <td> <a class='button' onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'c');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "c" 1 %}'><span>Statistik G&auml;ste</span></a></td>
         <td> <a class='button' onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'p');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "p" 1 %}'><span>Statistik Team</span></a></td>
         <td> <a class='button' onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'a');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "a" 1 %}'><span>Statistik Gesamt</span></a></td>
+	<td> <a class='button' href='{% url plist.views.settingsPage %}'><span>Einstellungen</span></a></td>
     </tr>
 </table>
 

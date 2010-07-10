@@ -7,7 +7,10 @@
 <table width='100%' border='0'>
 <tr><td width='15%'>Name:</td>
 <td width='25%'>{{ customer.name }}</td>
-<td><a href='{% url plist.views.customerEdit customer.id %}'>editieren</a></td>
+<td><form method='post' action='{% url plist.views.customerEdit customer.id %}'>
+<input type='submit' name='edit' value="editieren"  
+                class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" /></form>
+</td>
 <td width='50%'>
 <div align='right'>
 <form method='post' action='..'>

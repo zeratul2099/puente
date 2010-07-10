@@ -286,7 +286,7 @@ def customerDetails(request, customer_id):
 
 def customerEdit(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
-    if request.method == 'POST':
+    if request.method == 'POST' and "edit" not in request.POST:
         form = EditForm(request.POST)
         if form.is_valid():
             customer.email = form.cleaned_data['emailBox']
@@ -409,4 +409,6 @@ def renderPlot(transactions, name="plot"):
     fig.savefig(f, format="svg")
     f.close()
 
-
+def settingsPage(request):
+    return render_to_response("plist_settings.html")
+  
