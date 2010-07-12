@@ -109,7 +109,7 @@ a:focus { text-decoration:none; }
 	/*background: -moz-linear-gradient(top left, #f0f0f0, #e0e0e0 );
 	/*
 	 * comment out due low performance in ff
-	 * -moz-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black; */
+	  -moz-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black; */
 	box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
 }
 
@@ -215,28 +215,39 @@ a.button:active span {
     padding: 6px 0 4px 18px; /* push text down 1px */
 }
 
-input.btn { 
+input.btn {
    font: bold small monospace;
    font-size:75%;
    border-radius: 6px;
    -moz-border-radius: 6px;
    color:#ffffff;
    background: #1f1f1f;
-   background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#bbb));
-   background: -moz-linear-gradient(top, #000, #bbb);
+   background: -webkit-gradient(linear, left top, left bottom, from(#bbb), to(#000));
+   background: -moz-linear-gradient(top, #bbb, #000);
    border: 1px solid #bbb;
-    -moz-transition-property: border-color, color;
+    -moz-transition-property: all;
     -moz-transition-duration: 0.5s;
-    -o-transition-property: border-color, color;
+    -o-transition-property: all;
     -o-transition-duration: 0.5s;
-    -webkit-transition-property: border-color, color;
+    -webkit-transition-property: all;
     -webkit-transition-duration: 0.5s;
 
  }
 input.btnhov { 
       border-color: #ee2222 #930 #930 #ee2222;
       color:#ee2222;
+
+
     }
+
+input.btn:active {
+    background: -webkit-gradient(linear, left top, left bottom, from(#000), to(#bbb));
+    background: -moz-linear-gradient(top, #000, #bbb);   
+    color:#ffffff;
+    border: 1px solid #bbb;
+}
+
+
 input[disabled] {
     font: bold small monospace;
     font-size:75%;
