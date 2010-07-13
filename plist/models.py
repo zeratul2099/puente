@@ -40,6 +40,7 @@ class Customer(models.Model):
     salesSince = models.DateField()
     lastPaid = models.DateTimeField()
     comment = models.TextField()
+    locked = models.BooleanField(default=False)
     def __unicode__(self):
         return self.name
 
@@ -67,11 +68,13 @@ class RegisterForm(forms.Form):
     roomBox = forms.CharField(max_length=30, label='Zimmernummer', widget=TextInput(attrs={'placeholder':'Zimmernummer'}))
     emailBox = forms.EmailField(max_length=50, label='Email', widget=Html5EmailForm(attrs={'placeholder':'E-Mail'}))
     isPuenteBox = forms.BooleanField(label='Puententeam', required=False)
+    lockedBox = forms.BooleanField(label='Gesperrt', required=False)
     
 class EditForm(forms.Form):
     emailBox = forms.EmailField(max_length=50, label='Email', widget=Html5EmailForm(attrs={'placeholder':'E-Mail'}))
     roomBox = forms.CharField(max_length=30, label='Zimmernummer', widget=TextInput(attrs={'placeholder':'Zimmernummer'}))
     isPuenteBox = forms.BooleanField(label='Puententeam', required=False)
+    lockedBox = forms.BooleanField(label='Gesperrt', required=False)
     
     
 class SettingsForm(forms.Form):

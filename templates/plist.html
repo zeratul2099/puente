@@ -265,7 +265,11 @@ Wochenumsatz
 {% for c in customer %}
     <tr class='evenodd' id='row{{ c.id }}'>
 
-        <td><a onmouseover="this.finch = setTimeout(function() {showWMTT('{{ c.name }}');}, 750);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.customerDetails c.id %}'>{{ c.name }}</a></td>
+        <td><a onmouseover="this.finch = setTimeout(function() {showWMTT('{{ c.name }}');}, 750);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.customerDetails c.id %}'>{{ c.name }}</a>
+            {% if c.locked %}
+            (gesperrt)
+            {% endif %}
+        </td>
         <td id="depts{{ c.id }}" >
         {% ifequal c.dept_status 0 %} 
         <b id='depts' >{{ c.depts }} &euro;</b>
@@ -285,7 +289,7 @@ Wochenumsatz
             <input type='hidden' name='customer' value='{{ c.name }}' id='customer{{ c.id }}_{{ p }}' />
             <input type='hidden' name='buy' value='{{ p }}' id='buy{{ c.id }}_{{ p }}' />
             <input type='submit' name='{{ p }}' value='{{ p }} ct' id='buybtn{{ c.id }}_{{ p }}' {% ifequal c.dept_status 2 %} disabled=true {% else %}
-                {% if lock %}{% ifnotequal c.dept_status -1 %}{% ifnotequal c.id 1 %} disabled=true {% endifnotequal %}{% endifnotequal %}{% endif %}{% endifequal %}
+                {% if lock or c.locked %}{% ifnotequal c.dept_status -1 %}{% ifnotequal c.id 1 %} disabled=true {% endifnotequal %}{% endifnotequal %}{% endif %}{% endifequal %}
                 class='btn' onmouseover="this.className='btn btnhov'" onmouseout="this.className='btn'" />
         </form></td>
             <script>

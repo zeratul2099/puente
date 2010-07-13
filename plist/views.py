@@ -59,7 +59,8 @@ def registerCustomer(request):
                                         salesSince=last_sunday,
                                         lastPaid=dt.now(),
                                         dept_status=0,
-                                        isPuente=form.cleaned_data['isPuenteBox'])
+                                        isPuente=form.cleaned_data['isPuenteBox'],
+                                        locked=form.cleaned_data['lockedBox'])
                 new_customer.save()
                 # ... an return to list ...
                 return HttpResponseRedirect("..")
@@ -231,6 +232,7 @@ def customerList(request):
         lock = False
     else:
         lock = True
+        #lock = False
 
     # return customers to the html-template
     if "ajax" in request.POST:
@@ -243,7 +245,10 @@ def customerList(request):
         response_dict.update({"ptSales" : str(sum[2])})
         response_dict.update({"cSum" : str(sum[1])})
         response_dict.update({"cSales" : str(sum[0])})
-        response_dict.update({"lock" : lock})
+        cLock = False
+        if lock or customer.locked:
+            cLock = True
+        response_dict.update({"lock" : cLock})
         response_dict.update({"isPuente" : customer.isPuente})
         # germanisation of weekdays
         lastPaidStr = customer.lastPaid.strftime("%a, %d.%b. %Y")
@@ -289,12 +294,14 @@ def customerEdit(request, customer_id):
             customer.room = form.cleaned_data['roomBox']
             customer.isPuente = form.cleaned_data['isPuenteBox']
             customer.comment = request.POST["comment"]
+            customer.locked = form.cleaned_data['lockedBox']
             customer.save()
             return HttpResponseRedirect("../..")
     else:
         formDict = { "roomBox" : customer.room,
                  "emailBox" : customer.email,
-                 "isPuenteBox" : customer.isPuente, }
+                 "isPuenteBox" : customer.isPuente, 
+                 "lockedBox" : customer.locked, }
         form = EditForm(formDict)
     return render_to_response("plist_customer_edit.html", {"customer" : customer,
                                                         "form" : form,
