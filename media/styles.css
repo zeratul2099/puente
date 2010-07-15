@@ -147,7 +147,7 @@ tr.evenodd:nth-child(2n+1) {
 }
 
 tr.evenodd:hover {
-    background: rgba(0,0,0,0.35);
+    background: rgba(0,40,60,0.45);
 }
 
 .red {
