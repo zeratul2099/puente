@@ -4,21 +4,20 @@
 
 {% block inhalt %}
 <div id="content_container">
-<table align='center' >
+<table align='center'>
     <tr height='50px'>
-        <td> <a class='button' background='#4f4f4f' href='{%url plist.views.customerList %}'><span>Zur&uuml;ck</span></a></td>
+        <td><a class='button' href='{%url plist.views.customerList %}'><span>Zur&uuml;ck</span></a></td>
     </tr>
     <tr>
-        <td>
-        Seite:
+        <td align='center'>
+        Seite:<br>
         {% for i in numPages %}
             {% ifequal i actualPage %}
                 {{ i }}
             {% else %}
                 <a href='{%url plist.views.transactionList type i %}'>{{ i }}</a>
             {% endifequal %}
-        {% endfor %}
-        </td>
+        {% endfor %}</td>
     </tr>
 </table>
 
