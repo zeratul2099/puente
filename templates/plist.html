@@ -46,7 +46,7 @@
 		  $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", true);
 		  var newDepts = $("<td id='depts"+data['id']+"'><b class='redblink' >"+data['depts']+' &euro;</b></td>');
 		}
-                if (data['status'] == '2' || (data['lock'] == true && data['status'] != -1 && data['isPuente'] == false)) {
+                if (data['status'] == '2' || (data['lock'] == true && data['status'] != -1 && data['isPuente'] == false && data['id'] != 1)) {
                     $("#buyrow"+data['id']+" > * > * > input[type='submit']").attr("disabled", true);
                 }
                 var newLastPaid = $("<td id='lastPaid"+data['id']+"' >"+data['lastPaid']+"</td>")
@@ -244,6 +244,7 @@ Wochenumsatz
 
 
 <div class='leftspace'><h3>G&auml;ste ({{ customer|length }})</h3></div>
+{% if lock %}<div class='leftspace'><h4 class='red' >Liste nur Dienstags und Donnerstags ge&ouml;ffnet</h4></div>{% endif %}
 <div id="content">
 <table width='100%'>
 <tr class='tablehdr' >

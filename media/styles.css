@@ -140,6 +140,11 @@ h3 {
     text-shadow: 2px 3px 3px grey;
 }
 
+h4 {
+  text-shadow: 2px 3px 3px grey;
+  font-size: 80%;
+}
+
 tr.evenodd:nth-child(2n+1) {
    /*background: #d0d0d0;*/
     background: rgba(255,255,255,0.35);
@@ -147,7 +152,7 @@ tr.evenodd:nth-child(2n+1) {
 }
 
 tr.evenodd:hover {
-    background: rgba(0,40,60,0.45);
+    background: rgba(130,130,210,0.45);
 }
 
 .red {
@@ -159,7 +164,7 @@ tr.evenodd:hover {
     color: #ff0000;
 }
 .green {
-    color: #009900;
+    color: #008800;
 }
 
 table.nav {
