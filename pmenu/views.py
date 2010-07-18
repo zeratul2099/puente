@@ -22,11 +22,17 @@ from django.template import Context, loader
 
 
 def showMenu(request):
-    cats = Category.objects.all()
     itemDict = {}
+    cats = Category.objects.all()
     for c in cats:
         cItems = MenuItem.objects.filter(category=c)
         itemDict[c] = cItems
-    items = MenuItem.objects.all()
-    print itemDict
-    return render_to_response("pmenu_list.html", {"cats":cats, "items":items, "itemDict":itemDict})
+    return render_to_response("pmenu_list.html", { "itemDict":itemDict})
+    
+def menuEdit(request):
+    itemDict = {}
+    cats = Category.objects.all()
+    for c in cats:
+        cItems = MenuItem.objects.filter(category=c)
+        itemDict[c] = cItems
+    return render_to_response("pmenu_list_edit.html", { "itemDict":itemDict})

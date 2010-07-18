@@ -201,6 +201,36 @@ a.button {
     -webkit-transition-duration: 0.5s;
 }
 
+a.leftbutton {
+    border-radius: 50px 0px 0px 50px;
+    -moz-border-radius: 50px 0px 0px 50px;
+    box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
+    -moz-box-shadow: 1px 2px 1px black;
+    background: -moz-linear-gradient(top, black, grey );
+    margin-right: -1px
+}
+
+a.middlebutton {
+    box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
+    -moz-box-shadow: 1px 2px 1px black;
+    border-radius: 0px 0px 0px 0px;
+    -moz-border-radius: 0px 0px 0px 0px;
+    background: -moz-linear-gradient(top, black, grey );
+    margin-left: -1px;
+    margin-right: -1px;
+}
+
+a.rightbutton {
+    border-radius: 0px 50px 50px 0px;
+    -moz-border-radius: 0px 50px 50px 0px;
+    box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey, 1px 2px 1px black;
+    -moz-box-shadow: 1px 2px 1px black;
+    background: -moz-linear-gradient(top, black, grey );
+    margin-left: -1px;
+}
+
+
+
 a.button span {
 
     display: block;
@@ -209,6 +239,7 @@ a.button span {
 }
 
 a.button:active {
+    margin-top: 3px;
     background-position: bottom right;
     box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey;
     -moz-box-shadow: inset 1px 6px 32px lightgrey, inset -1px -5px 15px grey;
@@ -223,6 +254,14 @@ a.button:hover {
     color: red;
 }
 
+a.leftbutton:hover, a.middlebutton:hover, a.rightbutton:hover {
+    height: 24px;
+    width: 130px;
+    padding-top: 0px;
+    background: lightgrey;
+    background: -moz-linear-gradient(top, white, grey );
+
+}
 
 a.button:active span {
     background-position: bottom left;

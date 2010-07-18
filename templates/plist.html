@@ -141,14 +141,14 @@ function hideWMTT() {
 }
 </script>
 
-<table align='center' width='90%' height='50px' style="font-size:65%;" class='nav' >
+<table align='center'  height='50px' style="font-size:65%;" class='nav' border='0'>
     <tr>
-        <td> <a class='button' href='{% url plist.views.registerCustomer %}'><span>Neuer Gast</span></a></td>
-        <td> <a class='button' onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'c');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "c" 1 %}'><span>Statistik G&auml;ste</span></a></td>
-        <td> <a class='button' onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'p');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "p" 1 %}'><span>Statistik Team</span></a></td>
-        <td> <a class='button' onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'a');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "a" 1 %}'><span>Statistik Gesamt</span></a></td>
-	<td> <a class='button' href='{% url plist.views.settingsPage %}'><span>Einstellungen</span></a></td>
-	<td> <a class='button' href='{% url pmenu.views.showMenu %}'><span>Angebot</span></a></td>
+        <td><a class='button leftbutton' href='{% url plist.views.registerCustomer %}'><span>Neuer Gast</span></a></td>
+        <td><a class='button middlebutton' onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'c');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "c" 1 %}'><span>Statistik G&auml;ste</span></a></td>
+        <td><a class='button middlebutton' onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'p');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "p" 1 %}'><span>Statistik Team</span></a></td>
+        <td><a class='button middlebutton' onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'a');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "a" 1 %}'><span>Statistik Gesamt</span></a></td>
+	<td><a class='button middlebutton' href='{% url plist.views.settingsPage %}'><span>Einstellungen</span></a></td>
+	<td><a class='button rightbutton' href='{% url pmenu.views.showMenu %}'><span>Angebot</span></a></td>
     </tr>
 </table>
 

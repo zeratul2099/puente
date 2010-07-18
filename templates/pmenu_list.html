@@ -6,6 +6,11 @@
 
 <div class='content'>
 <table width='40%'>
+<tr><td colspan='4'>
+<form method='post' action='{% url pmenu.views.menuEdit %}'>
+<input type='submit' name='edit' value="editieren"  
+                class='btn' /></form>
+</td></tr>
 {% for c, menuItems in itemDict.items %}
 <tr><td colspan='4'><h4>{{ c }}</h4></td></tr>
 

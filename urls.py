@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     # Example:
     # (r'^sym_gui/', include('sym_gui.foo.urls')),
     (r'^pmenu/$', 'pmenu.views.showMenu'),
+    (r'^pmenu/edit/$', 'pmenu.views.menuEdit'),
     (r'^plist/$', 'plist.views.customerList'),
     (r'^plist/(?P<customer_id>\d+)/$', 'plist.views.customerDetails'),
     (r'^plist/edit/(?P<customer_id>\d+)/$', 'plist.views.customerEdit'),
