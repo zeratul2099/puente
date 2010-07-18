@@ -5,7 +5,7 @@
 {% block inhalt %}
 <font color='red'>{{ error }}</font>
 <form method='post' action='.'>
-<div id='content'>
+<div class='content'>
 <table>
 
 {{ registerForm }}
@@ -20,7 +20,7 @@
 <p></p>
 <table align='center'>
     <tr>
-        <td><a class='button' href='{% url plist.views.customerList %}'><span>zur&uuml;ck</span></a></td>
+        <td height='50px' ><a class='button' href='{% url plist.views.customerList %}'><span>zur&uuml;ck</span></a></td>
     </tr>
 </table>
 <p></p>

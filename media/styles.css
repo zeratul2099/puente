@@ -96,7 +96,7 @@ a:focus { text-decoration:none; }
 	text-decoration:underline;
 }
 
-#content {
+.content {
 	/*background: #f0f0f0;*/
 	background: rgba(0,0,0,0.15);
 	border: 1px outset;
@@ -189,7 +189,7 @@ a.button {
     vertical-align: middle;
     font: normal 12px arial, sans-serif;
     height: 24px;
-    width: 150px;
+    width: 130px;
     margin-right: 6px;
     padding-right: 18px; /* sliding doors padding */
     text-decoration: none;

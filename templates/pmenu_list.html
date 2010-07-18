@@ -1,0 +1,32 @@
+{% extends "basis.html" %}
+
+{% block titel %}Angebot{% endblock %}
+
+{% block inhalt %}
+
+<div class='content'>
+<table width='40%'>
+{% for c, menuItems in itemDict.items %}
+<tr><td colspan='4'><h4>{{ c }}</h4></td></tr>
+
+{% for i in menuItems %}
+<tr>
+<td width='20px'></td>
+<td>{{ i.name }}</td>
+<td>{{ i.price }} ct</td>
+<td>{{ i.pPrice }} ct</td>
+</tr>
+{% endfor %}
+
+{% endfor %}
+</table>
+</div>
+<p>
+<table align='center'>
+    <tr>
+        <td height='50px' ><a class='button' href='{% url plist.views.customerList %}'><span>zur&uuml;ck</span></a></td>
+    </tr>
+</table>
+<p>
+{% endblock %}
+
