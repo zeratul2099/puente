@@ -20,12 +20,13 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import Context, loader
 from django.db import IntegrityError
+from reportlab.pdfgen import canvas
 
 def showMenu(request):
     itemDict = {}
-    cats = Category.objects.all()
+    cats = Category.objects.all().order_by("name")
     for c in cats:
-        cItems = MenuItem.objects.filter(category=c)
+        cItems = MenuItem.objects.filter(category=c).order_by("name")
         itemDict[c] = cItems
     return render_to_response("pmenu_list.html", { "itemDict":itemDict})
     
@@ -62,8 +63,37 @@ def menuEdit(request):
 	  cat.delete()
 	  return HttpResponseRedirect(".")
     itemDict = {}
-    cats = Category.objects.all()
+    cats = Category.objects.all().order_by("name")
     for c in cats:
-        cItems = MenuItem.objects.filter(category=c)
+        cItems = MenuItem.objects.filter(category=c).order_by("name")
         itemDict[c] = cItems
     return render_to_response("pmenu_list_edit.html", { "itemDict":itemDict})
+    
+    
+def generatePdf(request):
+  cats = Category.objects.all().order_by("name")
+  lineHeight = 20
+  lineSkip = 30
+  xOffset = 50
+  response = HttpResponse(mimetype='application/pdf')
+  response['Content-Disposition'] = 'attachment; filename=preisliste.pdf'
+  p = canvas.Canvas(response)
+  lineMark = 700
+  p.setFont("Helvetica", 28)
+  p.drawString(200, 800, "Pünte Preisliste")
+  p.setFont("Helvetica", 16)
+  for c in cats:
+    p.drawString(xOffset,lineMark, c.name)
+    lineMark -= lineSkip
+    items = MenuItem.objects.filter(category=c).order_by("name")
+    for i in items:
+      p.drawString(xOffset+25,lineMark, i.name)
+      p.drawString(xOffset+150,lineMark, str(i.price)+" ct")
+      lineMark -= lineHeight
+    lineMark -= lineSkip
+    if lineMark < 200:
+      lineMark = 700
+      xOffset = 350
+  p.showPage()
+  p.save()
+  return response
