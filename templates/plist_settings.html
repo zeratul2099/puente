@@ -31,7 +31,7 @@
 <form method='post' action=".">
 <input type='hidden' name='price' value='{{ p }}' />
 <input type='hidden' name='list' value='c' />
-<input type='submit' value='L&ouml;schen' name='c{{ p }}' class='btn' />
+<input type='submit' value='L&ouml;schen' name='c{{ p }}' class='del' />
 </form>
 </td>
 </tr>
@@ -40,7 +40,7 @@
 <form method='post' action='.' >
 <td><input type='number' name='price' value='' placeholder='ct' min='10' max='1000' step='10' /></td>
 <input type='hidden' name='list' value='c' />
-<td><input type='submit' value='Hinzuf&uuml;gen' name='add' class='btn' /></td>
+<td><input type='submit' value='Hinzuf&uuml;gen' name='add' class='add' /></td>
 </form>
 </tr>
 </table>
@@ -54,7 +54,7 @@
 <form method='post' action=".">
 <input type='hidden' name='price' value='{{ p }}' />
 <input type='hidden' name='list' value='p' />
-<input type='submit' value='L&ouml;schen' name='p{{ p }}' class='btn' />
+<input type='submit' value='L&ouml;schen' name='p{{ p }}' class='del' />
 </form>
 </td>
 </tr>
@@ -63,7 +63,7 @@
 <form method='post' action='.' >
 <td><input type='number' name='price' value='' placeholder='ct'  min='10' max='1000' step='10' /></td>
 <input type='hidden' name='list' value='p' />
-<td><input type='submit' value='Hinzuf&uuml;gen' name='add' class='btn' /></td>
+<td><input type='submit' value='Hinzuf&uuml;gen' name='add' class='add' /></td>
 </form>
 </tr>
 </table>

@@ -5,19 +5,58 @@
 {% block inhalt %}
 
 <div class='content'>
-<table width='40%'>
-{% for c, menuItems in itemDict.items %}
-<tr><td colspan='4'><h4>{{ c }}</h4></td></tr>
-
-{% for i in menuItems %}
+<table width='60%'>
 <tr>
+<form method='post' action=".">
+<td colspan='3'>Kategorie hinzuf&uuml;gen</td>
+<td width='140px'><input type='text' name='cat' placeholder='Kategorie' /></td>
+<td width='40px'><input type='submit' value='Hinzuf&uuml;gen' name='addCat' class='add' /></td>
+</form>
+</tr>
+<tr>
+<td colspan='5'><hr></td>
+</tr>
+{% for c, menuItems in itemDict.items %}
+<tr class='tablehdr'>
+<td colspan='4'><h4>{{ c }}</h4></td>
+<td>
+<form method='post' action=".">
+<input type='hidden' name='delCat' value='{{ c.name }}' />
+<input type='submit' value='L&ouml;schen' name='delCat{{ c.id }}' class='del' />
+</form>
+</td>
+</tr>
+<tr>
+<td colspan='5'><hr></td>
+</tr>
+{% for i in menuItems %}
+<tr class='evenodd' >
 <td width='20px'></td>
 <td>{{ i.name }}</td>
 <td>{{ i.price }} ct</td>
 <td>{{ i.pPrice }} ct</td>
+<td>
+<form method='post' action=".">
+<input type='hidden' name='delItem' value='{{ i.name }}' />
+<input type='submit' value='L&ouml;schen' name='delItem{{ i.id }}' class='del' />
+</form>
+</td>
 </tr>
 {% endfor %}
+<tr class='evenodd'>
+<td></td>
+<form method='post' action='.'>
+<td><input type='text' name='name' placeholder='Name' /></td>
+<input type='hidden' name='cat' value='{{ c.id }}' />
+<td><input type='number' name='price' placeholder='Preis' /></td>
+<td><input type='number' name='pPrice' placeholder='Teampreis' /></td>
+<td><input type='submit' name='addItem' value='Hinzuf&uuml;gen' class='add' /></td>
 
+</form>
+</tr>
+<tr>
+<td colspan='5'><hr></td>
+</tr>
 {% endfor %}
 </table>
 </div>

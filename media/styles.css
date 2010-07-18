@@ -307,6 +307,27 @@ input.btn[disabled] {
     color: GrayText;
 }
 
+input.add {
+     width: 22px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent url('/content/list-add.png') no-repeat center top;
+  text-indent: -1000em;
+  cursor: pointer; /* hand-shaped cursor */
+}
+
+input.del {
+     width: 22px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent url('/content/list-remove.png') no-repeat center top;
+  text-indent: -1000em;
+  cursor: pointer; /* hand-shaped cursor */
+}
 .leftspace {
     padding-left: 10px;
     padding-right: 10px;
@@ -329,7 +350,7 @@ input.btn[disabled] {
   padding-top: 15px;
 }
 
-input[type=number] {
+input[type=number], input[type=text] {
   border-radius: 10px;
   -moz-border-radius: 10px;
   background: white;
