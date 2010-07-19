@@ -366,7 +366,7 @@ Wochenumsatz
     </div>
 
 {% for p, items in itemDict.items %}
-<div id='tt{{ p }}' class='tooltip'>
+<div id='tt{{ p }}' class='tooltip' style='background: rgba(255,255,255,0.75);'>
 {% for i in items %}
 <h4 font-size='60%'>{{ i }}</h4>
 {% endfor %}
@@ -374,7 +374,7 @@ Wochenumsatz
 {% endfor %}
 
 {% for p, items in pItemDict.items %}
-<div id='ttp{{ p }}' class='tooltip'>
+<div id='ttp{{ p }}' class='tooltip' style='background: rgba(255,255,255,0.75);'>
 {% for i in items %}
 <h4 font-size='60%'>{{ i }}</h4>
 {% endfor %}
