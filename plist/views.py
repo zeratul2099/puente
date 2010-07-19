@@ -265,11 +265,11 @@ def customerList(request):
     else:
 	itemDict = {}
 	for p in prices:
-	  items = MenuItem.objects.filter(price=p)
+	  items = MenuItem.objects.filter(price=p).order_by("name")
 	  itemDict[p] = items
 	pItemDict = {}
 	for p in pPrices:
-	  items = MenuItem.objects.filter(pPrice=p)
+	  items = MenuItem.objects.filter(pPrice=p).order_by("name")
 	  pItemDict[p] = items
         return render_to_response("plist.html", {"customer" : allCustomers,
                                              "pmen" : pMen,
