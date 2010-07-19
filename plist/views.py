@@ -17,6 +17,7 @@
 
 
 from puente.plist.models import Customer, RegisterForm, EditForm, Transaction, PlistSettings, PriceList, SettingsForm
+from puente.pmenu.models import MenuItem
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import Context, loader
@@ -35,7 +36,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-version = 2.8
+version = 3.0
 
 
 # forward to correct url
@@ -262,6 +263,14 @@ def customerList(request):
         response_dict.update({"lastPaid" : lastPaidStr})
         return HttpResponse(simplejson.dumps(response_dict), mimetype="application/json")
     else:
+	itemDict = {}
+	for p in prices:
+	  items = MenuItem.objects.filter(price=p)
+	  itemDict[p] = items
+	pItemDict = {}
+	for p in pPrices:
+	  items = MenuItem.objects.filter(pPrice=p)
+	  pItemDict[p] = items
         return render_to_response("plist.html", {"customer" : allCustomers,
                                              "pmen" : pMen,
                                              "unname" : unname,
@@ -272,7 +281,9 @@ def customerList(request):
                                              "sum" : sum,
                                              "lastPaidList" : lastPaidList,
                                              "version" : version,
-                                             "lock" : lock, })
+                                             "lock" : lock, 
+                                             "itemDict" : itemDict,
+                                             "pItemDict" : pItemDict,})
 
 # get customer data and put into customer detail template
 def customerDetails(request, customer_id):
@@ -481,4 +492,4 @@ def settingsPage(request):
                                                         "prices":prices,
                                                         "pPrices":pPrices,
                                                         "form":form,})
-  
+

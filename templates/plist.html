@@ -97,6 +97,25 @@ function updateWMTT(e) {
     wmtt.style.top = 20;
   }
 }*/
+
+function showItemTT(price) {
+  wmtt = document.getElementById('tt'+price);
+  wmtt.style.top= 20+"px";
+  wmtt.style.right= 20+"px";
+  wmtt.style.left="";
+  wmtt.style.position= "fixed";
+  wmtt.style.display = "block";
+}
+
+function showPItemTT(price) {
+  wmtt = document.getElementById('ttp'+price);
+  wmtt.style.top= 20+"px";
+  wmtt.style.right= 20+"px";
+  wmtt.style.left="";
+  wmtt.style.position= "fixed";
+  wmtt.style.display = "block";
+}
+
 function showWMTT(id) {
   wmtt = document.getElementById('tt');
   wmtt.innerHTML = "<div class='tablehdr'>"+id+"</div><object type='image/svg+xml' data='/content/stats/"+id+".svg' width='640px' height='400px'></object>"; 
@@ -189,7 +208,7 @@ function hideWMTT() {
             <input type='hidden' name='customer' value='{{ pt.name }}' id='customer{{ pt.id }}_{{ p }}' />
             <input type='hidden' name='buy' value='{{ p }}' id='buy{{ pt.id }}_{{ p }}' />
             <input type='submit' name='{{ p }}' id='buybtn{{ pt.id }}_{{ p }}' value='{{ p }} ct' {% ifequal pt.dept_status 2 %} disabled=true {% endifequal %}
-                class='btn' />
+                class='btn'  onmouseover="showPItemTT('{{ p }}')" onmouseout="hideWMTT()"/>
         </form></td>
         <script>
          $("#buybtn{{ pt.id }}_{{ p }}").click(function() {
@@ -286,7 +305,7 @@ Wochenumsatz
             <input type='hidden' name='buy' value='{{ p }}' id='buy{{ c.id }}_{{ p }}' />
             <input type='submit' name='{{ p }}' value='{{ p }} ct' id='buybtn{{ c.id }}_{{ p }}' {% ifequal c.dept_status 2 %} disabled=true {% else %}
                 {% if lock or c.locked %}{% ifnotequal c.dept_status -1 %}{% ifnotequal c.id 1 %} disabled=true {% endifnotequal %}{% endifnotequal %}{% endif %}{% endifequal %}
-                class='btn' />
+                class='btn' onmouseover="showItemTT('{{ p }}')" onmouseout="hideWMTT()" />
         </form></td>
             <script>
              $("#buybtn{{ c.id }}_{{ p }}").click(function() {
@@ -346,6 +365,21 @@ Wochenumsatz
 <div id='tt' class='tooltip'>
     </div>
 
+{% for p, items in itemDict.items %}
+<div id='tt{{ p }}' class='tooltip'>
+{% for i in items %}
+<h4 font-size='60%'>{{ i }}</h4>
+{% endfor %}
+</div>
+{% endfor %}
+
+{% for p, items in pItemDict.items %}
+<div id='ttp{{ p }}' class='tooltip'>
+{% for i in items %}
+<h4 font-size='60%'>{{ i }}</h4>
+{% endfor %}
+</div>
+{% endfor %}
 {% endblock %}
 
 

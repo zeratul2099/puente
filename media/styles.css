@@ -347,10 +347,10 @@ input.del {
   color: #444;
   text-align:center;
   font-size:150%;
-  padding-top: 15px;
+  padding: 15px;
 }
 
-input[type=number], input[type=text] {
+input[type=number], input[type=text], input[type=email] {
   border-radius: 10px;
   -moz-border-radius: 10px;
   background: white;
