@@ -348,6 +348,7 @@ input.del {
   text-align:center;
   font-size:150%;
   padding: 15px;
+  z-index: 15;
 }
 
 input[type=number], input[type=text], input[type=email] {

@@ -158,8 +158,41 @@ function hideWMTT() {
 
   wmtt.style.display = "none";
 }
-</script>
 
+$(function() {
+            $("#1, #2, #3").lavaLamp({
+                fx: "backout",
+                speed: 700,
+                click: function(event, menuItem) {
+                    return false;
+                }
+            });
+});
+$(function() {
+var names = new Array();
+{% for pt in pmen %}
+var item = new Object();
+item.label ="{{pt.name}}";
+item.value ={{pt.id}};
+names.push(item);
+{%endfor%}
+{% for c in customer %}
+var item = new Object();
+item.label ="{{c.name}}";
+item.value ={{c.id}};
+names.push(item);
+{%endfor%}
+
+$("#search").autocomplete({
+            source: names
+        });
+$( "#search" ).bind( "autocompleteselect", function(event, ui) {
+window.location.href='#'+ui.item.value;
+$("#search").val(ui.item.label);
+});
+});
+</script>
+<!--
 <table align='center'  height='50px' style="font-size:65%;" class='nav' border='0'>
     <tr>
         <td><a class='button leftbutton' href='{% url plist.views.registerCustomer %}'><span>Neuer Gast</span></a></td>
@@ -169,8 +202,18 @@ function hideWMTT() {
 	<td><a class='button middlebutton' href='{% url plist.views.settingsPage %}'><span>Einstellungen</span></a></td>
 	<td><a class='button rightbutton' href='{% url pmenu.views.showMenu %}'><span>Angebot</span></a></td>
     </tr>
-</table>
-
+</table>-->
+<table align="center"><tr><td>
+<ul class="lavaLampNoImage" id="1">
+    <li class='leftli'><a href='{% url plist.views.registerCustomer %}' onclick="location='{% url plist.views.registerCustomer %}'"><span>Neuer Gast</span></a></li>
+    <li><a onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'c');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "c" 1 %}' onclick="location='{% url plist.views.transactionList "c" 1 %}'"><span>Statistik G&auml;ste</span></a></li>
+    <li><a onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'p');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "p" 1 %}' onclick="location='{% url plist.views.transactionList "p" 1 %}'"><span>Statistik Team</span></a></li>
+    <li><a onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'a');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "a" 1 %}' onclick="location='{% url plist.views.transactionList "a" 1 %}'"><span>Statistik Gesamt</span></a></li>
+    <li><a href='{% url plist.views.settingsPage %}' onclick="location='{% url plist.views.settingsPage %}'"><span>Einstellungen</span></a></li>
+    <li class='rightli'><a  href='{% url pmenu.views.showMenu %}' onclick="location='{% url pmenu.views.showMenu %}'"><span>Angebot</span></a></li>
+</ul>
+</td></tr></table>
+<div><input type="search" name="search" id="search" placeholder="Name suchen"></input></div>
 <div class='red' id='error' >{{ error }}</div>
 <div class='leftspace'>
 <h3>P&uuml;ntenteam ({{ pmen|length }})</h3>
@@ -190,7 +233,9 @@ function hideWMTT() {
 {% for pt in pmen %}
     
     <tr class='evenodd' id='row{{ pt.id }}'>
-        <td> <a onmouseover="this.finch = setTimeout(function() {showWMTT('{{ pt.name }}');}, 750);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
+        <td>
+            <a name='{{ pt.id }}'></a>
+            <a onmouseover="this.finch = setTimeout(function() {showWMTT('{{ pt.name }}');}, 750);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
         <td id="depts{{ pt.id }}">
          {% ifequal pt.dept_status 0 %} 
         <b>{{ pt.depts }} &euro;</b>
@@ -280,7 +325,9 @@ Wochenumsatz
 {% for c in customer %}
     <tr class='evenodd' id='row{{ c.id }}'>
 
-        <td><a onmouseover="this.finch = setTimeout(function() {showWMTT('{{ c.name }}');}, 750);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.customerDetails c.id %}'>{{ c.name }}</a>
+        <td>
+            <a name='{{ c.id }}'></a>
+            <a onmouseover="this.finch = setTimeout(function() {showWMTT('{{ c.name }}');}, 750);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.customerDetails c.id %}'>{{ c.name }}</a>
             {% if c.locked %}
             (gesperrt)
             {% endif %}
