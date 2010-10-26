@@ -36,7 +36,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-version = 3.0
+version = 3.1
 
 
 # forward to correct url
@@ -283,7 +283,8 @@ def customerList(request):
                                              "version" : version,
                                              "lock" : lock, 
                                              "itemDict" : itemDict,
-                                             "pItemDict" : pItemDict,})
+                                             "pItemDict" : pItemDict,
+                                             "registerForm" : RegisterForm()})
 
 # get customer data and put into customer detail template
 def customerDetails(request, customer_id):

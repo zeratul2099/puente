@@ -185,7 +185,7 @@ return false;
 
 <table align="center"><tr><td>
 <ul class="lavaLampNoImage" id="1">
-    <li class='leftli'><a href='{% url plist.views.registerCustomer %}' onclick="location='{% url plist.views.registerCustomer %}'"><span>Neuer Gast</span></a></li>
+    <li class='leftli'><a href='{% url plist.views.registerCustomer %}' onclick="$('#registerForm').toggle('drop','slow')"><span>Neuer Gast</span></a></li>
     <li><a onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'c');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "c" 1 %}' onclick="location='{% url plist.views.transactionList "c" 1 %}'"><span>Statistik G&auml;ste</span></a></li>
     <li><a onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'p');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "p" 1 %}' onclick="location='{% url plist.views.transactionList "p" 1 %}'"><span>Statistik Team</span></a></li>
     <li><a onmouseover="this.finch = setTimeout(function() {showNavWMTT(event, 'a');}, 1000);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.transactionList "a" 1 %}' onclick="location='{% url plist.views.transactionList "a" 1 %}'"><span>Statistik Gesamt</span></a></li>
@@ -196,6 +196,24 @@ return false;
 <div><input type="search" name="search" id="search" placeholder="Name suchen"></input></div>
 <div class='red' id='error' >{{ error }}</div>
 <div class='leftspace'>
+
+<div class='tooltip' id='registerForm'>
+<form method='post' action='{% url plist.views.registerCustomer %}'>
+<table>
+
+{{ registerForm }}
+    <tr>
+        <td> 
+<input type='submit' name='Register' value='Abschicken' 
+    class='btn' >
+<input type='reset' value='zur&uuml;cksetzen' class='btn'>
+<input type='submit' onclick="$('#registerForm').toggle('drop','slow'); return false;" value='Schlie&szlig;en' class='btn'></td>
+    </tr>
+
+</table>
+</form>
+</div>
+
 <h3>P&uuml;ntenteam ({{ pmen|length }})</h3>
 </div>
 <div class="content">

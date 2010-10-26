@@ -4,6 +4,12 @@
 
 {% block inhalt %}
 <div id="content_container">
+<div id='imagebox' align='center' >
+            <object type="image/svg+xml" 
+                    data='/content/stats/{{ type }}.svg' 
+                    width="1024" height="540">
+            </object>
+</div>
 <table align='center'>
     <tr height='50px'>
         <td><a class='button' href='{%url plist.views.customerList %}'><span>Zur&uuml;ck</span></a></td>
@@ -63,12 +69,7 @@
     </tr>
 </table>
 </div>
-<div id='imagebox' align='center' >
-            <object type="image/svg+xml" 
-                    data='/content/stats/{{ type }}.svg' 
-                    width="1024" height="540">
-            </object>
-</div>
+
 <p></p>
 {% endblock %}
 
