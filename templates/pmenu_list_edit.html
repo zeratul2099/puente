@@ -22,7 +22,9 @@
 </tr>
 {% for c, menuItems in itemDict.items %}
 <tr class='tablehdr'>
-<td colspan='4'><h4>{{ c }}</h4></td>
+<td colspan='2'><h4>{{ c }}</h4></td>
+<td><h4>Preis</h4></td>
+<td><h4>P&uuml;ntenpreis</h4></td>
 <td>
 <form method='post' action=".">
 <input type='hidden' name='delCat' value='{{ c.name }}' />
