@@ -1,5 +1,5 @@
 {% extends "basis.html" %}
-
+{% load plisttags %}
 {% block titel %}P&uuml;nte Schuldenliste{% endblock %}
 
 {% block inhalt %}
@@ -204,10 +204,10 @@ return false;
 {{ registerForm }}
     <tr>
         <td> 
-<input type='submit' name='Register' value='Abschicken' 
+<input type='submit' name='Register' value='abschicken' 
     class='jsbtn' >
 <input type='reset' value='zur&uuml;cksetzen' class='jsbtn'>
-<input type='submit' onclick="$('#registerForm').toggle('drop','slow'); return false;" value='Schlie&szlig;en' class='jsbtn'></td>
+<input type='submit' onclick="$('#registerForm').toggle('drop','slow'); return false;" value='schlie&szlig;en' class='jsbtn'></td>
     </tr>
 
 </table>
@@ -235,13 +235,7 @@ return false;
             <a name='{{ pt.id }}'></a>
             <a onmouseover="this.finch = setTimeout(function() {showWMTT('{{ pt.name }}');}, 750);" onmouseout="clearTimeout(this.finch);hideWMTT()" href='{% url plist.views.customerDetails pt.id %}'>{{ pt.name }}</a></td>
         <td id="depts{{ pt.id }}">
-         {% ifequal pt.dept_status 0 %} 
-        <b>{{ pt.depts }} &euro;</b>
-         {% else %}{% ifequal pt.dept_status -1 %} 
-        <b class='green' >{{ pt.depts }} &euro;</b>
-        {% else %}
-        <b class='red' >{{ pt.depts }} &euro;</b>
-        {% endifequal %}{% endifequal %}
+          {{ pt|drawDepts|safe }}
         </td>
         <td>
         <table>
@@ -331,17 +325,7 @@ Wochenumsatz
             {% endif %}
         </td>
         <td id="depts{{ c.id }}" >
-        {% ifequal c.id 1 %}
-        <b id='depts' class='green'>{{ c.depts }} &euro;</b>
-        {% else %}{% ifequal c.dept_status 0 %} 
-        <b id='depts' >{{ c.depts }} &euro;</b>
-        {% else %}{% ifequal c.dept_status -1 %} 
-        <b id='depts' class='green' >{{ c.depts }} &euro;</b>
-        {% else %}{% ifequal c.dept_status 1 %}
-        <b id='depts' class='red' >{{ c.depts }} &euro;</b>
-	{% else %}
-	<b id='depts' class='redblink' >{{ c.depts }} &euro;</b>
-        {% endifequal %}{% endifequal %}{% endifequal %}{% endifequal %}
+        {{ c|drawDepts|safe }}
         </td>
         <td>
         <table>
@@ -350,8 +334,8 @@ Wochenumsatz
         <td><form method='post' action='.'>
             <input type='hidden' name='customer' value='{{ c.name }}' id='customer{{ c.id }}_{{ p }}' />
             <input type='hidden' name='buy' value='{{ p }}' id='buy{{ c.id }}_{{ p }}' />
-            <input type='submit' name='{{ p }}' value='{{ p }} ct' id='buybtn{{ c.id }}_{{ p }}' {% ifequal c.dept_status 2 %}{% ifnotequal c.id 1 %} disabled=true {% endifnotequal %}{% else %}
-                {% if lock or c.locked %}{% ifnotequal c.dept_status -1 %}{% ifnotequal c.id 1 %} disabled=true {% endifnotequal %}{% endifnotequal %}{% endif %}{% endifequal %}
+            
+            <input type='submit' name='{{ p }}' value='{{ p }} ct' id='buybtn{{ c.id }}_{{ p }}' {{c|disableButton:lock|safe}}
                 class='jsbtn' onmouseover="showItemTT('{{ p }}')" onmouseout="hideWMTT()" />
         </form></td>
             <script>
