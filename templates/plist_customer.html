@@ -3,12 +3,43 @@
 {% block titel %}Gastdetails{% endblock %}
 
 {% block inhalt %}
+
+<div class="tooltip semiTransparent" id='changeForm'>
+<table>
+<tr>
+<td>Name:</td>
+<td>{{ customer.name }}</td>
+</tr>
+<form method='post' action='{% url plist.views.customerEdit customer.id %}'>
+{% for f in form %}
+<tr>
+<td>{{ f.label }}:</td>
+<td>{{ f }}</td>
+<td>{{ f.errors }}</td>
+</tr>
+{% endfor %}
+<tr><td colspan='3' style='text-align: left;'>
+<input type='hidden' name='comment' value='{{ comment }}' />
+<input type='hidden' name='customer' value='{{ customer.name }}' />
+<input type='submit' name='saveDetails' value='speichern'  
+                class='jsbtn' />
+
+<input type='reset' value='zur&uuml;cksetzen' class='jsbtn'>
+<input type='submit' onclick="$('#changeForm').toggle('drop','slow'); return false;" value='schlie&szlig;en' class='jsbtn'>
+</td>
+
+</tr>
+</form>
+</table>
+</div>
+
 <div class='content'>
+
 <table width='100%' border='0'>
 <tr><td width='15%'>Name:</td>
 <td width='25%'>{{ customer.name }}</td>
 <td><form method='post' action='{% url plist.views.customerEdit customer.id %}'>
-<input type='submit' name='edit' value="editieren"  
+<input type='submit' name='edit' value="editieren" onclick="$('#changeForm').toggle('drop', 'slow'); return false;"
                 class='jsbtn' /></form>
 </td>
 <td width='50%'>
@@ -55,7 +86,6 @@
 </tr>
 </table>
 </div>
-{% if transactions %}
 <p></p>
 <table align='center'>
     <tr height='50px'>
@@ -63,13 +93,14 @@
     </tr>
 </table>
 <p></p>
-<div id='imagebox' align='center' >
-            <object type="image/svg+xml" 
-                    data='/content/stats/{{ customer.name }}.svg' 
-                    width="1024px" height="640px">
-            </object>
-</div>
-<p></p>
+{% if transactions %}
+<div id='tabs' class='content'>
+<ul>
+<li><a href='#list'>Liste</a></li>
+<li><a href='#stats'>Statistik</a></li>
+</ul>
+
+<div id='list'>
 <div class='leftspace'><h3>Transaktionen</h3></div>
 <div class='content'>
 <table width='100%' >
@@ -89,6 +120,17 @@
     </tr>
     {% endfor %}
 </table>
+</div>
+</div>
+<div id='stats'>
+<div id='imagebox' align='center' >
+            <object type="image/svg+xml" 
+                    data='/content/stats/{{ customer.name }}.svg' 
+                    width="1024px" height="640px">
+            </object>
+</div>
+</div>
+
 </div>
 {% endif %}
 <p></p>

@@ -296,9 +296,16 @@ def customerDetails(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
     transactions = Transaction.objects.filter(customer=customer).order_by("time").reverse()
     renderPlot(transactions, customer.name)
+    formDict = {"roomBox":customer.room,
+                "emailBox":customer.email,
+                "isPuenteBox":customer.isPuente,
+                "lockedBox":customer.locked,
+                }
     return render_to_response("plist_customer.html", {"customer" : customer,
                                                       "transactions" : transactions[:100],
-                                                      "version" : version,  })
+                                                      "version" : version,
+                                                      "form" : EditForm(formDict),
+                                                      "comment":customer.comment,})
 
 def customerEdit(request, customer_id):
     customer = get_object_or_404(Customer, id=customer_id)
