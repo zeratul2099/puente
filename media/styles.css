@@ -152,7 +152,7 @@ tr.evenodd:nth-child(2n+1) {
 }
 
 tr.evenodd:hover {
-    background: rgba(130,130,210,0.45);
+    background: rgba(180,130,130,0.45);
 }
 
 .red {
