@@ -1,5 +1,5 @@
 {% extends "basis.html" %}
-
+{% load plisttags %}
 {% block titel %}Gastdetails{% endblock %}
 
 {% block inhalt %}
@@ -86,13 +86,7 @@
 </tr>
 </table>
 </div>
-<p></p>
-<table align='center'>
-    <tr height='50px'>
-        <td><a class='button' href='{% url plist.views.customerList %}'><span>zur&uuml;ck</span></a></td>
-    </tr>
-</table>
-<p></p>
+{{ "plist.views.customerList"|backButton|safe }}
 {% if transactions %}
 <div id='tabs' class='content'>
 <ul>
@@ -133,13 +127,7 @@
 
 </div>
 {% endif %}
-<p></p>
-<table align='center'>
-    <tr height='50px' >
-        <td><a class='button' href='{% url plist.views.customerList %}'><span>zur&uuml;ck</span></a></td>
-    </tr>
-</table>
-<p></p>
+{{ "plist.views.customerList"|backButton|safe }}
 {% endblock %}
 
 
