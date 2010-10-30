@@ -193,7 +193,7 @@ return false;
     <li class='rightli'><a  href='{% url pmenu.views.showMenu %}' onclick="location='{% url pmenu.views.showMenu %}'"><span>Angebot</span></a></li>
 </ul>
 </td></tr></table>
-<div><input type="search" name="search" id="search" placeholder="Name suchen"></input></div>
+<div><input type="search" name="search" id="search" placeholder="Name suchen" size="30"></input></div>
 <div class='red' id='error' >{{ error }}</div>
 <div class='leftspace'>
 
@@ -205,9 +205,9 @@ return false;
     <tr>
         <td> 
 <input type='submit' name='Register' value='Abschicken' 
-    class='btn' >
-<input type='reset' value='zur&uuml;cksetzen' class='btn'>
-<input type='submit' onclick="$('#registerForm').toggle('drop','slow'); return false;" value='Schlie&szlig;en' class='btn'></td>
+    class='jsbtn' >
+<input type='reset' value='zur&uuml;cksetzen' class='jsbtn'>
+<input type='submit' onclick="$('#registerForm').toggle('drop','slow'); return false;" value='Schlie&szlig;en' class='jsbtn'></td>
     </tr>
 
 </table>
@@ -251,7 +251,7 @@ return false;
             <input type='hidden' name='customer' value='{{ pt.name }}' id='customer{{ pt.id }}_{{ p }}' />
             <input type='hidden' name='buy' value='{{ p }}' id='buy{{ pt.id }}_{{ p }}' />
             <input type='submit' name='{{ p }}' id='buybtn{{ pt.id }}_{{ p }}' value='{{ p }} ct' {% ifequal pt.dept_status 2 %} disabled=true {% endifequal %}
-                class='btn'  onmouseover="showPItemTT('{{ p }}')" onmouseout="hideWMTT()"/>
+                class='jsbtn'  onmouseover="showPItemTT('{{ p }}')" onmouseout="hideWMTT()"/>
         </form></td>
         <script>
          $("#buybtn{{ pt.id }}_{{ p }}").click(function() {
@@ -266,14 +266,14 @@ return false;
             <input type='number' name='money' id='paymoney{{ pt.id }}' placeholder='bezahlen' min='-100.00' max='100.00' step='0.01' />
             <input type='hidden' name='customer' value='{{ pt.name }}' />
             <input type='submit' name='pay' value='bezahlen' id='paybtn{{ pt.id }}'
-                class='btn' />
+                class='jsbtn' />
         </form></td>
 
         <td id='lastPaid{{ pt.id }}' > {{ pt.lastPaid.date|date:"D, d.M. Y" }}</td>
         <td><form method='post' action='.'>
             <input type='hidden' name='customer' value='{{ pt.name }}' />
             <input type='submit' name='delete' value='delete' id='del{{ pt.id }}' {% ifnotequal pt.depts 0 %}disabled=true{% endifnotequal %}
-                class='btn' />
+                class='jsbtn' />
         </form></td>
     </tr>   
     
@@ -297,7 +297,7 @@ Wochenumsatz
     <input type='hidden' name='customer' value='{{ unname }}' id='punname' />
     <input type='hidden' name='unmoney' value='{{ unmoney }}' id='punmoney' />
     <input type='submit' name='undo' value='R&uuml;ckg&auml;ngig: {{ unname }} - {{ unmoney }}' id='pundo'
-                class='btn' />
+                class='jsbtn' />
 </form>
 </td>
 </tr>
@@ -352,7 +352,7 @@ Wochenumsatz
             <input type='hidden' name='buy' value='{{ p }}' id='buy{{ c.id }}_{{ p }}' />
             <input type='submit' name='{{ p }}' value='{{ p }} ct' id='buybtn{{ c.id }}_{{ p }}' {% ifequal c.dept_status 2 %}{% ifnotequal c.id 1 %} disabled=true {% endifnotequal %}{% else %}
                 {% if lock or c.locked %}{% ifnotequal c.dept_status -1 %}{% ifnotequal c.id 1 %} disabled=true {% endifnotequal %}{% endifnotequal %}{% endif %}{% endifequal %}
-                class='btn' onmouseover="showItemTT('{{ p }}')" onmouseout="hideWMTT()" />
+                class='jsbtn' onmouseover="showItemTT('{{ p }}')" onmouseout="hideWMTT()" />
         </form></td>
             <script>
              $("#buybtn{{ c.id }}_{{ p }}").click(function() {
@@ -369,14 +369,14 @@ Wochenumsatz
             <input type='number' name='money' id='paymoney{{ c.id }}' placeholder='bezahlen' min='-100.00' max='100.00' step='0.01' />
             <input type='hidden' name='customer' value='{{ c.name }}' />
             <input type='submit' name='pay' value='bezahlen' id='paybtn{{ c.id }}'
-                class='btn' />
+                class='jsbtn' />
         </form></td>
 
         <td id='lastPaid{{ c.id }}'> {{ c.lastPaid.date|date:"D, d.M. Y" }}</td>
         <td><form method='post' action='.'>
             <input type='hidden' name='customer' value='{{ c.name }}' />
             <input type='submit' name='delete' value='delete' id='del{{ c.id }}' {% ifnotequal c.depts 0 %}disabled=true{% endifnotequal %}
-                class='btn' />
+                class='jsbtn' />
         </form></td>
     </tr>   
     
@@ -400,7 +400,7 @@ Wochenumsatz
     <input type='hidden' name='customer' value='{{ unname }}' id='cunname' />
     <input type='hidden' name='unmoney' value='{{ unmoney }}' id='cunmoney' />
     <input type='submit' name='undo' value='R&uuml;ckg&auml;ngig: {{ unname }} - {{ unmoney }}' id='cundo'
-                class='btn' />
+                class='jsbtn' />
 </form>
 </td>
 </tr>

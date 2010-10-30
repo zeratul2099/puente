@@ -14,12 +14,12 @@
 <td colspan='3'>
 <form method='post' action='{% url pmenu.views.menuEdit %}'>
 <input type='submit' name='edit' value="editieren"  
-                class='btn' /></form>
+                class='jsbtn' /></form>
 </td>
 <td colspan='1'>
 <form method='post' action='{% url pmenu.views.generatePdf %}'>
 <input type='submit' name='pdf' value="PDF erzeugen"  
-                class='btn' /></form>
+                class='jsbtn' /></form>
 </td>
 </tr>
 {% for c, menuItems in itemDict.items %}

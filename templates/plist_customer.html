@@ -9,14 +9,14 @@
 <td width='25%'>{{ customer.name }}</td>
 <td><form method='post' action='{% url plist.views.customerEdit customer.id %}'>
 <input type='submit' name='edit' value="editieren"  
-                class='btn' /></form>
+                class='jsbtn' /></form>
 </td>
 <td width='50%'>
 <div align='right'>
 <form method='post' action='..'>
 <input type='hidden' name='customer' value='{{ customer.name }}' />
 <input type='submit' name='inform' value="Erinnerungsmail verschicken"  
-                class='btn' />
+                class='jsbtn' />
 </form>
 </div>
 </td>
@@ -48,7 +48,7 @@
 <textarea name='comment' rows='4' cols='30' />{{ customer.comment }}</textarea>
 <input type='hidden' name='customer' value='{{ customer.name }}' />
 <input type='submit' name='addComment' value='Kommentar &auml;ndern'  
-                class='btn' />
+                class='jsbtn' />
 </form>
 </td>
 

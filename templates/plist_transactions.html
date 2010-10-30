@@ -4,24 +4,23 @@
 
 {% block inhalt %}
 <div id="content_container">
-<div id='imagebox' align='center' >
-            <object type="image/svg+xml" 
-                    data='/content/stats/{{ type }}.svg' 
-                    width="1024" height="540">
-            </object>
-</div>
+<div id="tabs">
+<ul>
+<li><a href='#tabs-1'>Liste</a></li>
+<li><a href='#tabs-2'>Statistik</a></li>
+<li><a href='{%url plist.views.customerList %}' onclick="location='{%url plist.views.customerList %}'; return false;">Zur&uuml;ck</a></li>
+</ul>
+
+<div id="tabs-1" style="color:black;">
 <table align='center'>
-    <tr height='50px'>
-        <td><a class='button' href='{%url plist.views.customerList %}'><span>Zur&uuml;ck</span></a></td>
-    </tr>
     <tr>
         <td align='center'>
         Seite:<br>
         {% for i in numPages %}
             {% ifequal i actualPage %}
-                {{ i }}
+                <span style="color: red;">{{ i }}</span>
             {% else %}
-                <a href='{%url plist.views.transactionList type i %}'>{{ i }}</a>
+                <a href='{%url plist.views.transactionList type i %}' style="color:black;">{{ i }}</a>
             {% endifequal %}
         {% endfor %}</td>
     </tr>
@@ -51,23 +50,36 @@
 
 </div>
 
+
+
 <table align='center'>
     <tr>
         <td>
         Seite:
         {% for i in numPages %}
             {% ifequal i actualPage %}
-                {{ i }}
+                <span style="color: red;">{{ i }}</span>
             {% else %}
-                <a href='{%url plist.views.transactionList type i %}'>{{ i }}</a>
+                <a href='{%url plist.views.transactionList type i %}' style="color: black;">{{ i }}</a>
             {% endifequal %}
         {% endfor %}
         </td>
     </tr>
-    <tr height='50px'>
-        <td> <a class='button' background='#4f4f4f' href='{%url plist.views.customerList %}'><span>Zur&uuml;ck</span></a></td>
-    </tr>
+
 </table>
+</div>
+
+
+
+<div id="tabs-2">
+<div id='imagebox' align='center' >
+            <object type="image/svg+xml" 
+                    data='/content/stats/{{ type }}.svg' 
+                    width="1024" height="540">
+            </object>
+</div>
+</div>
+</div>
 </div>
 
 <p></p>

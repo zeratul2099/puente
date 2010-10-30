@@ -4,14 +4,23 @@
 <head>
   <title>PList Schuldenliste</title>
     <link rel="stylesheet" type="text/css" href="/content/styles.css" />
-    <link rel="stylesheet" type="text/css" href="/content/jquery-ui-1.8.5.custom.css" />
+    <link rel="stylesheet" type="text/css" href="/content/themes/plist-theme/jquery-ui-1.8.5.custom.css" />
     <link rel="stylesheet" type="text/css" href="/content/lavalamp_test.css" />
     <script type="text/javascript" src="/content/jquery-1.4.3.min.js"></script>
 
     <script type="text/javascript" src="/content/jquery-ui-1.8.5.custom.min.js"></script>
     <script type="text/javascript" src="/content/jquery.easing.min.js"></script>
     <script type="text/javascript" src="/content/jquery.lavalamp.min.js"></script>
+
   <script type="text/javascript" src="/content/json2.js"></script>
+  <script type="text/javascript">
+  $('document').ready(function(){
+  $('.jsbtn').button();
+  $('.jsbtn').css('font-size', '60%');
+  $('#tabs').tabs();
+  $('#tabs').css('background', 'transparent');
+  });
+</script>
 </head>
 <body>
     <h1 id='header' >{% block titel %}Django Beispielseite{% endblock %}</h1>
