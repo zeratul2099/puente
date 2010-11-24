@@ -1,0 +1,76 @@
+# Django settings for sym_gui project.
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+PROJ_DIR = os.path.dirname(os.path.abspath(__file__))
+ADMINS = (
+    
+)
+
+MANAGERS = ADMINS
+
+DATABASE_ENGINE = 'sqlite3'          
+DATABASE_NAME = PROJ_DIR+'/db'
+DATABASE_USER = ''            
+DATABASE_PASSWORD = ''         
+DATABASE_HOST = ''            
+DATABASE_PORT = ''            
+
+
+TIME_ZONE = 'Europe/Berlin'
+
+LANGUAGE_CODE = 'de-DE'
+
+SITE_ID = 1
+
+
+USE_I18N = True
+
+MEDIA_ROOT = ''
+
+
+MEDIA_URL = ''
+
+MEDIA_PATH = PROJ_DIR+'/media/' 
+
+ADMIN_MEDIA_PREFIX = '/media/'
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = 'o(9$sb^jfn5%z#%ro2)%%jx9e6w$a314-8ao=!jsw$pf43m9zx'
+
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.load_template_source',
+    'django.template.loaders.app_directories.load_template_source',
+#     'django.template.loaders.eggs.load_template_source',
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+)
+
+ROOT_URLCONF = 'puente.urls'
+
+TEMPLATE_DIRS = (
+
+    PROJ_DIR+'/templates/'
+)
+STATIC_DOC_ROOT = PROJ_DIR+'/media/' 
+
+# login data for senders email
+PASSPHRASE = '' 
+SMTP_HOST = '' 
+SMTP_PORT = 465
+SENDER_EMAIL = ''
+
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'puente.plist',
+    'puente.pmenu',
+    'django.contrib.admin',
+)
+
