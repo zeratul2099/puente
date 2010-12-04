@@ -29,7 +29,7 @@ from email.message import Message
 import smtplib, ftplib, simplejson
 from email.mime.text import MIMEText
 from email.header import Header
-from django.conf import settings
+from django.conf import settings as config
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -140,7 +140,7 @@ def customerList(request):
         elif "inform" in request.POST:
 
             # construct mail ...
-            fr = settings.SENDER_EMAIL
+            fr = config.SENDER_EMAIL
             
             to = customer.email
 
@@ -151,7 +151,7 @@ def customerList(request):
             text += u"Bitte bezahle diese bei deinem nächsten Besuch.\n"
             text += u"Viele Grüße, dein Püntenteam"
             # comment these two lines out to remove signature from mail
-            #command = u"echo '%s' | gpg2 --clearsign --passphrase %s --batch -u 'Pünte OSS' --yes -o -"%(text, settings.PASSPHRASE)
+            #command = u"echo '%s' | gpg2 --clearsign --passphrase %s --batch -u 'Pünte OSS' --yes -o -"%(text, config.PASSPHRASE)
             #text = os.popen(command.encode('utf-8')).read()
             #msg = Message()
             msg = MIMEText(text, 'plain', _charset='UTF-8')
@@ -168,10 +168,10 @@ def customerList(request):
             # ... and try to send it
             try:
                 
-                s = smtplib.SMTP_SSL(settings.SMTP_HOST, settings.SMTP_PORT)
+                s = smtplib.SMTP_SSL(config.SMTP_HOST, config.SMTP_PORT)
                 #s.ehlo()
                 #s.starttls()
-                s.login(fr, settings.PASSPHRASE)
+                s.login(fr, config.PASSPHRASE)
                 s.sendmail(fr, customer.email, msg.as_string())
                 error = "Erinnerungsmail an %s verschickt" %(customer.name)
                 s.quit()
@@ -352,8 +352,8 @@ def transactionList(request, type, page):
 
 
 def encryptDatabase(request):
-    os.system("echo %s | gpg -es -u 'Pünte OSS' --passphrase-fd 0 --yes -r 'Pünte OSS' %s"%(settings.PASSPHRASE, settings.DATABASE_NAME))
-    file = open("%s.gpg"%(settings.DATABASE_NAME))
+    os.system("echo %s | gpg -es -u 'Pünte OSS' --passphrase-fd 0 --yes -r 'Pünte OSS' %s"%(config.PASSPHRASE, config.DATABASE_NAME))
+    file = open("%s.gpg"%(config.DATABASE_NAME))
     #oberon = ftplib.FTP("134.106.143.8")
     #oberon.login()
     #oberon.storbinary("STOR /upload/software/db.gpg", file)
@@ -428,7 +428,7 @@ def renderPlot(transactions, name="plot"):
                     ha='center', va='bottom')
     autolabel(rects1)
     
-    f = open("%sstats/%s.svg"%(settings.MEDIA_PATH,name), "w")
+    f = open("%sstats/%s.svg"%(config.MEDIA_PATH,name), "w")
     fig.savefig(f, format="svg")
     f.close()
 
