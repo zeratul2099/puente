@@ -1,8 +1,7 @@
 CACHE MANIFEST
-
+#rv 5
 CACHE:
 http://fonts.googleapis.com/css?family=Orbitron
 
 NETWORK:
-/plist/
 *
