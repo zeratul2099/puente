@@ -64,15 +64,15 @@ class PriceList(models.Model):
         return "%d, %s"%(self.price, self.isPuente)
         
 class RegisterForm(forms.Form):
-    nameBox = forms.CharField(max_length=30, label='Name', widget=TextInput(attrs={'placeholder':'Name'}))
-    roomBox = forms.CharField(max_length=30, label='Zimmernummer', widget=TextInput(attrs={'placeholder':'Zimmernummer'}))
-    emailBox = forms.EmailField(max_length=50, label='Email', widget=Html5EmailForm(attrs={'placeholder':'E-Mail'}))
+    nameBox = forms.CharField(max_length=30, label='Name', widget=TextInput(attrs={'placeholder':'Name', "required":""}))
+    roomBox = forms.CharField(max_length=30, label='Zimmernummer', widget=TextInput(attrs={'placeholder':'Zimmernummer', "required":""}))
+    emailBox = forms.EmailField(max_length=50, label='Email', widget=Html5EmailForm(attrs={'placeholder':'E-Mail', "required":""}))
     isPuenteBox = forms.BooleanField(label='Puententeam', required=False)
     lockedBox = forms.BooleanField(label='Gesperrt', required=False)
     
 class EditForm(forms.Form):
-    emailBox = forms.EmailField(max_length=50, label='Email', widget=Html5EmailForm(attrs={'placeholder':'E-Mail'}))
-    roomBox = forms.CharField(max_length=30, label='Zimmernummer', widget=TextInput(attrs={'placeholder':'Zimmernummer'}))
+    emailBox = forms.EmailField(max_length=50, label='Email', widget=Html5EmailForm(attrs={'placeholder':'E-Mail', "required":""}))
+    roomBox = forms.CharField(max_length=30, label='Zimmernummer', widget=TextInput(attrs={'placeholder':'Zimmernummer', "required":""}))
     isPuenteBox = forms.BooleanField(label='Puententeam', required=False)
     lockedBox = forms.BooleanField(label='Gesperrt', required=False)
     

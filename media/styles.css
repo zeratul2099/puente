@@ -14,7 +14,7 @@ body
 	margin: 0 0 0.7em;
 	background:#1f1f1f;
         color:#f0f0f0;
-        font-family:monospace;
+        font-family:'Orbitron', 'monospace';
 	text-align:center;
 	padding:10px;
         border-bottom:2px outset #FF0000;
@@ -134,14 +134,17 @@ border-collapse: collapse;
 
 .tablehdr {
     text-shadow: 2px 3px 3px grey;
+    font-family:'Orbitron', 'monospace';
 }
 
 h3 {
     text-shadow: 2px 3px 3px grey;
+    font-family:'Orbitron', 'monospace';
 }
 
 h4 {
   text-shadow: 2px 3px 3px grey;
+  font-family:'Orbitron', 'monospace';
   font-size: 80%;
 }
 
@@ -199,6 +202,7 @@ a.button {
     -moz-transition-duration: 0.5s;
     -webkit-transition-property: all;
     -webkit-transition-duration: 0.5s;
+    font-family:'Orbitron', 'monospace';
 }
 
 a.leftbutton {
