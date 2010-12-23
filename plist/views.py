@@ -21,6 +21,7 @@ from puente.pmenu.models import MenuItem
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import Context, loader
+from django.core.servers.basehttp import FileWrapper
 from datetime import date
 import datetime, sys, os
 from datetime import datetime as dt
@@ -502,3 +503,8 @@ def settingsPage(request):
                                                         "pPrices":pPrices,
                                                         "form":form,})
 
+def manifestView(request):
+  #manifestFile = open('media/cache.manifest')
+  response = HttpResponse(FileWrapper(file('media/cache.manifest')), content_type='text/cache-manifest')
+  response['Content-Disposition'] = 'attachment; filename=cache.manifest'
+  return response
