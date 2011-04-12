@@ -107,7 +107,7 @@ function showPItemTT(price) {
 
 function showWMTT(id) {
   wmtt = document.getElementById('tt');
-  wmtt.innerHTML = "<div class='tablehdr'>"+id+"</div><object type='image/svg+xml' data='/content/stats/"+id+".svg' width='640px' height='400px'></object>"; 
+  wmtt.innerHTML = "<div class='tablehdr'>"+id+"</div><img src='/content/stats/"+id+".svg' width='640px'/><div><small>If no graphic, click name to generate.</small></div>"; 
   wmtt.style.top= 20+"px";
   wmtt.style.right= 20+"px";
   wmtt.style.left="";
