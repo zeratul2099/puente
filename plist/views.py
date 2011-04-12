@@ -209,7 +209,8 @@ def customerList(request):
     
     for c in allCustomers:
         if datetime.date.today() - c.salesSince > datetime.timedelta(7):
-            c.salesSince = c.salesSince + datetime.timedelta(7)
+            while c.salesSince + datetime.timedelta(7) < datetime.date.today():
+                c.salesSince = c.salesSince + datetime.timedelta(7)
             c.weeklySales = 0
             c.save()
         # create a list of customer ids witch didn't pay for 28 days
