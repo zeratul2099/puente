@@ -222,7 +222,8 @@ def customerList(request):
     pMen = Customer.objects.filter(isPuente=True).order_by("name")
     for c in pMen:
         if datetime.date.today() - c.salesSince > datetime.timedelta(7):
-            c.salesSince = c.salesSince + datetime.timedelta(7)
+            while c.salesSince + datetime.timedelta(7) < datetime.date.today():
+                c.salesSince = c.salesSince + datetime.timedelta(7)
             c.weeklySales = 0
             c.save() 
         sum[2] += Decimal(c.weeklySales)
