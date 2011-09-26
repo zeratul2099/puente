@@ -296,7 +296,7 @@ def customerDetails(request, customer_id):
         return HttpResponseRedirect("..")
     customer = get_object_or_404(Customer, id=customer_id)
     transactions = Transaction.objects.filter(customer=customer).order_by("time").reverse()
-    renderPlot(transactions, customer.name)
+    renderAndSavePlot(transactions, customer.name)
     formDict = {"roomBox":customer.room,
                 "emailBox":customer.email,
                 "isPuenteBox":customer.isPuente,
@@ -345,7 +345,7 @@ def transactionList(request, type, page):
     else:
         transactions = Transaction.objects.filter(customer__isPuente=team).order_by("time").reverse()
     numPages = len(transactions)/itemsPerPage + 1
-    renderPlot(transactions, type)
+    renderAndSavePlot(transactions, type)
     return render_to_response("plist_transactions.html", {"transactions" : transactions[startItem:endItem],
                                                           "startItem" : startItem,
                                                           "numPages" : range(1,numPages+1),
@@ -365,7 +365,7 @@ def encryptDatabase(request):
     return HttpResponseRedirect("..")
 
 
-def renderPlot(transactions, name="plot"):  
+def renderPlot(transactions):  
     numWeeks = 20
     sums = []
     sum = 0.0
@@ -430,8 +430,11 @@ def renderPlot(transactions, name="plot"):
             ax.text(rect.get_x()+rect.get_width()/2, 1.05*height, '%3.2f'%(height),
                     ha='center', va='bottom')
     autolabel(rects1)
+    return fig
     
-    f = open("%sstats/%s.svg"%(config.MEDIA_PATH,name), "w")
+def renderAndSavePlot(transactions, name="plot", path=config.MEDIA_PATH):
+    fig = renderPlot(transactions)
+    f = open("%sstats/%s.svg"%(path,name), "w")
     fig.savefig(f, format="svg")
     f.close()
 

@@ -49,7 +49,7 @@ class Transaction(models.Model):
     time = models.DateTimeField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
     def __unicode__(self):
-        return self.customer.name+": "+self.time.strftime("%H:%M, %d. %b.")
+        return self.customer.name+": "+self.time.strftime("%H:%M, %d. %b.") + ", " + str(self.price)
 
 class PlistSettings(models.Model):
     markLastPaid = models.IntegerField()

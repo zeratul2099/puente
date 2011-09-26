@@ -127,7 +127,7 @@ function showNavWMTT(e, id) {
   }
   
   wmtt = document.getElementById('tt');
-  wmtt.innerHTML = "<div class='tablehdr'>"+name+"</div><object type='image/svg+xml' data='/content/stats/"+id+".svg' width='640px' height='400px'></object>";
+  wmtt.innerHTML = "<div class='tablehdr'>"+name+"</div><img src='/content/stats/"+id+".svg' width='640px'/><div><small>If no graphic, click name to generate.</small></div>";
   wmtt.style.position= "absolute";
   wmtt.style.top = 130+"px";
   x = (e.pageX ? e.pageX : window.event.x);
