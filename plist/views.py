@@ -34,7 +34,7 @@ from django.conf import settings as config
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 version = 3.1
@@ -411,8 +411,8 @@ def renderPlot(transactions):
     ind = np.arange(N)  # the x locations for the groups
     width = 0.35       # the width of the bars
     
-    #fig = plt.figure(figsize=(12, 6))
-    fig = matplotlib.figure.Figure(figsize=(12, 6))
+    fig = plt.figure(figsize=(12, 6))
+    #fig = matplotlib.figure.Figure(figsize=(12, 6))
     ax = fig.add_subplot(111)
     rects1 = ax.bar(ind, sums, width, color='r')
     
