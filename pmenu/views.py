@@ -71,13 +71,18 @@ def menuEdit(request):
     
     
 def generatePdf(request):
+  response = HttpResponse(mimetype='application/pdf')
+  response['Content-Disposition'] = 'attachment; filename=preisliste.pdf'
+  renderPdf(response)
+  
+  return response
+  
+def renderPdf(file):
   cats = Category.objects.all().order_by("name")
   lineHeight = 20
   lineSkip = 30
   xOffset = 50
-  response = HttpResponse(mimetype='application/pdf')
-  response['Content-Disposition'] = 'attachment; filename=preisliste.pdf'
-  p = canvas.Canvas(response)
+  p = canvas.Canvas(file)
   lineMark = 700
   p.setFont("Helvetica", 28)
   p.drawString(200, 800, "Pünte Preisliste")
@@ -96,4 +101,3 @@ def generatePdf(request):
       xOffset = 350
   p.showPage()
   p.save()
-  return response
