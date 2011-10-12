@@ -55,9 +55,6 @@ class PlistSettings(models.Model):
     markLastPaid = models.IntegerField()
     custLimit = models.IntegerField()
     teamLimit = models.IntegerField()
-    mailSender = models.EmailField(max_length=50, null=True)
-    mailServer = models.CharField(max_length=50, null=True)
-    mailPassword = models.CharField(max_length=30, null=True)
   
 class PriceList(models.Model):
     price = models.IntegerField()
